@@ -1,0 +1,24 @@
+<div class="text-space">
+  <div class="container">
+    <div class="row content">
+      <div class="col-md-3">
+        <ul class="nav nav-pills nav-stacked">
+          <li role="presentation" [routerLinkActive]="['active']"><a [routerLink]="['/dashboard', 'info']"><i class="fa fa-info-circle" aria-hidden="true"></i> ขั้นตอนการสมัคร</a></li>
+          <li role="separator"><hr></li>
+          <li role="presentation" [routerLinkActive]="['active']"><a [routerLink]="['/dashboard', 'step1']"><i class="fa fa-check-square-o" aria-hidden="true" *ngIf="step1Done | async;else notChecked"></i> ยืนยันอีเมล</a></li>
+          <li role="presentation" [routerLinkActive]="['active']"><a [routerLink]="['/dashboard', 'step2']"><i class="fa fa-check-square-o" aria-hidden="true" *ngIf="step2Done | async;else notChecked"></i> รับทราบกติกาการแข่งขัน</a></li>
+          <li role="presentation"><a>D</a></li>
+          <li role="presentation"><a>E</a></li>
+          <li role="separator"><hr></li>
+          <li role="presentation"><a>F</a></li>
+          <ng-template #notChecked>
+            <i class="fa fa-square-o" aria-hidden="true"></i>
+          </ng-template>
+        </ul>
+      </div>
+      <div class="col-md-9">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+<div>

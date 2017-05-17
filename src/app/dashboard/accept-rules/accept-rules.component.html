@@ -1,0 +1,12 @@
+<p>
+  ใส่กฎกติกาตรงนี้
+</p>
+<div class="alert alert-success" *ngIf="isAccepted | async;else notAccepted">
+  <i class="fa fa-check-square-o" aria-hidden="true"></i> ยินดีด้วย คุณได้รับทราบและยอมรับข้อตกลงและกติกาแล้ว <a [routerLink]="['/dashboard', 'step3']"
+    class="alert-link">ดำเนินการต่อ <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+</div>
+<ng-template #notAccepted>
+  <div class="text-center">
+    <button class="btn btn-primary btn-lg" (click)="accept()">รับทราบและยอมรับข้อตกลงและกติกา</button>
+  </div>
+</ng-template>

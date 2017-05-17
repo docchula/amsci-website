@@ -23,7 +23,10 @@
     "angularfire2": "^4.0.0-rc.0",
     "bootstrap-sass": "^3.3.7",
     "core-js": "^2.4.1",
+    "firebase": "^3.9.0",
     "font-awesome": "^4.7.0",
+    "jquery": "^3.2.1",
+    "marked": "^0.3.6",
     "rxjs": "^5.1.0",
     "zone.js": "^0.8.4"
   },
@@ -31,6 +34,7 @@
     "@angular/cli": "1.0.2",
     "@angular/compiler-cli": "^4.0.0",
     "@types/jasmine": "2.5.38",
+    "@types/marked": "^0.0.28",
     "@types/node": "~6.0.60",
     "codelyzer": "~2.0.0",
     "jasmine-core": "~2.5.2",

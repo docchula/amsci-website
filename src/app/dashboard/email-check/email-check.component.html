@@ -1,0 +1,6 @@
+<h1>ยืนยันอีเมล</h1>
+<p>ก่อนจะทำการสมัคร คุณต้องทำการยืนยันอีเมลที่ใช้ เพื่อที่คณะกรรมการฯ จะได้ติดต่อกับคุณได้สะดวก</p>
+<div class="alert alert-success" *ngIf="emailVerified | async;else notVerified"><i class="fa fa-check-square-o" aria-hidden="true"></i> ยินดีด้วย คุณได้ทำการยืนยันอีเมลของคุณแล้ว <a [routerLink]="['/dashboard', 'step2']" class="alert-link">ดำเนินการต่อ <i class="fa fa-arrow-right" aria-hidden="true"></i></a></div>
+<ng-template #notVerified>
+  <div class="alert alert-danger"><i class="fa fa-info-circle" aria-hidden="true"></i> โอ๊ะ เหมือนว่าคุณจะยังไม่ได้ทำการยืนยันอีเมล โปรดตรวจสอบ inbox ของคุณ หรือหากไม่ได้อีเมล <a class="alert-link" (click)="resendEmail()">ลองส่งอีเมลอีกครั้ง</a></div>
+</ng-template>

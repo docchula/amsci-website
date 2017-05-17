@@ -1,4 +1,27 @@
-<h1>
-  {{title}}
-</h1>
-<router-outlet></router-outlet>
+<nav class="navbar navbar-inverse adq-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" data-toggle="collapse" data-target="#anan-navmenu" class="navbar-toggle collapsed">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a [routerLink]="['/']" class="navbar-brand">
+        <span class="text-danger"><i class="fa fa-trophy" aria-hidden="true"></i> AMSci</span> 2017
+      </a>
+    </div>
+    <div class="collapse navbar-collapse" id="anan-navmenu">
+      <ul class="nav navbar-nav navbar-right">
+        <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/']">หน้าแรก</a></li>
+        <li><a [routerLink]="['/']">ระเบียบการ</a></li>
+        <li *ngIf="authState | async;else notSignedIn"><a (click)="signOut()">ออกจากระบบ</a></li>
+        <ng-template #notSignedIn>
+          <li [routerLinkActive]="['active']"><a [routerLink]="['/', 'login']">เข้าสู่ระบบ</a></li>
+        </ng-template>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div>
+  <router-outlet></router-outlet>
+</div>
