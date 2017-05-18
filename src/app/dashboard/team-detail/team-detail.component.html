@@ -1,0 +1,19 @@
+<h1>กรอกข้อมูลผู้สมัคร</h1>
+<a class="btn btn-primary" [routerLink]="['new']"><i class="fa fa-plus" aria-hidden="true"></i> เพิ่มทีม</a>
+<table class="table table-responsive" *ngIf="step4Done | async;else noTeams">
+  <tr>
+    <th>ลำดับ</th>
+    <th>อาจารย์ที่ปรึกษา</th>
+    <th>รายชื่อนักเรียน</th>
+    <th>การดำเนินการ</th>
+  </tr>
+  <tr *ngFor="let team of teams | async as _teams; index as i">
+    <td>{{i + 1}}</td>
+    <td>{{team.teacher | fullname}}</td>
+    <td>{{team.student1 | fullname}}<br>{{team.student2 | fullname}}</td>
+    <td><a class="btn btn-warning" [routerLink]="['edit', team.$key]">แก้ไข</a><br><button class="btn btn-danger" (click)="deleteTeam(team.$key)">ลบ</button></td>
+  </tr>
+</table>
+<ng-template #noTeams>
+  <p>ไม่มีทีม</p>
+</ng-template>

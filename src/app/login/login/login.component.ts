@@ -26,7 +26,7 @@ function confirmationValidator(passName: string, confirmName: string): Validator
     } else {
       return null;
     }
-  }
+  };
 }
 
 @Component({

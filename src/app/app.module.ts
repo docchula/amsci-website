@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './auth.guard';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
+import 'firebase/storage';
 
 @NgModule({
   declarations: [

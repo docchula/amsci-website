@@ -11,12 +11,16 @@ import { UserStatusService } from '../user-status.service';
 export class DashboardComponent implements OnInit {
   step1Done: Observable<boolean>;
   step2Done: Observable<boolean>;
+  step3Done: Observable<boolean>;
+  step4Done: Observable<boolean>;
 
   constructor(private afa: AngularFireAuth, private userStatus: UserStatusService) { }
 
   ngOnInit() {
     this.step1Done = this.afa.authState.map((u, i) => u.emailVerified);
     this.step2Done = this.userStatus.isAcceptedRules;
+    this.step3Done = this.userStatus.isSchoolDetailDone;
+    this.step4Done = this.userStatus.hasTeams;
   }
 
 }

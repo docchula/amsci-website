@@ -1,0 +1,59 @@
+<h1>กรอกข้อมูลเกี่ยวกับโรงเรียน</h1>
+<div *ngIf="(step3Done | async) && !editMode;else notDone">
+  <div class="alert alert-success">
+    <i class="fa fa-check-square-o" aria-hidden="true"></i> ยินดีด้วย คุณได้กรอกข้อมูลเกี่ยวกับโรงเรียนแล้ว <a [routerLink]="['/dashboard', 'step4']"
+      class="alert-link">ดำเนินการต่อ <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+  </div>
+  <div class="well">
+    <table class="table table-responsive" *ngIf="schoolDetail | async as detail">
+      <tr>
+        <td>ชื่อโรงเรียน</td>
+        <td>{{detail.name}}</td>
+      </tr>
+      <tr>
+        <td>ที่อยู่</td>
+        <td>{{detail.address}}</td>
+      </tr>
+      <tr>
+        <td>โทรศัพท์</td>
+        <td>{{detail.tel}}</td>
+      </tr>
+      <tr>
+        <td>โทรสาร</td>
+        <td>{{detail.fax}}</td>
+      </tr>
+    </table>
+    <button class="btn btn-primary btn-block" (click)="toggleEdit()">แก้ไขข้อมูล</button>
+  </div>
+</div>
+<ng-template #notDone>
+  <form class="form-horizontal" [formGroup]="schoolForm" (ngSubmit)="submitForm()" novalidate>
+    <div class="form-group" [ngClass]="{'has-error': schoolForm.get('name').invalid && schoolForm.get('name').dirty}">
+      <label for="name" class="control-label col-md-4">ชื่อโรงเรียน (ไม่ต้องใส่คำว่าโรงเรียน)</label>
+      <div class="col-md-8">
+        <input type="text" id="name" formControlName="name" class="form-control">
+      </div>
+    </div>
+    <div class="form-group" [ngClass]="{'has-error': schoolForm.get('address').invalid && schoolForm.get('address').dirty}">
+      <label for="address" class="control-label col-md-4">ที่อยู่</label>
+      <div class="col-md-8">
+        <textarea rows="5" id="address" formControlName="address" class="form-control"></textarea>
+      </div>
+    </div>
+    <div class="form-group" [ngClass]="{'has-error': schoolForm.get('tel').invalid && schoolForm.get('tel').dirty}">
+      <label for="tel" class="control-label col-md-4">โทรศัพท์</label>
+      <div class="col-md-8">
+        <input type="text" id="tel" formControlName="tel" class="form-control">
+      </div>
+    </div>
+    <div class="form-group" [ngClass]="{'has-error': schoolForm.get('fax').invalid && schoolForm.get('fax').dirty}">
+      <label for="fax" class="control-label col-md-4">โทรสาร (ถ้ามี)</label>
+      <div class="col-md-8">
+        <input type="text" id="fax" formControlName="fax" class="form-control">
+      </div>
+    </div>
+    <div class="form-group">
+      <input type="submit" class="form-control btn btn-primary" [disabled]="schoolForm.invalid" value="บันทึกข้อมูล">
+    </div>
+  </form>
+</ng-template>

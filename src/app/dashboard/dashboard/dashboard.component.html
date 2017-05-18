@@ -6,9 +6,9 @@
           <li role="presentation" [routerLinkActive]="['active']"><a [routerLink]="['/dashboard', 'info']"><i class="fa fa-info-circle" aria-hidden="true"></i> ขั้นตอนการสมัคร</a></li>
           <li role="separator"><hr></li>
           <li role="presentation" [routerLinkActive]="['active']"><a [routerLink]="['/dashboard', 'step1']"><i class="fa fa-check-square-o" aria-hidden="true" *ngIf="step1Done | async;else notChecked"></i> ยืนยันอีเมล</a></li>
-          <li role="presentation" [routerLinkActive]="['active']"><a [routerLink]="['/dashboard', 'step2']"><i class="fa fa-check-square-o" aria-hidden="true" *ngIf="step2Done | async;else notChecked"></i> รับทราบกติกาการแข่งขัน</a></li>
-          <li role="presentation"><a>D</a></li>
-          <li role="presentation"><a>E</a></li>
+          <li role="presentation" [routerLinkActive]="['active']" [ngClass]="{disabled: !(step1Done | async)}"><a [routerLink]="['/dashboard', 'step2']"><i class="fa fa-check-square-o" aria-hidden="true" *ngIf="step2Done | async;else notChecked"></i> รับทราบกติกาการแข่งขัน</a></li>
+          <li role="presentation" [routerLinkActive]="['active']" [ngClass]="{disabled: !(step1Done | async) || !(step2Done | async)}"><a [routerLink]="['/dashboard', 'step3']"><i class="fa fa-check-square-o" aria-hidden="true" *ngIf="step3Done | async;else notChecked"></i> กรอกข้อมูลโรงเรียน</a></li>
+          <li role="presentation" [routerLinkActive]="['active']" [ngClass]="{disabled: !(step1Done | async) || !(step2Done | async) || !(step3Done | async)}"><a [routerLink]="['/dashboard', 'step4']"><i class="fa fa-check-square-o" aria-hidden="true" *ngIf="step4Done | async;else notChecked"></i> กรอกข้อมูลผู้สมัคร</a></li>
           <li role="separator"><hr></li>
           <li role="presentation"><a>F</a></li>
           <ng-template #notChecked>

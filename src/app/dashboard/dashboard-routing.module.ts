@@ -6,6 +6,11 @@ import { InformationComponent } from 'app/dashboard/information/information.comp
 import { EmailVerifyGuard } from 'app/dashboard/email-verify.guard';
 import { AcceptRulesComponent } from 'app/dashboard/accept-rules/accept-rules.component';
 import { AuthGuard } from 'app/auth.guard';
+import { SchoolDetailComponent } from 'app/dashboard/school-detail/school-detail.component';
+import { AcceptGuard } from 'app/dashboard/accept.guard';
+import { SchoolDetailGuard } from 'app/dashboard/school-detail.guard';
+import { TeamDetailComponent } from 'app/dashboard/team-detail/team-detail.component';
+import { TeamFormComponent } from 'app/dashboard/team-form/team-form.component';
 
 const routes: Routes = [
   {
@@ -19,6 +24,10 @@ const routes: Routes = [
         pathMatch: 'full'
       },
       {
+        path: 'info',
+        component: InformationComponent
+      },
+      {
         path: 'step1',
         component: EmailCheckComponent
       },
@@ -28,8 +37,27 @@ const routes: Routes = [
         component: AcceptRulesComponent
       },
       {
-        path: 'info',
-        component: InformationComponent
+        path: 'step3',
+        canActivate: [EmailVerifyGuard, AcceptGuard],
+        component: SchoolDetailComponent
+      },
+      {
+        path: 'step4',
+        canActivate: [EmailVerifyGuard, AcceptGuard, SchoolDetailGuard],
+        children: [
+          {
+            path: '',
+            component: TeamDetailComponent
+          },
+          {
+            path: 'new',
+            component: TeamFormComponent
+          },
+          {
+            path: 'edit/:id',
+            component: TeamFormComponent
+          }
+        ]
       }
     ]
   }

@@ -1,0 +1,174 @@
+<h1 *ngIf="editMode | async;else notEditMode">แก้ไขทีม</h1>
+<ng-template #notEditMode><h1>เพิ่มทีม</h1></ng-template>
+<form class="form-horizontal" [formGroup]="teamForm" (ngSubmit)="submit()" novalidate>
+  <h2>อาจารย์ที่ปรึกษา</h2>
+  <div formGroupName="teacher">
+    <div class="form-group" [ngClass]="{'has-error': teamForm.get('teacher').get('title').invalid && teamForm.get('teacher').get('title').dirty}">
+      <label for="teacher_title" class="col-md-3 control-label">คำนำหน้าชื่อ</label>
+      <div class="col-md-9">
+        <input type="text" class="form-control" id="teacher_title" formControlName="title">
+      </div>
+    </div>
+    <div class="form-group" [ngClass]="{'has-error': teamForm.get('teacher').get('fname').invalid && teamForm.get('teacher').get('fname').dirty}">
+      <label for="teacher_fname" class="col-md-3 control-label">ชื่อ</label>
+      <div class="col-md-9">
+        <input type="text" class="form-control" id="teacher_fname" formControlName="fname">
+      </div>
+    </div>
+    <div class="form-group" [ngClass]="{'has-error': teamForm.get('teacher').get('lname').invalid && teamForm.get('teacher').get('lname').dirty}">
+      <label for="teacher_lname" class="col-md-3 control-label">นามสกุล</label>
+      <div class="col-md-9">
+        <input type="text" class="form-control" id="teacher_lname" formControlName="lname">
+      </div>
+    </div>
+    <div class="form-group" [ngClass]="{'has-error': teamForm.get('teacher').get('tel').invalid && teamForm.get('teacher').get('tel').dirty}">
+      <label for="teacher_tel" class="col-md-3 control-label">โทรศัพท์</label>
+      <div class="col-md-9">
+        <input type="text" class="form-control" id="teacher_tel" formControlName="tel">
+      </div>
+    </div>
+  </div>
+  <h2>นักเรียนคนที่ 1</h2>
+  <div formGroupName="student1">
+    <div class="form-group" [ngClass]="{'has-error': teamForm.get('student1').get('title').invalid && teamForm.get('student1').get('title').dirty}">
+      <label for="student1_title" class="col-md-3 control-label">คำนำหน้าชื่อ</label>
+      <div class="col-md-9">
+        <input type="text" class="form-control" id="student1_title" formControlName="title">
+      </div>
+    </div>
+    <div class="form-group" [ngClass]="{'has-error': teamForm.get('student1').get('fname').invalid && teamForm.get('student1').get('fname').dirty}">
+      <label for="student1_fname" class="col-md-3 control-label">ชื่อ</label>
+      <div class="col-md-9">
+        <input type="text" class="form-control" id="student1_fname" formControlName="fname">
+      </div>
+    </div>
+    <div class="form-group" [ngClass]="{'has-error': teamForm.get('student1').get('lname').invalid && teamForm.get('student1').get('lname').dirty}">
+      <label for="student1_lname" class="col-md-3 control-label">นามสกุล</label>
+      <div class="col-md-9">
+        <input type="text" class="form-control" id="student1_lname" formControlName="lname">
+      </div>
+    </div>
+    <div class="form-group" [ngClass]="{'has-error': teamForm.get('student1').get('tel').invalid && teamForm.get('student1').get('tel').dirty}">
+      <label for="student1_tel" class="col-md-3 control-label">โทรศัพท์</label>
+      <div class="col-md-9">
+        <input type="text" class="form-control" id="student1_tel" formControlName="tel">
+      </div>
+    </div>
+    <div class="form-group" [ngClass]="{'has-error': teamForm.get('student1').get('email').invalid && teamForm.get('student1').get('email').dirty}">
+      <label for="student1_email" class="col-md-3 control-label">อีเมล</label>
+      <div class="col-md-9">
+        <input type="text" class="form-control" id="student1_email" formControlName="email">
+      </div>
+    </div>
+    <div class="form-group" [ngClass]="{'has-error': teamForm.get('student1').get('grade').invalid && teamForm.get('student1').get('grade').dirty}">
+      <label for="student1_grade" class="col-md-3 control-label">ระดับชั้น</label>
+      <div class="col-md-9">
+        <select id="student1_grade" class="form-control" formControlName="grade">
+          <option value="4">ม.4</option>
+          <option value="5">ม.5</option>
+          <option value="6">ม.6</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="student1_picture" class="col-md-3 control-label">รูปขนาด 1 นิ้ว</label>
+      <div class="col-md-9">
+        <input type="file" class="form-control" id="student1_picture" #student1Picture (change)="selectedFile(1, 'picture', student1Picture)" accept="image/*">
+      </div>
+    </div>
+    <input type="hidden" formControlName="pictureUrl">
+    <input type="hidden" formControlName="pictureGUID">
+    <div class="row">
+      <div class="col-md-9 col-md-offset-3">
+        <img [src]="teamForm.get('student1').get('pictureUrl').value | pictureOrPlaceholder" class="img-responsive">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="student1_idCard" class="col-md-3 control-label">สำเนาบัตรประจำตัวประชาชน</label>
+      <div class="col-md-9">
+        <input type="file" class="form-control" id="student1_idCard" #student1IdCard (change)="selectedFile(1, 'idCard', student1IdCard)" accept="image/*">
+      </div>
+    </div>
+    <input type="hidden" formControlName="idCardUrl">
+    <input type="hidden" formControlName="idCardGUID">
+    <div class="row">
+      <div class="col-md-9 col-md-offset-3">
+        <img [src]="teamForm.get('student1').get('idCardUrl').value | pictureOrPlaceholder" class="img-responsive">
+      </div>
+    </div>
+  </div>
+  <h2>นักเรียนคนที่ 2</h2>
+  <div formGroupName="student2">
+    <div class="form-group" [ngClass]="{'has-error': teamForm.get('student2').get('title').invalid && teamForm.get('student2').get('title').dirty}">
+      <label for="student2_title" class="col-md-3 control-label">คำนำหน้าชื่อ</label>
+      <div class="col-md-9">
+        <input type="text" class="form-control" id="student2_title" formControlName="title">
+      </div>
+    </div>
+    <div class="form-group" [ngClass]="{'has-error': teamForm.get('student2').get('fname').invalid && teamForm.get('student2').get('fname').dirty}">
+      <label for="student2_fname" class="col-md-3 control-label">ชื่อ</label>
+      <div class="col-md-9">
+        <input type="text" class="form-control" id="student2_fname" formControlName="fname">
+      </div>
+    </div>
+    <div class="form-group" [ngClass]="{'has-error': teamForm.get('student2').get('lname').invalid && teamForm.get('student2').get('lname').dirty}">
+      <label for="student2_lname" class="col-md-3 control-label">นามสกุล</label>
+      <div class="col-md-9">
+        <input type="text" class="form-control" id="student2_lname" formControlName="lname">
+      </div>
+    </div>
+    <div class="form-group" [ngClass]="{'has-error': teamForm.get('student2').get('tel').invalid && teamForm.get('student2').get('tel').dirty}">
+      <label for="student2_tel" class="col-md-3 control-label">โทรศัพท์</label>
+      <div class="col-md-9">
+        <input type="text" class="form-control" id="student2_tel" formControlName="tel">
+      </div>
+    </div>
+    <div class="form-group" [ngClass]="{'has-error': teamForm.get('student2').get('email').invalid && teamForm.get('student2').get('email').dirty}">
+      <label for="student2_email" class="col-md-3 control-label">อีเมล</label>
+      <div class="col-md-9">
+        <input type="text" class="form-control" id="student2_email" formControlName="email">
+      </div>
+    </div>
+    <div class="form-group" [ngClass]="{'has-error': teamForm.get('student2').get('grade').invalid && teamForm.get('student2').get('grade').dirty}">
+      <label for="student2_grade" class="col-md-3 control-label">ระดับชั้น</label>
+      <div class="col-md-9">
+        <select id="student2_grade" class="form-control" formControlName="grade">
+          <option value="4">ม.4</option>
+          <option value="5">ม.5</option>
+          <option value="6">ม.6</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="student2_picture" class="col-md-3 control-label">รูปขนาด 1 นิ้ว</label>
+      <div class="col-md-9">
+        <input type="file" class="form-control" id="student2_picture" #student2Picture (change)="selectedFile(2, 'picture', student2Picture)" accept="image/*">
+      </div>
+    </div>
+    <input type="hidden" formControlName="pictureUrl">
+    <input type="hidden" formControlName="pictureGUID">
+    <div class="row">
+      <div class="col-md-9 col-md-offset-3">
+        <img [src]="teamForm.get('student2').get('pictureUrl').value | pictureOrPlaceholder" class="img-responsive">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="student2_idCard" class="col-md-3 control-label">สำเนาบัตรประจำตัวประชาชน</label>
+      <div class="col-md-9">
+        <input type="file" class="form-control" id="student2_idCard" #student2IdCard (change)="selectedFile(2, 'idCard', student2IdCard)" accept="image/*">
+      </div>
+    </div>
+    <input type="hidden" formControlName="idCardUrl">
+    <input type="hidden" formControlName="idCardGUID">
+    <div class="row">
+      <div class="col-md-9 col-md-offset-3">
+        <img [src]="teamForm.get('student2').get('idCardUrl').value | pictureOrPlaceholder" class="img-responsive">
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <input type="submit" value="บันทึกข้อมูล" class="btn btn-primary form-control" [disabled]="!teamForm.valid">
+  </div>
+</form>
+
+<pre>{{teamForm.value | json}}</pre>
