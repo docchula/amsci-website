@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserStatusService } from '../user-status.service';
 import { Observable } from 'rxjs/Observable';
 import { SchoolDetail } from 'app/dashboard/school-detail';
@@ -6,6 +6,7 @@ import { FormGroup, FormControl, Validators, ValidatorFn, AbstractControl } from
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
 import 'rxjs/add/operator/first';
+import { Subscription } from 'rxjs/Subscription';
 
 const schoolNameValidator: ValidatorFn = (c: AbstractControl) => {
   if (c.value && (c.value as string).startsWith('โรงเรียน')) {
@@ -20,12 +21,13 @@ const schoolNameValidator: ValidatorFn = (c: AbstractControl) => {
   templateUrl: './school-detail.component.html',
   styleUrls: ['./school-detail.component.scss']
 })
-export class SchoolDetailComponent implements OnInit {
+export class SchoolDetailComponent implements OnInit, OnDestroy {
 
   step3Done: Observable<boolean>;
   schoolDetail: Observable<SchoolDetail>;
   schoolForm: FormGroup;
   editMode: boolean;
+  schoolDetailSub: Subscription;
 
   constructor(private userStatus: UserStatusService, private afd: AngularFireDatabase, private afa: AngularFireAuth) { }
 
@@ -38,7 +40,7 @@ export class SchoolDetailComponent implements OnInit {
       tel: new FormControl('', Validators.required),
       fax: new FormControl('')
     });
-    this.schoolDetail.subscribe((_schoolDetail) => {
+    this.schoolDetailSub = this.schoolDetail.subscribe((_schoolDetail) => {
       if (_schoolDetail.$exists()) {
         this.schoolForm.get('name').setValue(_schoolDetail.name);
         this.schoolForm.get('address').setValue(_schoolDetail.address);
@@ -47,6 +49,10 @@ export class SchoolDetailComponent implements OnInit {
       }
     });
     this.editMode = false;
+  }
+
+  ngOnDestroy() {
+    this.schoolDetailSub.unsubscribe();
   }
 
   submitForm() {

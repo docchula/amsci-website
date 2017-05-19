@@ -11,6 +11,9 @@ import { AcceptGuard } from 'app/dashboard/accept.guard';
 import { SchoolDetailGuard } from 'app/dashboard/school-detail.guard';
 import { TeamDetailComponent } from 'app/dashboard/team-detail/team-detail.component';
 import { TeamFormComponent } from 'app/dashboard/team-form/team-form.component';
+import { TeamGuard } from 'app/dashboard/team.guard';
+import { SlipUploadComponent } from 'app/dashboard/slip-upload/slip-upload.component';
+import { StatusComponent } from 'app/dashboard/status/status.component';
 
 const routes: Routes = [
   {
@@ -58,6 +61,15 @@ const routes: Routes = [
             component: TeamFormComponent
           }
         ]
+      },
+      {
+        path: 'step5',
+        canActivate: [EmailVerifyGuard, AcceptGuard, SchoolDetailGuard, TeamGuard],
+        component: SlipUploadComponent
+      },
+      {
+        path: 'status',
+        component: StatusComponent
       }
     ]
   }

@@ -1,4 +1,8 @@
-<h1 *ngIf="editMode | async;else notEditMode">แก้ไขทีม</h1>
+<div *ngIf="editMode | async; then editt; else notEditMode"></div>
+<ng-template #editt>
+  <h1>แก้ไขทีม</h1>
+  <div class="alert alert-danger">หากท่านกดปุ่มบันทึก ท่านจะต้องรอตรวจสอบเอกสารอีกครั้ง</div>
+</ng-template>
 <ng-template #notEditMode><h1>เพิ่มทีม</h1></ng-template>
 <form class="form-horizontal" [formGroup]="teamForm" (ngSubmit)="submit()" novalidate>
   <h2>อาจารย์ที่ปรึกษา</h2>
@@ -167,8 +171,11 @@
     </div>
   </div>
   <div class="form-group">
-    <input type="submit" value="บันทึกข้อมูล" class="btn btn-primary form-control" [disabled]="!teamForm.valid">
+    <div class="col-md-6">
+      <input type="submit" value="บันทึกข้อมูล" class="btn btn-primary form-control" [disabled]="!teamForm.valid">
+    </div>
+    <div class="col-md-6">
+      <a [routerLink]="['/dashboard', 'step4']" class="btn btn-info form-control">ย้อนกลับ</a>
+    </div>
   </div>
 </form>
-
-<pre>{{teamForm.value | json}}</pre>

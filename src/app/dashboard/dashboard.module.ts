@@ -17,6 +17,9 @@ import { SchoolDetailGuard } from './school-detail.guard';
 import { FullnamePipe } from './fullname.pipe';
 import { TeamFormComponent } from './team-form/team-form.component';
 import { PictureOrPlaceholderPipe } from './picture-or-placeholder.pipe';
+import { SlipUploadComponent } from './slip-upload/slip-upload.component';
+import { TeamGuard } from './team.guard';
+import { StatusComponent } from './status/status.component';
 
 @NgModule({
   imports: [
@@ -34,8 +37,10 @@ import { PictureOrPlaceholderPipe } from './picture-or-placeholder.pipe';
     TeamDetailComponent,
     FullnamePipe,
     TeamFormComponent,
-    PictureOrPlaceholderPipe
+    PictureOrPlaceholderPipe,
+    SlipUploadComponent,
+    StatusComponent
   ],
-  providers: [EmailVerifyGuard, UserStatusService, AcceptGuard, SchoolDetailGuard]
+  providers: [EmailVerifyGuard, UserStatusService, AcceptGuard, SchoolDetailGuard, TeamGuard]
 })
 export class DashboardModule { }

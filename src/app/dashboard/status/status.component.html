@@ -1,0 +1,47 @@
+<h1>ตรวจสอบสถานะและพิมพ์บัตรประจำตัวผู้สอบ</h1>
+<div class="alert alert-warning">บัตรประจำตัวผู้สอบจะสามารถพิมพ์ได้หลังจากปิดรับสมัครแล้ว</div>
+<h2>ข้อมูลเกี่ยวกับโรงเรียน</h2>
+<table class="table table-responsive" *ngIf="detail | async as detail">
+  <tr>
+    <td>ชื่อโรงเรียน</td>
+    <td>{{detail.name}}</td>
+  </tr>
+  <tr>
+    <td>ที่อยู่</td>
+    <td>{{detail.address}}</td>
+  </tr>
+  <tr>
+    <td>โทรศัพท์</td>
+    <td>{{detail.tel}}</td>
+  </tr>
+  <tr>
+    <td>โทรสาร</td>
+    <td>{{detail.fax}}</td>
+  </tr>
+</table>
+<h2>ข้อมูลผู้สมัคร</h2>
+<table class="table table-responsive" *ngIf="hasTeams | async;else noTeams">
+  <tr>
+    <th>ลำดับ</th>
+    <th>อาจารย์ที่ปรึกษา</th>
+    <th>นักเรียนคนที่ 1</th>
+    <th>นักเรียนคนที่ 2</th>
+    <th>หลักฐานการโอนเงิน</th>
+    <th>สถานะการสมัคร</th>
+  </tr>
+  <tr *ngFor="let team of teams | async as _teams; index as i">
+    <td>{{i + 1}}</td>
+    <td><strong>{{team.teacher | fullname}}</strong><br>{{team.teacher.tel}}</td>
+    <td><strong>{{team.student1 | fullname}}</strong><br>{{team.student1.tel}}<br>{{team.student1.email}}<br>{{team.student1.grade}}</td>
+    <td><strong>{{team.student2 | fullname}}</strong><br>{{team.student2.tel}}<br>{{team.student2.email}}<br>{{team.student2.grade}}</td>
+    <td><img [src]="team.slipUrl | pictureOrPlaceholder" class="fix-size"></td>
+    <td>
+      <div *ngIf="team.done; then OK; else: notOK"></div>
+      <ng-template #OK><span class="text-success">การสมัครเสร็จสมบูรณ์</span></ng-template>
+      <ng-template #notOK><span class="text-warning">รอตรวจสอบเอกสาร</span></ng-template>
+    </td>
+  </tr>
+</table>
+<ng-template #noTeams>
+  <div class="alert alert-danger">ไม่มีทีม</div>
+</ng-template>

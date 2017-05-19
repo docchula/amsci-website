@@ -13,6 +13,7 @@ export class DashboardComponent implements OnInit {
   step2Done: Observable<boolean>;
   step3Done: Observable<boolean>;
   step4Done: Observable<boolean>;
+  step5Done: Observable<boolean>;
 
   constructor(private afa: AngularFireAuth, private userStatus: UserStatusService) { }
 
@@ -21,6 +22,7 @@ export class DashboardComponent implements OnInit {
     this.step2Done = this.userStatus.isAcceptedRules;
     this.step3Done = this.userStatus.isSchoolDetailDone;
     this.step4Done = this.userStatus.hasTeams;
+    this.step5Done = this.userStatus.slipUploaded;
   }
 
 }

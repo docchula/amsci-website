@@ -17,6 +17,7 @@ export class UserStatusService {
   isSchoolDetailDone: Observable<boolean>;
   teams: Observable<Team[]>;
   hasTeams: Observable<boolean>;
+  slipUploaded: Observable<boolean>;
 
   constructor(private afa: AngularFireAuth, private afd: AngularFireDatabase) {
     this.isEmailVerified = this.afa.authState.map((user) => user.emailVerified);
@@ -55,6 +56,17 @@ export class UserStatusService {
       } else {
         return false;
       }
+    });
+    this.slipUploaded = this.teams.map((_teams) => {
+      return _teams.map((team) => {
+        if (team.slipGUID) {
+          return true;
+        } else {
+          return false;
+        }
+      }).reduce((prev, value, index, array) => {
+        return prev && value;
+      }, true);
     });
   }
 

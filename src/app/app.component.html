@@ -13,8 +13,12 @@
     <div class="collapse navbar-collapse" id="anan-navmenu">
       <ul class="nav navbar-nav navbar-right">
         <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/']">หน้าแรก</a></li>
-        <li><a [routerLink]="['/']">ระเบียบการ</a></li>
-        <li *ngIf="authState | async;else notSignedIn"><a (click)="signOut()">ออกจากระบบ</a></li>
+        <li><a href="/assets/Registration-AMSci.pdf">ระเบียบการ</a></li>
+        <div *ngIf="authState | async; then signedIn; else notSignedIn"></div>
+        <ng-template #signedIn>
+          <li routerLinkActive="active"><a [routerLink]="['/dashboard']">สมัคร</a></li>
+          <li><a (click)="signOut()">ออกจากระบบ</a></li>
+        </ng-template>
         <ng-template #notSignedIn>
           <li [routerLinkActive]="['active']"><a [routerLink]="['/', 'login']">เข้าสู่ระบบ</a></li>
         </ng-template>
@@ -24,4 +28,17 @@
 </nav>
 <div>
   <router-outlet></router-outlet>
+</div>
+<div class="adq-footer">
+  <div class="container">
+    <div class="row">
+      <div class="footer-text">
+        <span>Copyright 2017, IT Division, SMCU</span>
+        <span class="pull-right">
+          <a href="https://fb.me/anandayquiz" class="h2"><i class="fa fa-facebook-official" aria-hidden="true"></i></a>
+          <a href="https://line.me/R/ti/p/@amsci" class="h2"><i class="fa fa-comment" aria-hidden="true"></i></a>
+        </span>
+      </div>
+    </div>
+  </div>
 </div>

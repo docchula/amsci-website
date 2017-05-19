@@ -1,0 +1,18 @@
+<h1>อัพโหลดหลักฐานการโอนเงิน</h1>
+<strong>กรุณาอัพโหลดภาพหลักฐานการโอนเงินที่ชัดและสามารถอ่านได้ เพื่อให้การตรวจสอบเป็นไปอย่างราบรื่น</strong>
+<table class="table table-responsive">
+  <tr>
+    <th>ลำดับ</th>
+    <th>อาจารย์ที่ปรึกษา</th>
+    <th>รายชื่อนักเรียน</th>
+    <th>เลือกรูป</th>
+    <th>รูป</th>
+  </tr>
+  <tr *ngFor="let team of teams | async as _teams; index as i">
+    <td>{{i + 1}}</td>
+    <td>{{team.teacher | fullname}}</td>
+    <td>{{team.student1 | fullname}}<br>{{team.student2 | fullname}}</td>
+    <td><input type="file" class="form-control" accept="image/*" #uploadFile (change)="selectedFile(uploadFile, team.$key)"></td>
+    <td><img [src]="team.slipUrl | pictureOrPlaceholder" class="img-responsive" class="fix-size"></td>
+  </tr>
+</table>

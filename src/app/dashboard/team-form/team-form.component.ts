@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Team } from 'app/dashboard/team';
@@ -8,17 +8,19 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/filter';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { FirebaseApp } from 'angularfire2';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'adq-team-form',
   templateUrl: './team-form.component.html',
   styleUrls: ['./team-form.component.scss']
 })
-export class TeamFormComponent implements OnInit {
+export class TeamFormComponent implements OnInit, OnDestroy {
 
   editMode: Observable<boolean>;
   team: Observable<Team>;
   teamForm: FormGroup;
+  teamSub: Subscription;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -47,7 +49,7 @@ export class TeamFormComponent implements OnInit {
               }
             });
         });
-        this.team.subscribe((_team) => this.teamForm.setValue(_team));
+        this.teamSub = this.team.subscribe((_team) => this.teamForm.setValue(_team));
       }
     });
     this.teamForm = new FormGroup({
@@ -80,8 +82,15 @@ export class TeamFormComponent implements OnInit {
         idCardUrl: new FormControl(null, Validators.required),
         pictureGUID: new FormControl(null, Validators.required),
         idCardGUID: new FormControl(null, Validators.required)
-      })
+      }),
+      slipUrl: new FormControl(),
+      slipGUID: new FormControl(),
+      done: new FormControl()
     });
+  }
+
+  ngOnDestroy() {
+    this.teamSub.unsubscribe();
   }
 
   selectedFile(student: number, type: 'picture' | 'idCard', input: any) {
@@ -115,6 +124,7 @@ export class TeamFormComponent implements OnInit {
   }
 
   submit() {
+    this.teamForm.get('done').setValue(false);
     this.editMode.first().subscribe((edit) => {
       if (edit) {
         this.activatedRoute.params.map((params) => params['id']).first().subscribe((tid) => {

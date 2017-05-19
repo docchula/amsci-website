@@ -1,19 +1,30 @@
 <h1>กรอกข้อมูลผู้สมัคร</h1>
 <a class="btn btn-primary" [routerLink]="['new']"><i class="fa fa-plus" aria-hidden="true"></i> เพิ่มทีม</a>
-<table class="table table-responsive" *ngIf="step4Done | async;else noTeams">
-  <tr>
-    <th>ลำดับ</th>
-    <th>อาจารย์ที่ปรึกษา</th>
-    <th>รายชื่อนักเรียน</th>
-    <th>การดำเนินการ</th>
-  </tr>
-  <tr *ngFor="let team of teams | async as _teams; index as i">
-    <td>{{i + 1}}</td>
-    <td>{{team.teacher | fullname}}</td>
-    <td>{{team.student1 | fullname}}<br>{{team.student2 | fullname}}</td>
-    <td><a class="btn btn-warning" [routerLink]="['edit', team.$key]">แก้ไข</a><br><button class="btn btn-danger" (click)="deleteTeam(team.$key)">ลบ</button></td>
-  </tr>
-</table>
+<div *ngIf="step4Done | async;else noTeams">
+  <div class="alert alert-success">
+    <p><i class="fa fa-check-square-o" aria-hidden="true"></i> คุณได้กรอกข้อมูลของผู้สมัครแล้ว</p>
+    <ul>
+      <li>กดปุ่ม "เพิ่มทีม" หากต้องการสมัครเพิ่ม</li>
+      <li>ชำระค่าสมัคร 300 บาทต่อทีม <strong>โดยแต่ละทีมให้ชำระแยกกัน</strong>
+    </ul>
+    หลังจากชำระเงิน <a [routerLink]="['/dashboard', 'step5']"
+    class="alert-link">ดำเนินการต่อ <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+  </div>
+  <table class="table table-responsive">
+    <tr>
+      <th>ลำดับ</th>
+      <th>อาจารย์ที่ปรึกษา</th>
+      <th>รายชื่อนักเรียน</th>
+      <th>การดำเนินการ</th>
+    </tr>
+    <tr *ngFor="let team of teams | async as _teams; index as i">
+      <td>{{i + 1}}</td>
+      <td>{{team.teacher | fullname}}</td>
+      <td>{{team.student1 | fullname}}<br>{{team.student2 | fullname}}</td>
+      <td><a class="btn btn-warning" [routerLink]="['edit', team.$key]">แก้ไข</a><br><button class="btn btn-danger" (click)="deleteTeam(team.$key)">ลบ</button></td>
+    </tr>
+  </table>
+</div>
 <ng-template #noTeams>
-  <p>ไม่มีทีม</p>
+  <div class="alert alert-danger">ไม่มีทีม</div>
 </ng-template>
