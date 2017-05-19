@@ -5,7 +5,6 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { EmailCheckComponent } from './email-check/email-check.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { InformationComponent } from './information/information.component';
-import { SharedModule } from 'app/shared/shared.module';
 import { EmailVerifyGuard } from './email-verify.guard';
 import { AcceptRulesComponent } from './accept-rules/accept-rules.component';
 import { UserStatusService } from './user-status.service';
@@ -25,7 +24,6 @@ import { StatusComponent } from './status/status.component';
   imports: [
     CommonModule,
     DashboardRoutingModule,
-    SharedModule,
     ReactiveFormsModule
   ],
   declarations: [
