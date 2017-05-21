@@ -49,7 +49,15 @@ export class TeamFormComponent implements OnInit, OnDestroy {
               }
             });
         });
-        this.teamSub = this.team.subscribe((_team) => this.teamForm.setValue(_team));
+        this.teamSub = this.team.subscribe((_team) => {
+          if (!((_team as Object).hasOwnProperty('slipUrl'))) {
+            _team.slipUrl = '';
+          }
+          if (!((_team as Object).hasOwnProperty('slipGUID'))) {
+            _team.slipGUID = '';
+          }
+          this.teamForm.setValue(_team);
+        });
       }
     });
     this.teamForm = new FormGroup({
