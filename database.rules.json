@@ -15,6 +15,9 @@
         ".read": "auth.uid === $uid",
         ".write": "auth.uid === $uid"
       }
+    },
+    "admins": {
+      ".write": false
     }
   }
 }
