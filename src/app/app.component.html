@@ -14,6 +14,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/']">หน้าแรก</a></li>
         <li><a href="/assets/Registration-AMSci.pdf">ระเบียบการ</a></li>
+        <li><a href="/assets/Schedule-AMSci.pdf">กำหนดการ</a></li>
         <div *ngIf="authState | async; then signedIn; else notSignedIn"></div>
         <ng-template #signedIn>
           <li routerLinkActive="active"><a [routerLink]="['/dashboard']">สมัคร</a></li>

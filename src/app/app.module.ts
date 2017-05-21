@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './auth.guard';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { Angulartics2Module, Angulartics2GoogleAnalytics } from 'angulartics2';
 import 'firebase/storage';
 
 @NgModule({
@@ -30,7 +31,8 @@ import 'firebase/storage';
       messagingSenderId: '789856352031'
     }),
     AngularFireAuthModule,
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    Angulartics2Module.forRoot([Angulartics2GoogleAnalytics])
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]
