@@ -58,15 +58,19 @@ export class UserStatusService {
       }
     });
     this.slipUploaded = this.teams.map((_teams) => {
-      return _teams.map((team) => {
-        if (team.slipGUID) {
-          return true;
-        } else {
-          return false;
-        }
-      }).reduce((prev, value, index, array) => {
-        return prev && value;
-      }, true);
+      if (_teams.length === 0) {
+        return false;
+      } else {
+        return _teams.map((team) => {
+          if (team.slipGUID) {
+            return true;
+          } else {
+            return false;
+          }
+        }).reduce((prev, value, index, array) => {
+          return prev && value;
+        }, true);
+      }
     });
   }
 
