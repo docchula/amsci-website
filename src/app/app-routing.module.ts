@@ -19,6 +19,10 @@ const routes: Routes = [
         path: 'dashboard',
         loadChildren: './dashboard/dashboard.module#DashboardModule',
         canLoad: [AuthGuard]
+      },
+      {
+        path: 'u0kM8RMyBGNKyFky8jbm',
+        loadChildren: './admin/admin.module#AdminModule'
       }
     ]
   }
