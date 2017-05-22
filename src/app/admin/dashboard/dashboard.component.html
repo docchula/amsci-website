@@ -1,0 +1,73 @@
+<div class="container">
+  <h1>Administrator Dashboard</h1>
+  <div class="row">
+    <div class="col-md-3">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-xs-3">
+              <i class="fa fa-users fa-5x" aria-hidden="true"></i>
+            </div>
+            <div class="col-xs-9 text-right">
+              <div class="huge">{{teamCount | async}}</div>
+              <div>ทีมทั้งหมด</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-xs-3">
+              <i class="fa fa-money fa-5x" aria-hidden="true"></i>
+            </div>
+            <div class="col-xs-9 text-right">
+              <div class="huge">{{paidTeamCount | async}}</div>
+              <div>ทีมที่จ่ายเงินแล้ว</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-xs-3">
+              <i class="fa fa-file-text fa-5x" aria-hidden="true"></i>
+            </div>
+            <div class="col-xs-9 text-right">
+              <div class="huge">{{doneTeamCount | async}}</div>
+              <div>ทีมที่ตรวจเอกสารแล้ว</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="panel panel-warning">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-xs-3">
+              <i class="fa fa-graduation-cap fa-5x" aria-hidden="true"></i>
+            </div>
+            <div class="col-xs-9 text-right">
+              <div class="huge">{{schoolCount | async}}</div>
+              <div>จำนวนโรงเรียน</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <h2>ดูข้อมูล</h2>
+  <ul>
+    <li><a [routerLink]="['../', 'query','all']">ดูทีมทั้งหมด</a></li>
+    <li><a [routerLink]="['../', 'query','paid']">ดูทีมที่ชำระเงินแล้ว</a></li>
+    <li><a [routerLink]="['../', 'query','not_checked']">ดูทีมที่ชำระเงินแล้ว แต่ยังไม่ตรวจเอกสาร</a></li>
+    <li><a [routerLink]="['../', 'query','checked']">ดูทีมที่ตรวจเอกสารแล้ว</a></li>
+    <li><a [routerLink]="['../', 'query','school']">ดูโรงเรียนที่ส่งทีมเข้าแข่งขัน</a></li>
+  </ul>
+</div>

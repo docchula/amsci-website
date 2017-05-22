@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from 'app/home/home.component';
 import { AuthGuard } from 'app/auth.guard';
+import { AdminGuard } from 'app/admin.guard';
 
 const routes: Routes = [
   {
@@ -22,7 +23,8 @@ const routes: Routes = [
       },
       {
         path: 'u0kM8RMyBGNKyFky8jbm',
-        loadChildren: './admin/admin.module#AdminModule'
+        loadChildren: './admin/admin.module#AdminModule',
+        canLoad: [AdminGuard]
       }
     ]
   }

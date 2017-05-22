@@ -1,0 +1,40 @@
+<div class="container" *ngIf="team | async as _team">
+  <button class="btn btn-info btn-lg" (click)="goBack()">ย้อนกลับ</button>
+  <h1>
+    รายละเอียดทีม
+  </h1>
+  <h3 *ngIf="params | async as _params">
+    รหัส {{_params['uid']}}/{{_params['tid']}}
+  </h3>
+  <h2>โรงเรียน</h2>
+  <div *ngIf="schoolDetail | async as _school">
+    <p>ชื่อ {{_school.name}}</p>
+    <p>ที่อยู่ {{_school.address}}</p>
+    <p>โทรศัพท์ {{_school.tel}}</p>
+    <p>โทรสาร {{_school.fax}}</p>
+  </div>
+  <h2>อาจารย์ที่ปรึกษา</h2>
+  <p>{{_team.teacher | fullname}} โทรศัพท์ {{_team.teacher.tel}}</p>
+  <h2>นักเรียนคนที่ 1</h2>
+  <p>{{_team.student1 | fullname}} โทรศัพท์ {{_team.student1.tel}} อีเมล {{_team.student1.email}}</p>
+  <a [href]="_team.student1.pictureUrl" class="btn btn-primary" target="_blank">ดูรูปภาพ</a>
+  <a [href]="_team.student1.idCardUrl" class="btn btn-primary" target="_blank">ดูสำเนาบัตรประจำตัวประชาชน</a>
+  <h2>นักเรียนคนที่ 2</h2>
+  <p>{{_team.student2 | fullname}} โทรศัพท์ {{_team.student2.tel}} อีเมล {{_team.student2.email}}</p>
+  <a [href]="_team.student2.pictureUrl" class="btn btn-primary" target="_blank">ดูรูปภาพ</a>
+  <a [href]="_team.student2.idCardUrl" class="btn btn-primary" target="_blank">ดูสำเนาบัตรประจำตัวประชาชน</a><br>
+  <h2>การโอนเงิน</h2>
+  <a [href]="_team.slipUrl | pictureOrPlaceholder" class="btn btn-success btn-lg" target="_blank" *ngIf="_team.slipUrl && _team.slipUrl !== ''; else noSlip">ดูหลักฐานการโอนเงิน</a>
+  <ng-template #noSlip>
+    <h3 class="text-danger">ยังไม่ได้โอนเงิน</h3>
+  </ng-template>
+  <div class="h3">สถานะ: <div *ngIf="_team.done; then done;else notDone"></div></div>
+  <ng-template #done>
+    <span class="text-success">ลงทะเบียนเสร็จสมบูรณ์</span>
+  </ng-template>
+  <ng-template #notDone>
+    <span class="text-danger">รอตรวจเอกสาร</span>
+  </ng-template>
+  <button class="btn btn-danger btn-lg" (click)="toggleStatus()" *ngIf="_team.slipUrl && _team.slipUrl !== ''; else noSlip">เปลี่ยนสถานะ</button><br>
+  <button class="btn btn-info btn-lg" (click)="goBack()">ย้อนกลับ</button>
+</div>

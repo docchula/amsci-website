@@ -13,18 +13,18 @@ import { AcceptGuard } from './accept.guard';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TeamDetailComponent } from './team-detail/team-detail.component';
 import { SchoolDetailGuard } from './school-detail.guard';
-import { FullnamePipe } from './fullname.pipe';
 import { TeamFormComponent } from './team-form/team-form.component';
-import { PictureOrPlaceholderPipe } from './picture-or-placeholder.pipe';
 import { SlipUploadComponent } from './slip-upload/slip-upload.component';
 import { TeamGuard } from './team.guard';
 import { StatusComponent } from './status/status.component';
+import { SharedModule } from 'app/shared/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
     DashboardRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ],
   declarations: [
     EmailCheckComponent,
@@ -33,9 +33,7 @@ import { StatusComponent } from './status/status.component';
     AcceptRulesComponent,
     SchoolDetailComponent,
     TeamDetailComponent,
-    FullnamePipe,
     TeamFormComponent,
-    PictureOrPlaceholderPipe,
     SlipUploadComponent,
     StatusComponent
   ],

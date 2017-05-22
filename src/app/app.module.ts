@@ -12,6 +12,7 @@ import { AuthGuard } from './auth.guard';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { Angulartics2Module, Angulartics2GoogleAnalytics } from 'angulartics2';
 import 'firebase/storage';
+import { AdminGuard } from 'app/admin.guard';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,7 @@ import 'firebase/storage';
     AngularFireDatabaseModule,
     Angulartics2Module.forRoot([Angulartics2GoogleAnalytics])
   ],
-  providers: [AuthGuard],
+  providers: [AuthGuard, AdminGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

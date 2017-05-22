@@ -62,7 +62,7 @@ export class UserStatusService {
         return false;
       } else {
         return _teams.map((team) => {
-          if (team.slipGUID) {
+          if (team.slipGUID && team.slipGUID !== '') {
             return true;
           } else {
             return false;
