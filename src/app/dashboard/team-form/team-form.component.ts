@@ -98,7 +98,9 @@ export class TeamFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.teamSub.unsubscribe();
+    if (this.teamSub) {
+      this.teamSub.unsubscribe();
+    }
   }
 
   selectedFile(student: number, type: 'picture' | 'idCard', input: any) {
