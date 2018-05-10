@@ -42,8 +42,8 @@
             </div>
             <div formGroupName="passwords">
               <div class="form-group" [ngClass]="{'has-error': (registrationForm.get('passwords').get('password').invalid && registrationForm.get('passwords').get('password').dirty) || (registrationForm.get('passwords').invalid && registrationForm.get('passwords').dirty), 'has-success': registrationForm.get('passwords').get('password').valid && registrationForm.get('passwords').get('password').dirty && registrationForm.get('passwords').valid}">
-                <label for="registration-password" class="sr-only">Password</label>
-                <input type="password" placeholder="Password" class="form-control" id="registration-password" formControlName="password">
+                <label for="registration-password" class="sr-only">Password (อย่างน้อย 8 ตัวอักษร)</label>
+                <input type="password" placeholder="Password (อย่างน้อย 8 ตัวอักษร)" class="form-control" id="registration-password" formControlName="password">
               </div>
               <div class="form-group" [ngClass]="{'has-error': (registrationForm.get('passwords').get('passwordConfirmation').invalid && registrationForm.get('passwords').get('passwordConfirmation').dirty) || (registrationForm.get('passwords').invalid && registrationForm.get('passwords').dirty), 'has-success': registrationForm.get('passwords').get('passwordConfirmation').valid && registrationForm.get('passwords').get('passwordConfirmation').dirty && registrationForm.get('passwords').valid}">
                 <label for="registration-password-confirm" class="sr-only">Password Confirmation</label>

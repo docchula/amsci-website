@@ -9,6 +9,7 @@ import 'rxjs/add/operator/filter';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { FirebaseApp } from 'angularfire2';
 import { Subscription } from 'rxjs/Subscription';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'adq-team-form',
@@ -55,6 +56,9 @@ export class TeamFormComponent implements OnInit, OnDestroy {
           }
           if (!((_team as Object).hasOwnProperty('slipGUID'))) {
             _team.slipGUID = '';
+          }
+          if (((_team as Object).hasOwnProperty('cardFile'))) {
+            delete _team.cardFile;
           }
           this.teamForm.setValue(_team);
         });
@@ -121,14 +125,44 @@ export class TeamFormComponent implements OnInit, OnDestroy {
         alert(`กรุณาอัพโหลดไฟล์ที่มีขนาดต่ำกว่า ${maxSize / 1024} กิโลไบต์`);
         input.value = '';
       } else {
-        this.afa.authState.map((user) => user.uid).first().subscribe((uid) => {
-          const fid = this.guid();
-          const ref = this.fba.storage().ref(`data/${uid}/${fid}`);
-          ref.put(file).then((a) => {
-            this.teamForm.get(`student${student}`).get(`${type}Url`).setValue(a.downloadURL);
-            this.teamForm.get(`student${student}`).get(`${type}GUID`).setValue(fid);
+        const ok = new Subject<boolean>();
+        if (type === 'picture') {
+          const fr = new FileReader();
+
+          fr.readAsDataURL(input.files[0]);
+
+          fr.onload = (e) => {
+            const img = new Image();
+            img.src = (e.target as FileReader).result;
+            img.onload = () => {
+              if (img.naturalWidth !== 180 || img.naturalHeight !== 240) {
+                alert(`กรุณาอัพโหลดภาพถ่ายขนาดกว้าง 180 พิกเซล สูง 240 พิกเซล`);
+              } else {
+                this.afa.authState.map((user) => user.uid).first().subscribe((uid) => {
+                  const fid = this.guid();
+                  const ref = this.fba.storage().ref(`data/${uid}/${fid}`);
+                  ref.put(file).then((a) => {
+                    this.teamForm.get(`student${student}`).get(`${type}Url`).setValue(a.downloadURL);
+                    this.teamForm.get(`student${student}`).get(`${type}GUID`).setValue(fid);
+                  });
+                });
+              }
+            };
+          };
+        } else {
+          this.afa.authState.map((user) => user.uid).first().subscribe((uid) => {
+            const fid = this.guid();
+            const ref = this.fba.storage().ref(`data/${uid}/${fid}`);
+            ref.put(file).then((a) => {
+              this.teamForm.get(`student${student}`).get(`${type}Url`).setValue(a.downloadURL);
+              this.teamForm.get(`student${student}`).get(`${type}GUID`).setValue(fid);
+            });
           });
-        });
+        }
+
+
+
+
       }
     }
   }

@@ -9,4 +9,5 @@ export interface Team {
   slipGUID?: string;
   $key: string;
   done?: boolean;
+  cardFile?: string;
 }

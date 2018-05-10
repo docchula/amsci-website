@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import 'rxjs/add/operator/map';
 import { AdminService } from '../admin.service';
 import 'rxjs/add/observable/of';
+import { AngularFireDatabase } from 'angularfire2/database';
 
 @Component({
   selector: 'adq-query',
@@ -15,7 +16,7 @@ export class QueryComponent implements OnInit {
   method: Observable<string>;
   users: Observable<any[]>;
 
-  constructor(private route: ActivatedRoute, private admin: AdminService) { }
+  constructor(private route: ActivatedRoute, private admin: AdminService, private afd: AngularFireDatabase) { }
 
   ngOnInit() {
     this.method = this.route.params.map(params => params['method']);
@@ -79,6 +80,13 @@ export class QueryComponent implements OnInit {
 
   trackByFn(index, item) {
     return item.$key;
+  }
+
+  toggleStatus(uid: string, tid: string) {
+    this.afd.object(`/data/${uid}/teams/${tid}/done`)
+    .map((v) => v.$value).first().subscribe((v: boolean) => {
+      this.afd.database.ref(`/data/${uid}/teams/${tid}/done`).set(!v);
+    });
   }
 
 }

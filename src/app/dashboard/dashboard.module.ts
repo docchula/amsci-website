@@ -18,6 +18,7 @@ import { SlipUploadComponent } from './slip-upload/slip-upload.component';
 import { TeamGuard } from './team.guard';
 import { StatusComponent } from './status/status.component';
 import { SharedModule } from 'app/shared/shared.module';
+import { NotAllowedGuard } from './not-allowed.guard';
 
 @NgModule({
   imports: [
@@ -37,6 +38,6 @@ import { SharedModule } from 'app/shared/shared.module';
     SlipUploadComponent,
     StatusComponent
   ],
-  providers: [EmailVerifyGuard, UserStatusService, AcceptGuard, SchoolDetailGuard, TeamGuard]
+  providers: [EmailVerifyGuard, UserStatusService, AcceptGuard, SchoolDetailGuard, TeamGuard, NotAllowedGuard]
 })
 export class DashboardModule { }
