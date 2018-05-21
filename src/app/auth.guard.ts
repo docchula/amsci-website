@@ -1,30 +1,42 @@
 import { Injectable } from '@angular/core';
-import { CanLoad, Route, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import {
+  ActivatedRouteSnapshot,
+  CanActivate,
+  CanLoad,
+  Route,
+  Router,
+  RouterStateSnapshot
+} from '@angular/router';
 import { AngularFireAuth } from 'angularfire2/auth';
-import 'rxjs/add/operator/first';
-import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs';
+import { first, map } from 'rxjs/operators';
 
 @Injectable()
 export class AuthGuard implements CanLoad, CanActivate {
   constructor(private afa: AngularFireAuth, private router: Router) {}
 
   isLoggedIn() {
-    return this.afa.authState.first().map((user, index) => {
-      if (user) {
-        return true;
-      } else {
-        this.router.navigate(['/login']);
-        return false;
-      }
-    });
+    return this.afa.authState.pipe(
+      first(),
+      map((user, index) => {
+        if (user) {
+          return true;
+        } else {
+          this.router.navigate(['/login']);
+          return false;
+        }
+      })
+    );
   }
 
   canLoad(route: Route): Observable<boolean> | Promise<boolean> | boolean {
     return this.isLoggedIn();
   }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean> | Promise<boolean> | boolean {
     return this.isLoggedIn();
   }
 }

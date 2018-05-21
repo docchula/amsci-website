@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { UserStatusService } from '../user-status.service';
-import { Observable } from 'rxjs/Observable';
-import { Team } from 'app/dashboard/team';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
+import { Team } from 'app/dashboard/team';
+import { Observable } from 'rxjs';
+import { first, map } from 'rxjs/operators';
+import { UserStatusService } from '../user-status.service';
 
 @Component({
   selector: 'adq-team-detail',
@@ -11,11 +12,14 @@ import { AngularFireDatabase } from 'angularfire2/database';
   styleUrls: ['./team-detail.component.scss']
 })
 export class TeamDetailComponent implements OnInit {
-
   teams: Observable<Team[]>;
   step4Done: Observable<boolean>;
 
-  constructor(private userStatus: UserStatusService, private afa: AngularFireAuth, private afd: AngularFireDatabase) { }
+  constructor(
+    private userStatus: UserStatusService,
+    private afa: AngularFireAuth,
+    private afd: AngularFireDatabase
+  ) {}
 
   ngOnInit() {
     this.teams = this.userStatus.teams;
@@ -23,9 +27,8 @@ export class TeamDetailComponent implements OnInit {
   }
 
   deleteTeam(key: string) {
-    this.afa.authState.map((user) => user.uid).first().subscribe((uid) => {
+    this.afa.authState.pipe(map(user => user.uid), first()).subscribe(uid => {
       this.afd.database.ref(`data/${uid}/teams/${key}`).remove();
     });
   }
-
 }

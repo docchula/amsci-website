@@ -1,13 +1,11 @@
-import { FirebaseApp } from 'angularfire2';
 import { Component, OnInit } from '@angular/core';
-import { UserStatusService } from '../user-status.service';
-import { Observable } from 'rxjs/Observable';
-import { Team } from 'app/dashboard/team';
+import { FirebaseApp } from 'angularfire2';
 import { SchoolDetail } from 'app/dashboard/school-detail';
+import { Team } from 'app/dashboard/team';
 import 'firebase/storage';
-import 'rxjs/add/observable/fromPromise';
-import 'rxjs/add/operator/first';
-import 'rxjs/add/operator/map';
+import { Observable, from as observableFrom, of } from 'rxjs';
+import { first } from 'rxjs/operators';
+import { UserStatusService } from '../user-status.service';
 
 @Component({
   selector: 'adq-status',
@@ -15,28 +13,34 @@ import 'rxjs/add/operator/map';
   styleUrls: ['./status.component.scss']
 })
 export class StatusComponent implements OnInit {
-
   teams: Observable<Team[]>;
   detail: Observable<SchoolDetail>;
   hasTeams: Observable<boolean>;
   cardUrls: Observable<string>[];
 
-  constructor(private userStatus: UserStatusService, private fba: FirebaseApp) { }
+  constructor(
+    private userStatus: UserStatusService,
+    private fba: FirebaseApp
+  ) {}
 
   ngOnInit() {
     this.teams = this.userStatus.teams;
     this.detail = this.userStatus.schoolDetail;
     this.hasTeams = this.userStatus.hasTeams;
     this.cardUrls = [];
-    this.teams.first().subscribe((teams) => {
-      teams.forEach((team) => {
+    this.teams.pipe(first()).subscribe(teams => {
+      teams.forEach(team => {
         if (team.cardFile && team.cardFile !== '') {
-          this.cardUrls.push(Observable.fromPromise((this.fba.storage().ref(`/cards/${team.cardFile}`).getDownloadURL()) as Promise<any>));
+          this.cardUrls.push(
+            observableFrom(this.fba
+              .storage()
+              .ref(`/cards/${team.cardFile}`)
+              .getDownloadURL() as Promise<any>)
+          );
         } else {
-          this.cardUrls.push(Observable.of(''));
+          this.cardUrls.push(of(''));
         }
       });
     });
   }
-
 }

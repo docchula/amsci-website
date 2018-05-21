@@ -18,7 +18,9 @@ import { SlipUploadComponent } from './slip-upload/slip-upload.component';
 import { TeamGuard } from './team.guard';
 import { StatusComponent } from './status/status.component';
 import { SharedModule } from 'app/shared/shared.module';
-import { NotAllowedGuard } from './not-allowed.guard';
+import { NotAllowedGuard } from '../not-allowed.guard';
+import { MedtalkComponent } from './medtalk/medtalk.component';
+import { MedtalkGuard } from './medtalk.guard';
 
 @NgModule({
   imports: [
@@ -36,8 +38,9 @@ import { NotAllowedGuard } from './not-allowed.guard';
     TeamDetailComponent,
     TeamFormComponent,
     SlipUploadComponent,
-    StatusComponent
+    StatusComponent,
+    MedtalkComponent
   ],
-  providers: [EmailVerifyGuard, UserStatusService, AcceptGuard, SchoolDetailGuard, TeamGuard, NotAllowedGuard]
+  providers: [EmailVerifyGuard, UserStatusService, AcceptGuard, SchoolDetailGuard, TeamGuard, MedtalkGuard]
 })
 export class DashboardModule { }

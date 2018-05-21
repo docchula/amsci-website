@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from 'app/home/home.component';
 import { AuthGuard } from 'app/auth.guard';
 import { AdminGuard } from 'app/admin.guard';
+import { NotAllowedGuard } from './not-allowed.guard';
 
 const routes: Routes = [
   {
@@ -14,7 +15,8 @@ const routes: Routes = [
       },
       {
         path: 'login',
-        loadChildren: './login/login.module#LoginModule'
+        loadChildren: './login/login.module#LoginModule',
+        canActivate: []
       },
       {
         path: 'dashboard',
@@ -32,6 +34,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [NotAllowedGuard]
 })
 export class AppRoutingModule { }

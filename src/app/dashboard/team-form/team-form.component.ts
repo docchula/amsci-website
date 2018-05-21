@@ -1,15 +1,12 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
-import { Team } from 'app/dashboard/team';
+import { FirebaseApp } from 'angularfire2';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/filter';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { FirebaseApp } from 'angularfire2';
-import { Subscription } from 'rxjs/Subscription';
-import { Subject } from 'rxjs/Subject';
+import { Team } from 'app/dashboard/team';
+import { Observable, Subject, Subscription } from 'rxjs';
+import { filter, first, map, mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'adq-team-form',
@@ -17,7 +14,6 @@ import { Subject } from 'rxjs/Subject';
   styleUrls: ['./team-form.component.scss']
 })
 export class TeamFormComponent implements OnInit, OnDestroy {
-
   editMode: Observable<boolean>;
   team: Observable<Team>;
   teamForm: FormGroup;
@@ -28,36 +24,45 @@ export class TeamFormComponent implements OnInit, OnDestroy {
     private afa: AngularFireAuth,
     private afd: AngularFireDatabase,
     private fba: FirebaseApp,
-    private router: Router) { }
+    private router: Router
+  ) {}
 
   ngOnInit() {
-    this.editMode = this.activatedRoute.url.map((url) => url.length).map((len) => {
-      if (len === 1) {
-        return false;
-      } else {
-        return true;
-      }
-    });
-    this.editMode.subscribe((editMode) => {
+    this.editMode = this.activatedRoute.url.pipe(
+      map(url => url.length),
+      map(len => {
+        if (len === 1) {
+          return false;
+        } else {
+          return true;
+        }
+      })
+    );
+    this.editMode.subscribe(editMode => {
       if (editMode) {
-        this.team = this.activatedRoute.params.map((params) => params['id']).mergeMap((id) => {
-          return this.afa.authState.first().mergeMap((user) => this.afd.object(`data/${user.uid}/teams/${id}`))
-            .filter((v) => {
-              if (v) {
-                return true;
-              } else {
-                return false;
-              }
-            });
-        });
-        this.teamSub = this.team.subscribe((_team) => {
-          if (!((_team as Object).hasOwnProperty('slipUrl'))) {
+        this.team = this.activatedRoute.params.pipe(
+          map(params => params['id']),
+          mergeMap(id => {
+            return [id, this.afa.authState];
+          }),
+          first(),
+          mergeMap(([id, user]) => this.afd.object<Team>(`data/${user.uid}/teams/${id}`).valueChanges()),
+          filter(v => {
+            if (v) {
+              return true;
+            } else {
+              return false;
+            }
+          })
+        );
+        this.teamSub = this.team.subscribe(_team => {
+          if (!(_team as Object).hasOwnProperty('slipUrl')) {
             _team.slipUrl = '';
           }
-          if (!((_team as Object).hasOwnProperty('slipGUID'))) {
+          if (!(_team as Object).hasOwnProperty('slipGUID')) {
             _team.slipGUID = '';
           }
-          if (((_team as Object).hasOwnProperty('cardFile'))) {
+          if ((_team as Object).hasOwnProperty('cardFile')) {
             delete _team.cardFile;
           }
           this.teamForm.setValue(_team);
@@ -131,59 +136,87 @@ export class TeamFormComponent implements OnInit, OnDestroy {
 
           fr.readAsDataURL(input.files[0]);
 
-          fr.onload = (e) => {
+          fr.onload = e => {
             const img = new Image();
             img.src = (e.target as FileReader).result;
             img.onload = () => {
               if (img.naturalWidth !== 180 || img.naturalHeight !== 240) {
                 alert(`กรุณาอัพโหลดภาพถ่ายขนาดกว้าง 180 พิกเซล สูง 240 พิกเซล`);
               } else {
-                this.afa.authState.map((user) => user.uid).first().subscribe((uid) => {
-                  const fid = this.guid();
-                  const ref = this.fba.storage().ref(`data/${uid}/${fid}`);
-                  ref.put(file).then((a) => {
-                    this.teamForm.get(`student${student}`).get(`${type}Url`).setValue(a.downloadURL);
-                    this.teamForm.get(`student${student}`).get(`${type}GUID`).setValue(fid);
+                this.afa.authState
+                  .pipe(map(user => user.uid), first())
+                  .subscribe(uid => {
+                    const fid = this.guid();
+                    const ref = this.fba.storage().ref(`data/${uid}/${fid}`);
+                    ref.put(file).then(a => {
+                      ref.getDownloadURL().then(dl => {
+                        this.teamForm
+                        .get(`student${student}`)
+                        .get(`${type}Url`)
+                        .setValue(dl);
+                      })
+                      this.teamForm
+                        .get(`student${student}`)
+                        .get(`${type}GUID`)
+                        .setValue(fid);
+                    });
                   });
-                });
               }
             };
           };
         } else {
-          this.afa.authState.map((user) => user.uid).first().subscribe((uid) => {
-            const fid = this.guid();
-            const ref = this.fba.storage().ref(`data/${uid}/${fid}`);
-            ref.put(file).then((a) => {
-              this.teamForm.get(`student${student}`).get(`${type}Url`).setValue(a.downloadURL);
-              this.teamForm.get(`student${student}`).get(`${type}GUID`).setValue(fid);
+          this.afa.authState
+            .pipe(map(user => user.uid), first())
+            .subscribe(uid => {
+              const fid = this.guid();
+              const ref = this.fba.storage().ref(`data/${uid}/${fid}`);
+              ref.put(file).then(a => {
+                ref.getDownloadURL().then(dl => {
+                  this.teamForm
+                  .get(`student${student}`)
+                  .get(`${type}Url`)
+                  .setValue(dl);
+                })
+                this.teamForm
+                  .get(`student${student}`)
+                  .get(`${type}GUID`)
+                  .setValue(fid);
+              });
             });
-          });
         }
-
-
-
-
       }
     }
   }
 
   submit() {
     this.teamForm.get('done').setValue(false);
-    this.editMode.first().subscribe((edit) => {
+    this.editMode.pipe(first()).subscribe(edit => {
       if (edit) {
-        this.activatedRoute.params.map((params) => params['id']).first().subscribe((tid) => {
-          this.afa.authState.map((user) => user.uid).first().subscribe((uid) => {
-            this.afd.database.ref(`data/${uid}/teams/${tid}`).set(this.teamForm.value).then(() => {
-              this.router.navigate(['/dashboard', 'step4']);
-            });
+        this.activatedRoute.params
+          .pipe(map(params => params['id']), first())
+          .subscribe(tid => {
+            this.afa.authState
+              .pipe(map(user => user.uid), first())
+              .subscribe(uid => {
+                this.afd.database
+                  .ref(`data/${uid}/teams/${tid}`)
+                  .set(this.teamForm.value)
+                  .then(() => {
+                    this.router.navigate(['/dashboard', 'step4']);
+                  });
+              });
           });
-        });
       } else {
-        this.afa.authState.map((user) => user.uid).first().subscribe((uid) => {
-          this.afd.database.ref(`data/${uid}/teams`).push(this.teamForm.value).then(() => {
-            this.router.navigate(['/dashboard', 'step4']);
+        this.afa.authState
+          .pipe(map(user => user.uid), first())
+          .subscribe(uid => {
+            this.afd.database
+              .ref(`data/${uid}/teams`)
+              .push(this.teamForm.value)
+              .then(() => {
+                this.router.navigate(['/dashboard', 'step4']);
+              });
           });
-        });
       }
     });
   }
@@ -194,8 +227,19 @@ export class TeamFormComponent implements OnInit, OnDestroy {
         .toString(16)
         .substring(1);
     }
-    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-      s4() + '-' + s4() + s4() + s4();
+    return (
+      s4() +
+      s4() +
+      '-' +
+      s4() +
+      '-' +
+      s4() +
+      '-' +
+      s4() +
+      '-' +
+      s4() +
+      s4() +
+      s4()
+    );
   }
-
 }

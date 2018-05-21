@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { Observable } from 'rxjs/Observable';
+import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 import * as firebase from 'firebase/app';
-import { Angulartics2GoogleAnalytics } from 'angulartics2';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'adq-root',
@@ -12,7 +12,11 @@ import { Angulartics2GoogleAnalytics } from 'angulartics2';
 })
 export class AppComponent implements OnInit {
   authState: Observable<firebase.User>;
-  constructor(private afa: AngularFireAuth, private router: Router, private analytics: Angulartics2GoogleAnalytics) { }
+  constructor(
+    private afa: AngularFireAuth,
+    private router: Router,
+    private analytics: Angulartics2GoogleAnalytics
+  ) {}
 
   ngOnInit() {
     this.authState = this.afa.authState;

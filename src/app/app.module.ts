@@ -1,24 +1,20 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { BrowserModule } from '@angular/platform-browser';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
-
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { Angulartics2Module } from 'angulartics2';
+import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
+import { AdminGuard } from 'app/admin.guard';
+import 'firebase/storage';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './auth.guard';
-import { AngularFireDatabaseModule } from 'angularfire2/database';
-import { Angulartics2Module, Angulartics2GoogleAnalytics } from 'angulartics2';
-import 'firebase/storage';
-import { AdminGuard } from 'app/admin.guard';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent
-  ],
+  declarations: [AppComponent, HomeComponent],
   imports: [
     BrowserModule,
     FormsModule,
@@ -38,4 +34,4 @@ import { AdminGuard } from 'app/admin.guard';
   providers: [AuthGuard, AdminGuard],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

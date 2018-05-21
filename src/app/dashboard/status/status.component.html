@@ -28,23 +28,17 @@
     <th>นักเรียนคนที่ 2</th>
     <th>หลักฐานการโอนเงิน</th>
     <th>สถานะการสมัคร</th>
-    <th>พิมพ์บัตรประจำตัวผู้สอบ</th>
   </tr>
   <tr *ngFor="let team of teams | async as _teams; index as i">
     <td>{{i + 1}}</td>
     <td><strong>{{team.teacher | fullname}}</strong><br>{{team.teacher.tel}}</td>
-    <td><strong>{{team.student1 | fullname}}</strong><br>{{team.student1.tel}}<br>{{team.student1.email}}<br>{{team.student1.grade}}</td>
-    <td><strong>{{team.student2 | fullname}}</strong><br>{{team.student2.tel}}<br>{{team.student2.email}}<br>{{team.student2.grade}}</td>
+    <td><strong>{{team.student1 | fullname}}</strong><br>{{team.student1.tel}}<br>{{team.student1.email}}<br>ม.{{team.student1.grade}}</td>
+    <td><strong>{{team.student2 | fullname}}</strong><br>{{team.student2.tel}}<br>{{team.student2.email}}<br>ม.{{team.student2.grade}}</td>
     <td><img [src]="team.slipUrl | pictureOrPlaceholder" class="fix-size"></td>
     <td>
       <div *ngIf="team.done; then OK; else: notOK"></div>
       <ng-template #OK><span class="text-success">การสมัครเสร็จสมบูรณ์</span></ng-template>
       <ng-template #notOK><span class="text-warning">รอตรวจสอบเอกสาร</span></ng-template>
-    </td>
-    <td>
-      <div *ngIf="team.done; then cardOK; else: cardNotOK"></div>
-      <ng-template #cardOK><a [href]="cardUrls[i] | async" class="btn btn-primary">พิมพ์บัตรประจำตัวสอบ</a></ng-template>
-      <ng-template #cardNotOK><span class="text-warning">ไม่มีสิทธิ์เข้าแข่งขัน</span></ng-template>
     </td>
   </tr>
 </table>

@@ -1,0 +1,39 @@
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Team } from '../team';
+import { UserStatusService } from '../user-status.service';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFireDatabase } from 'angularfire2/database';
+import { map, first } from 'rxjs/operators';
+
+@Component({
+  selector: 'adq-medtalk',
+  templateUrl: './medtalk.component.html',
+  styleUrls: ['./medtalk.component.scss']
+})
+export class MedtalkComponent implements OnInit {
+  teams: Observable<Team[]>;
+  medtalkDone: Observable<boolean>;
+
+  constructor(
+    private userStatus: UserStatusService,
+    private afa: AngularFireAuth,
+    private afd: AngularFireDatabase
+  ) {}
+
+  ngOnInit() {
+    this.teams = this.userStatus.teams;
+    this.medtalkDone = this.userStatus.medTalk;
+  }
+
+  confirm(key: string, come: boolean) {
+    this.afa.authState.pipe(map(user => user.uid), first()).subscribe(uid => {
+      this.afd.database
+        .ref(`data/${uid}/teams/${key}/medTalkConfirmed`)
+        .set(true);
+      this.afd.database
+        .ref(`data/${uid}/teams/${key}/medTalkCome`)
+        .set(come);
+    });
+  }
+}

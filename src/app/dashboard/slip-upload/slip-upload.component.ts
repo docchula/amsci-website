@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Team } from 'app/dashboard/team';
-import { UserStatusService } from '../user-status.service';
-import { AngularFireAuth } from 'angularfire2/auth';
 import { FirebaseApp } from 'angularfire2';
+import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
+import { Team } from 'app/dashboard/team';
+import { Observable } from 'rxjs';
+import { first, map } from 'rxjs/operators';
+import { UserStatusService } from '../user-status.service';
 
 @Component({
   selector: 'adq-slip-upload',
@@ -12,7 +13,6 @@ import { AngularFireDatabase } from 'angularfire2/database';
   styleUrls: ['./slip-upload.component.scss']
 })
 export class SlipUploadComponent implements OnInit {
-
   teams: Observable<Team[]>;
 
   constructor(
@@ -20,7 +20,7 @@ export class SlipUploadComponent implements OnInit {
     private afa: AngularFireAuth,
     private fba: FirebaseApp,
     private afd: AngularFireDatabase
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.teams = this.userStatus.teams;
@@ -34,14 +34,22 @@ export class SlipUploadComponent implements OnInit {
         alert(`กรุณาอัพโหลดไฟล์ที่มีขนาดต่ำกว่า ${maxSize / 1024} กิโลไบต์`);
         input.value = '';
       } else {
-        this.afa.authState.map((user) => user.uid).first().subscribe((uid) => {
-          const fid = this.guid();
-          const ref = this.fba.storage().ref(`data/${uid}/${fid}`);
-          ref.put(file).then((a) => {
-            this.afd.database.ref(`data/${uid}/teams/${key}/slipUrl`).set(a.downloadURL);
-            this.afd.database.ref(`data/${uid}/teams/${key}/slipGUID`).set(fid);
+        this.afa.authState
+          .pipe(map(user => user.uid), first())
+          .subscribe(uid => {
+            const fid = this.guid();
+            const ref = this.fba.storage().ref(`data/${uid}/${fid}`);
+            ref.put(file).then(a => {
+              ref.getDownloadURL().then(dl => {
+                this.afd.database
+                .ref(`data/${uid}/teams/${key}/slipUrl`)
+                .set(dl);
+              });
+              this.afd.database
+                .ref(`data/${uid}/teams/${key}/slipGUID`)
+                .set(fid);
+            });
           });
-        });
       }
     }
   }
@@ -52,8 +60,19 @@ export class SlipUploadComponent implements OnInit {
         .toString(16)
         .substring(1);
     }
-    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-      s4() + '-' + s4() + s4() + s4();
+    return (
+      s4() +
+      s4() +
+      '-' +
+      s4() +
+      '-' +
+      s4() +
+      '-' +
+      s4() +
+      '-' +
+      s4() +
+      s4() +
+      s4()
+    );
   }
-
 }

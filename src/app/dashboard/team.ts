@@ -10,4 +10,6 @@ export interface Team {
   $key: string;
   done?: boolean;
   cardFile?: string;
+  medTalkConfirmed?: boolean;
+  medTalkCome?: boolean;
 }

@@ -1,4 +1,4 @@
-import { NotAllowedGuard } from './not-allowed.guard';
+import { NotAllowedGuard } from '../not-allowed.guard';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, CanActivate } from '@angular/router';
 import { EmailCheckComponent } from 'app/dashboard/email-check/email-check.component';
@@ -15,6 +15,8 @@ import { TeamFormComponent } from 'app/dashboard/team-form/team-form.component';
 import { TeamGuard } from 'app/dashboard/team.guard';
 import { SlipUploadComponent } from 'app/dashboard/slip-upload/slip-upload.component';
 import { StatusComponent } from 'app/dashboard/status/status.component';
+import { MedtalkComponent } from './medtalk/medtalk.component';
+import { MedtalkGuard } from './medtalk.guard';
 
 const routes: Routes = [
   {
@@ -56,18 +58,23 @@ const routes: Routes = [
           {
             path: 'new',
             component: TeamFormComponent,
-            canActivate: [NotAllowedGuard]
+            canActivate: []
           },
           {
             path: 'edit/:id',
             component: TeamFormComponent,
-            canActivate: [NotAllowedGuard]
+            canActivate: []
           }
         ]
       },
       {
-        path: 'step5',
+        path: 'medtalk',
         canActivate: [EmailVerifyGuard, AcceptGuard, SchoolDetailGuard, TeamGuard],
+        component: MedtalkComponent
+      },
+      {
+        path: 'step5',
+        canActivate: [EmailVerifyGuard, AcceptGuard, SchoolDetailGuard, TeamGuard, MedtalkGuard],
         component: SlipUploadComponent
       },
       {

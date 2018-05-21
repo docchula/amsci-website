@@ -10,17 +10,17 @@ import { Observable } from 'rxjs';
 import { first, tap } from 'rxjs/operators';
 
 @Injectable()
-export class SchoolDetailGuard implements CanActivate {
+export class MedtalkGuard implements CanActivate {
   constructor(private userStatus: UserStatusService, private router: Router) {}
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
-    return this.userStatus.isSchoolDetailDone.pipe(
+    return this.userStatus.medTalk.pipe(
       first(),
       tap(v => {
         if (!v) {
-          this.router.navigate(['/dashboard', 'step3']);
+          this.router.navigate(['/dashboard', 'medtalk']);
         }
       })
     );
