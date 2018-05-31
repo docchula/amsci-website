@@ -5,6 +5,7 @@
     <th>ลำดับ</th>
     <th>อาจารย์ที่ปรึกษา</th>
     <th>รายชื่อนักเรียน</th>
+    <th>จำนวนเงิน</th>
     <th>เลือกรูป</th>
     <th>รูป</th>
   </tr>
@@ -12,6 +13,10 @@
     <td>{{i + 1}}</td>
     <td>{{team.teacher | fullname}}</td>
     <td>{{team.student1 | fullname}}<br>{{team.student2 | fullname}}</td>
+    <td *ngIf="team.medTalkCome; else noMedTalk">500 บาท</td>
+    <ng-template #noMedTalk>
+      <td>400 บาท</td>
+    </ng-template>
     <td><input type="file" class="form-control" accept="image/*" #uploadFile (change)="selectedFile(uploadFile, team.$key)"></td>
     <td><img [src]="team.slipUrl | pictureOrPlaceholder" class="img-responsive" class="fix-size"></td>
   </tr>
