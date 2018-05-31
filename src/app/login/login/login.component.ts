@@ -103,9 +103,9 @@ export class LoginComponent implements OnInit {
           formValue.passwords.password
         )
         .then(
-          (user: firebase.User) => {
-            user.sendEmailVerification();
-            this.router.navigate(['dashboard']);
+          (userCredential: firebase.auth.UserCredential) => {
+            userCredential.user.sendEmailVerification();
+            this.router.navigate(['/dashboard']);
           },
           err => {
             const realErr: any = err;
