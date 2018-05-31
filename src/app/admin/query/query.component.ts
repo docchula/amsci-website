@@ -113,6 +113,27 @@ export class QueryComponent implements OnInit {
             })
           );
           break;
+        case 'medtalk':
+          this.users = this.admin.data.pipe(
+            map((users: any[]) => {
+              return users
+                .filter(user => (user as Object).hasOwnProperty('teams'))
+                .map(user => {
+                  user.teams = Object.keys(user.teams)
+                    .filter(key => {
+                      return !!user.teams[key].medTalkCome;
+                    })
+                    .reduce((prev, current, index, array) => {
+                      return Object.assign(prev, {
+                        [current]: user.teams[current]
+                      });
+                    }, {});
+                  return user;
+                })
+                .filter(user => Object.keys(user.teams).length > 0);
+            })
+          );
+          break;
         default:
           this.users = observableOf([]);
       }

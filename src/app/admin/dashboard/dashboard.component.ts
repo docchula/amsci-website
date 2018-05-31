@@ -13,6 +13,7 @@ export class DashboardComponent implements OnInit {
   paidTeamCount: Observable<number>;
   doneTeamCount: Observable<number>;
   schoolCount: Observable<number>;
+  medTalkCount: Observable<number>;
 
   constructor(private admin: AdminService) {}
 
@@ -66,6 +67,23 @@ export class DashboardComponent implements OnInit {
       map((users: any[]) => {
         return users.filter(user => (user as Object).hasOwnProperty('teams'))
           .length;
+      })
+    );
+    this.medTalkCount = this.admin.data.pipe(
+      map((users: any[]) => {
+        return users
+          .map(user => {
+            if (user.teams) {
+              return Object.keys(user.teams)
+                .map(k => user.teams[k])
+                .filter(
+                  team => !!team.medTalkCome
+                ).length;
+            } else {
+              return 0;
+            }
+          })
+          .reduce((prev, current, index, array) => prev + current, 0);
       })
     );
   }

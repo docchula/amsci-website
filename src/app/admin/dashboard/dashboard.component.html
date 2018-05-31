@@ -62,12 +62,42 @@
       </div>
     </div>
   </div>
+  <div class="row">
+    <div class="col-md-3">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-xs-3">
+              <i class="fa fa-users fa-5x" aria-hidden="true"></i>
+            </div>
+            <div class="col-xs-9 text-right">
+              <div class="huge">{{medTalkCount | async}}</div>
+              <div>ทีมที่ฟัง MEDTalk</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <h2>ดูข้อมูล</h2>
   <ul>
-    <li><a [routerLink]="['../', 'query','all']">ดูทีมทั้งหมด</a></li>
-    <li><a [routerLink]="['../', 'query','paid']">ดูทีมที่ชำระเงินแล้ว</a></li>
-    <li><a [routerLink]="['../', 'query','not_checked']">ดูทีมที่ชำระเงินแล้ว แต่ยังไม่ตรวจเอกสาร</a></li>
-    <li><a [routerLink]="['../', 'query','checked']">ดูทีมที่ตรวจเอกสารแล้ว</a></li>
-    <li><a [routerLink]="['../', 'query','school']">ดูโรงเรียนที่ส่งทีมเข้าแข่งขัน</a></li>
+    <li>
+      <a [routerLink]="['../', 'query','all']">ดูทีมทั้งหมด</a>
+    </li>
+    <li>
+      <a [routerLink]="['../', 'query','paid']">ดูทีมที่ชำระเงินแล้ว</a>
+    </li>
+    <li>
+      <a [routerLink]="['../', 'query','not_checked']">ดูทีมที่ชำระเงินแล้ว แต่ยังไม่ตรวจเอกสาร</a>
+    </li>
+    <li>
+      <a [routerLink]="['../', 'query','checked']">ดูทีมที่ตรวจเอกสารแล้ว</a>
+    </li>
+    <li>
+      <a [routerLink]="['../', 'query','school']">ดูโรงเรียนที่ส่งทีมเข้าแข่งขัน</a>
+    </li>
+    <li>
+      <a [routerLink]="['../', 'query','medtalk']">ดูทีมที่ฟัง MEDTalk</a>
+    </li>
   </ul>
 </div>

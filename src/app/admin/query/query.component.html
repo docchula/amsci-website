@@ -5,21 +5,24 @@
     <h1 *ngSwitchCase="'not_checked'">ดูทีมที่ชำระเงินแล้ว แต่ยังไม่ตรวจเอกสาร</h1>
     <h1 *ngSwitchCase="'checked'">ดูทีมที่ตรวจเอกสารแล้ว</h1>
     <h1 *ngSwitchCase="'school'">ดูโรงเรียนที่ส่งทีมเข้าแข่งขัน</h1>
+    <h1 *ngSwitchCase="'medtalk'">ดูทีมที่ฟัง MEDTalk</h1>
     <h2 *ngSwitchDefault>ไม่รู้จัก</h2>
   </div>
   <table class="table table-responsive">
     <tr>
       <th>นักเรียน</th>
+      <th>ฟัง MEDTalk</th>
       <th>ดูรายละเอียด</th>
       <th>สถานะ</th>
       <th>เปลี่ยนสถานะ</th>
     </tr>
     <ng-template ngFor let-user [ngForOf]="users | async" [ngForTrackBy]="trackByFn">
       <tr>
-        <td colspan="4"><strong>โรงเรียน{{user.schoolDetail.name}}</strong></td>
+        <td colspan="5"><strong>โรงเรียน{{user.schoolDetail.name}}</strong></td>
       </tr>
       <tr *ngFor="let teamKey of user.teams | keys">
         <td>{{user.teams[teamKey].student1 | fullname}}<br>{{user.teams[teamKey].student2 | fullname}}<br><code>{{user.$key}}/{{teamKey}}</code></td>
+        <td>{{user.teams[teamKey].medTalkCome}}</td>
         <td><a [routerLink]="['/u0kM8RMyBGNKyFky8jbm', 'view_team', user.$key, teamKey]" class="btn btn-primary">ดูรายละเอียด</a></td>
         <td>{{user.teams[teamKey].done}}</td>
         <td><button class="btn btn-danger" (click)="toggleStatus(user.$key, teamKey)">เปลี่ยนสถานะ</button></td>

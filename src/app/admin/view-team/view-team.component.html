@@ -23,7 +23,19 @@
   <p>{{_team.student2 | fullname}} โทรศัพท์ {{_team.student2.tel}} อีเมล {{_team.student2.email}}</p>
   <a [href]="_team.student2.pictureUrl" class="btn btn-primary" target="_blank">ดูรูปภาพ</a>
   <a [href]="_team.student2.idCardUrl" class="btn btn-primary" target="_blank">ดูสำเนาบัตรประจำตัวประชาชน</a><br>
-  <h2>การโอนเงิน</h2>
+  <div class="h3">ฟัง MEDTalk: <div *ngIf="_team.medTalkConfirmed; then confirmed;else notConfirmed"></div></div>
+  <ng-template #confirmed>
+    <div *ngIf="_team.medTalkCome; then come; else notCome"></div>
+    <ng-template #come>
+      <span class="text-success">ฟัง</span>
+    </ng-template>
+    <ng-template #notCome>
+        <span class="text-warning">ไม่ฟัง</span>
+    </ng-template>
+  </ng-template>
+  <ng-template #notConfirmed>
+    <span class="text-danger">ยังไม่ได้ระบุ</span>
+  </ng-template>
   <a [href]="_team.slipUrl | pictureOrPlaceholder" class="btn btn-success btn-lg" target="_blank" *ngIf="_team.slipUrl && _team.slipUrl !== ''; else noSlip">ดูหลักฐานการโอนเงิน</a>
   <ng-template #noSlip>
     <h3 class="text-danger">ยังไม่ได้โอนเงิน</h3>
