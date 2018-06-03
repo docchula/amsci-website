@@ -1,6 +1,9 @@
 <h1>กรอกข้อมูลผู้สมัคร</h1>
-<a class="btn btn-primary" [routerLink]="['new']">
+<a class="btn btn-primary" [routerLink]="['new']" [class.disabled]="(canAddTeam | async) === false">
   <i class="fa fa-plus" aria-hidden="true"></i> เพิ่มทีม</a>
+<div class="alert alert-danger" *ngIf="(canAddTeam | async) === false">
+  <p>ขณะนี้ได้รับสมัครทีมครบตามจำนวนแล้ว ท่านไม่สามารถเพิ่มทีมได้อีก</p>
+</div>
 <div *ngIf="step4Done | async;else noTeams">
   <div class="alert alert-success">
     <p>

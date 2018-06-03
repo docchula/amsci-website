@@ -1,5 +1,9 @@
 <h1>อัพโหลดหลักฐานการโอนเงิน</h1>
 <strong>กรุณาอัพโหลดภาพหลักฐานการโอนเงินที่ชัดและสามารถอ่านได้ เพื่อให้การตรวจสอบเป็นไปอย่างราบรื่น</strong>
+<div class="alert alert-danger" *ngIf="(canAddTeam | async) === false">
+  <p>ขณะนี้ได้รับสมัครทีมครบตามจำนวนแล้ว ท่านไม่สามารอัพโหลดหลักฐานการโอนเงินได้อีก</p>
+  <p>อนึ่ง ทีมที่ไม่ได้อัพโหลดหลักฐานการโอนเงิน ถือว่าไม่มีสิทธิ์ในการเข้าแข่งขัน</p>
+</div>
 <table class="table table-responsive">
   <tr>
     <th>ลำดับ</th>
@@ -12,12 +16,20 @@
   <tr *ngFor="let team of teams | async as _teams; index as i">
     <td>{{i + 1}}</td>
     <td>{{team.teacher | fullname}}</td>
-    <td>{{team.student1 | fullname}}<br>{{team.student2 | fullname}}</td>
+    <td>{{team.student1 | fullname}}
+      <br>{{team.student2 | fullname}}</td>
     <td *ngIf="team.medTalkCome; else noMedTalk">500 บาท</td>
     <ng-template #noMedTalk>
       <td>400 บาท</td>
     </ng-template>
-    <td><input type="file" class="form-control" accept="image/*" #uploadFile (change)="selectedFile(uploadFile, team.$key)"></td>
-    <td><img [src]="team.slipUrl | pictureOrPlaceholder" class="img-responsive" class="fix-size"></td>
+    <td *ngIf="(canAddTeam | async) !== false; else cannotAddTeam">
+      <input type="file" class="form-control" accept="image/*" #uploadFile (change)="selectedFile(uploadFile, team.$key)">
+    </td>
+    <ng-template #cannotAddTeam>
+      <td>ไม่สามารถอัพโหลดได้ เนื่องจากจำนวนทีมครบตามจำนวนรับสมัครแล้ว</td>
+    </ng-template>
+    <td>
+      <img [src]="team.slipUrl | pictureOrPlaceholder" class="img-responsive" class="fix-size">
+    </td>
   </tr>
 </table>

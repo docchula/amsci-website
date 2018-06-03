@@ -17,6 +17,7 @@ import { SlipUploadComponent } from 'app/dashboard/slip-upload/slip-upload.compo
 import { StatusComponent } from 'app/dashboard/status/status.component';
 import { MedtalkComponent } from './medtalk/medtalk.component';
 import { MedtalkGuard } from './medtalk.guard';
+import { CannotAddTeamGuard } from './cannot-add-team.guard';
 
 const routes: Routes = [
   {
@@ -58,7 +59,7 @@ const routes: Routes = [
           {
             path: 'new',
             component: TeamFormComponent,
-            canActivate: []
+            canActivate: [CannotAddTeamGuard]
           },
           {
             path: 'edit/:id',

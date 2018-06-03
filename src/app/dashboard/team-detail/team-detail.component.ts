@@ -3,7 +3,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Team } from 'app/dashboard/team';
 import { Observable } from 'rxjs';
-import { first, map } from 'rxjs/operators';
+import { first, map, share } from 'rxjs/operators';
 import { UserStatusService } from '../user-status.service';
 
 @Component({
@@ -14,6 +14,7 @@ import { UserStatusService } from '../user-status.service';
 export class TeamDetailComponent implements OnInit {
   teams: Observable<Team[]>;
   step4Done: Observable<boolean>;
+  canAddTeam: Observable<boolean>;
 
   constructor(
     private userStatus: UserStatusService,
@@ -24,6 +25,7 @@ export class TeamDetailComponent implements OnInit {
   ngOnInit() {
     this.teams = this.userStatus.teams;
     this.step4Done = this.userStatus.hasTeams;
+    this.canAddTeam = this.afd.object<boolean>('config/canAddTeam').valueChanges().pipe(share());
   }
 
   deleteTeam(key: string) {
