@@ -7,12 +7,14 @@ import { AdminService } from './admin.service';
 import { ViewTeamComponent } from './view-team/view-team.component';
 import { SharedModule } from 'app/shared/shared.module';
 import { QueryComponent } from './query/query.component';
+import { ClipboardModule } from 'ngx-clipboard';
 
 @NgModule({
   imports: [
     CommonModule,
     AdminRoutingModule,
-    SharedModule
+    SharedModule,
+    ClipboardModule
   ],
   declarations: [DashboardComponent, ViewTeamComponent, QueryComponent],
   providers: [AdminService]

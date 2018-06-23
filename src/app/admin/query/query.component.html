@@ -29,13 +29,5 @@
       </tr>
     </ng-template>
   </table>
-  <table>
-    <ng-template ngFor let-user [ngForOf]="users | async" [ngForTrackBy]="trackByFn">
-      <ng-template ngFor let-teamKey [ngForOf]="user.teams | keys">
-        <tr>
-          <td>{{user.$key}}/{{teamKey}}</td>
-        </tr>
-      </ng-template>
-    </ng-template>
-  </table>
+  <button class="btn btn-primary" (click)="copyStudents()">Copy this page as JSON</button>
 </div>

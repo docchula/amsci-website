@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable, of as observableOf } from 'rxjs';
-import { first, map } from 'rxjs/operators';
+import { first, map, take } from 'rxjs/operators';
 import { AdminService } from '../admin.service';
+import { ClipboardService } from 'ngx-clipboard';
 
 @Component({
   selector: 'adq-query',
@@ -13,11 +14,13 @@ import { AdminService } from '../admin.service';
 export class QueryComponent implements OnInit {
   method: Observable<string>;
   users: Observable<any[]>;
+  students: Observable<any[]>;
 
   constructor(
     private route: ActivatedRoute,
     private admin: AdminService,
-    private afd: AngularFireDatabase
+    private afd: AngularFireDatabase,
+    private clipboard: ClipboardService
   ) {}
 
   ngOnInit() {
@@ -138,6 +141,32 @@ export class QueryComponent implements OnInit {
           this.users = observableOf([]);
       }
     });
+    this.students = this.users.pipe(map(us => {
+      return us.map(u => {
+        const ss: any[] = [];
+        const teamKeys = Object.keys(u.teams);
+        teamKeys.forEach(tk => {
+          const team = u.teams[tk];
+          ss.push({
+            userId: u.$key,
+            teamId: tk,
+            student: team.student1,
+            teacher: team.teacher,
+            schoolDetail: u.schoolDetail
+          });
+          ss.push({
+            userId: u.$key,
+            teamId: tk,
+            student: team.student2,
+            teacher: team.teacher,
+            schoolDetail: u.schoolDetail
+          });
+        });
+        return ss;
+      }).reduce((prev, curr, index, arr) => {
+        return prev.concat(curr);
+      }, [] as any[]);
+    }))
   }
 
   trackByFn(index, item) {
@@ -152,5 +181,12 @@ export class QueryComponent implements OnInit {
       .subscribe((v: boolean) => {
         this.afd.database.ref(`/data/${uid}/teams/${tid}/done`).set(!v);
       });
+  }
+
+  copyStudents() {
+    this.students.pipe(take(1)).subscribe(a => {
+      this.clipboard.copyFromContent(JSON.stringify(a));
+      alert('Copied');
+    });
   }
 }
