@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FirebaseApp } from 'angularfire2';
+import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireStorage } from 'angularfire2/storage';
 import { SchoolDetail } from 'app/dashboard/school-detail';
 import { Team } from 'app/dashboard/team';
-import 'firebase/storage';
-import { Observable, from as observableFrom, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { UserStatusService } from '../user-status.service';
 
@@ -17,10 +17,12 @@ export class StatusComponent implements OnInit {
   detail: Observable<SchoolDetail>;
   hasTeams: Observable<boolean>;
   cardUrls: Observable<string>[];
+  canDownloadCard: Observable<boolean>;
 
   constructor(
     private userStatus: UserStatusService,
-    private fba: FirebaseApp
+    private afd: AngularFireDatabase,
+    private afs: AngularFireStorage
   ) {}
 
   ngOnInit() {
@@ -32,15 +34,15 @@ export class StatusComponent implements OnInit {
       teams.forEach(team => {
         if (team.cardFile && team.cardFile !== '') {
           this.cardUrls.push(
-            observableFrom(this.fba
-              .storage()
-              .ref(`/cards/${team.cardFile}`)
-              .getDownloadURL() as Promise<any>)
+            this.afs.ref(`/cards/${team.cardFile}`).getDownloadURL()
           );
         } else {
           this.cardUrls.push(of(''));
         }
       });
     });
+    this.canDownloadCard = this.afd
+      .object<boolean>('config/canDownloadCard')
+      .valueChanges();
   }
 }

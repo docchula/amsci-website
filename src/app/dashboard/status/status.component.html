@@ -28,6 +28,7 @@
     <th>นักเรียนคนที่ 2</th>
     <th>หลักฐานการโอนเงิน</th>
     <th>สถานะการสมัคร</th>
+    <th>พิมพ์บัตรประจำตัวสอบ</th>
   </tr>
   <tr *ngFor="let team of teams | async as _teams; index as i">
     <td>{{i + 1}}</td>
@@ -39,6 +40,13 @@
       <div *ngIf="team.done; then OK; else: notOK"></div>
       <ng-template #OK><span class="text-success">การสมัครเสร็จสมบูรณ์</span></ng-template>
       <ng-template #notOK><span class="text-warning">รอตรวจสอบเอกสาร</span></ng-template>
+    </td>
+    <td>
+      <div *ngIf="team.cardFile; then hasCard; else noCard"></div>
+      <ng-template #hasCard>
+        <a [href]="cardUrls[i] | async" class="btn btn-primary">Download</a>
+      </ng-template>
+      <ng-template #noCard>ไม่มีบัตร</ng-template>
     </td>
   </tr>
 </table>
