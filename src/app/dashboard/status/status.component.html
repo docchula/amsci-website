@@ -29,6 +29,7 @@
     <th>หลักฐานการโอนเงิน</th>
     <th>สถานะการสมัคร</th>
     <th>พิมพ์บัตรประจำตัวสอบ</th>
+    <th>ตรวจสอบคะแนนสอบ</th>
   </tr>
   <tr *ngFor="let team of teams | async as _teams; index as i">
     <td>{{i + 1}}</td>
@@ -47,6 +48,13 @@
         <a [href]="cardUrls[i] | async" class="btn btn-primary">Download</a>
       </ng-template>
       <ng-template #noCard>ไม่มีบัตร</ng-template>
+    </td>
+    <td>
+      <div *ngIf="team.scoreFile; then hasScore; else noScore"></div>
+      <ng-template #hasScore>
+        <a [href]="scoreUrls[i] | async" class="btn btn-primary">Download</a>
+      </ng-template>
+      <ng-template #noScore>ไม่มีคะแนน</ng-template>
     </td>
   </tr>
 </table>

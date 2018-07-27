@@ -12,4 +12,5 @@ export interface Team {
   cardFile?: string;
   medTalkConfirmed?: boolean;
   medTalkCome?: boolean;
+  scoreFile?: string;
 }

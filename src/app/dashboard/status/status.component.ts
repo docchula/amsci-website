@@ -18,6 +18,8 @@ export class StatusComponent implements OnInit {
   hasTeams: Observable<boolean>;
   cardUrls: Observable<string>[];
   canDownloadCard: Observable<boolean>;
+  canDownloadScore: Observable<boolean>;
+  scoreUrls: Observable<string>[];
 
   constructor(
     private userStatus: UserStatusService,
@@ -30,6 +32,7 @@ export class StatusComponent implements OnInit {
     this.detail = this.userStatus.schoolDetail;
     this.hasTeams = this.userStatus.hasTeams;
     this.cardUrls = [];
+    this.scoreUrls = [];
     this.teams.pipe(first()).subscribe(teams => {
       teams.forEach(team => {
         if (team.cardFile && team.cardFile !== '') {
@@ -39,10 +42,20 @@ export class StatusComponent implements OnInit {
         } else {
           this.cardUrls.push(of(''));
         }
+        if (team.scoreFile && team.scoreFile !== '') {
+          this.scoreUrls.push(
+            this.afs.ref(`/scores/${team.scoreFile}`).getDownloadURL()
+          );
+        } else {
+          this.scoreUrls.push(of(''));
+        }
       });
     });
     this.canDownloadCard = this.afd
       .object<boolean>('config/canDownloadCard')
+      .valueChanges();
+    this.canDownloadScore = this.afd
+      .object<boolean>('config/canDownloadScore')
       .valueChanges();
   }
 }
