@@ -86,7 +86,7 @@ export class LoginComponent implements OnInit {
       this.afa.auth
         .signInWithEmailAndPassword(formValue.email, formValue.password)
         .then(
-          (user: firebase.User) => {
+          (user: firebase.auth.UserCredential) => {
             this.router.navigate(['dashboard']);
           },
           err => console.log(err.message)
