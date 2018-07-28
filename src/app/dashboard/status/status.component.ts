@@ -4,7 +4,7 @@ import { AngularFireStorage } from 'angularfire2/storage';
 import { SchoolDetail } from 'app/dashboard/school-detail';
 import { Team } from 'app/dashboard/team';
 import { Observable, of } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { first, shareReplay } from 'rxjs/operators';
 import { UserStatusService } from '../user-status.service';
 
 @Component({
@@ -53,9 +53,9 @@ export class StatusComponent implements OnInit {
     });
     this.canDownloadCard = this.afd
       .object<boolean>('config/canDownloadCard')
-      .valueChanges();
+      .valueChanges().pipe(shareReplay());
     this.canDownloadScore = this.afd
       .object<boolean>('config/canDownloadScore')
-      .valueChanges();
+      .valueChanges().pipe(shareReplay());
   }
 }
