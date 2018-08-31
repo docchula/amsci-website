@@ -30,7 +30,7 @@
     "marked": "0.5.0",
     "ngx-clipboard": "11.1.6",
     "rxjs": "6.3.0",
-    "rxjs-compat": "6.2.2",
+    "rxjs-compat": "6.3.0",
     "zone.js": "0.8.26"
   },
   "devDependencies": {
