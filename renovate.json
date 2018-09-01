@@ -22,5 +22,9 @@
   ],
   "prHourlyLimit": 0,
   "prConcurrentLimit": 0,
-  "rebaseStalePrs": true
+  "rebaseStalePrs": true,
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": "after 5 pm before 10 pm"
+  }
 }
