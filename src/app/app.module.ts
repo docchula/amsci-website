@@ -30,7 +30,7 @@ import { HomeComponent } from './home/home.component';
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     AngularFireStorageModule,
-    Angulartics2Module.forRoot([Angulartics2GoogleAnalytics])
+    Angulartics2Module.forRoot()
   ],
   providers: [AuthGuard, AdminGuard],
   bootstrap: [AppComponent]
