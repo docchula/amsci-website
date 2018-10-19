@@ -138,7 +138,7 @@ export class TeamFormComponent implements OnInit, OnDestroy {
 
           fr.onload = e => {
             const img = new Image();
-            img.src = (e.target as FileReader).result;
+            img.src = (e.target as FileReader).result as string;
             img.onload = () => {
               if (img.naturalWidth !== 180 || img.naturalHeight !== 240) {
                 alert(`กรุณาอัพโหลดภาพถ่ายขนาดกว้าง 180 พิกเซล สูง 240 พิกเซล`);
