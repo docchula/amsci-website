@@ -7,8 +7,8 @@ import {
   Router,
   RouterStateSnapshot
 } from '@angular/router';
-import { AngularFireAuth } from 'angularfire2/auth';
-import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFireDatabase } from '@angular/fire/database';
 import { Observable } from 'rxjs';
 import { first, map, mergeMap, tap } from 'rxjs/operators';
 

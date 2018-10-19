@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFireAuth } from '@angular/fire/auth';
 import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 import * as firebase from 'firebase/app';
 import { Observable } from 'rxjs';

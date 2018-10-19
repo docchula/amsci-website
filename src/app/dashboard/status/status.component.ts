@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFireDatabase } from 'angularfire2/database';
-import { AngularFireStorage } from 'angularfire2/storage';
+import { AngularFireDatabase } from '@angular/fire/database';
+import { AngularFireStorage } from '@angular/fire/storage';
 import { SchoolDetail } from 'app/dashboard/school-detail';
 import { Team } from 'app/dashboard/team';
 import { Observable, of } from 'rxjs';
