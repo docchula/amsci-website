@@ -30,7 +30,7 @@
     "marked": "0.6.0",
     "ngx-clipboard": "11.1.9",
     "rxjs": "6.3.3",
-    "zone.js": "0.8.27"
+    "zone.js": "0.8.28"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "0.12.2",
