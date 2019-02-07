@@ -23,7 +23,7 @@
     "@angular/router": "7.2.4",
     "angulartics2": "7.4.1",
     "bootstrap-sass": "3.4.0",
-    "core-js": "2.6.3",
+    "core-js": "2.6.4",
     "firebase": "5.8.2",
     "font-awesome": "4.7.0",
     "jquery": "3.3.1",
