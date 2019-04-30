@@ -27,10 +27,10 @@ export class MedtalkComponent implements OnInit {
   }
 
   confirm(key: string, come: boolean) {
-    if (come === true) {
-      alert('ขออภัย ขณะนี้ที่นั่งในการเข้าฟัง MEDTalk เต็มแล้ว');
-      come = false;
-    }
+    // if (come === true) {
+    //   alert('ขออภัย ขณะนี้ที่นั่งในการเข้าฟัง MEDTalk เต็มแล้ว');
+    //   come = false;
+    // }
     this.afa.authState.pipe(map(user => user.uid), first()).subscribe(uid => {
       this.afd.database
         .ref(`data/${uid}/teams/${key}/medTalkConfirmed`)

@@ -24,7 +24,7 @@ const routes: Routes = [
         canLoad: [AuthGuard]
       },
       {
-        path: 'u0kM8RMyBGNKyFky8jbm',
+        path: 'mdculalala',
         loadChildren: './admin/admin.module#AdminModule',
         canLoad: [AdminGuard]
       }

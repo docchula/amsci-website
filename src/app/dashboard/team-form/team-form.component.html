@@ -5,9 +5,9 @@
 </ng-template>
 <ng-template #notEditMode><h1>เพิ่มทีม</h1></ng-template>
 <form class="form-horizontal" [formGroup]="teamForm" (ngSubmit)="submit()" novalidate>
-  <div class="alert alert-warning"><strong>สำหรับภาพถ่ายของนักเรียน</strong> ขอให้ใช้<strong>ภาพถ่ายนักเรียน</strong>ขนาดกว้าง 180 พิกเซล สูง 240 พิกเซล <strong>ไม่มีขอบขาว ไม่ต้องลงชื่อทับ และหันด้านให้ถูกต้อง</strong> เพื่อคณะกรรมการจะได้นำไปออกบัตรประจำตัวผู้สอบได้สะดวก</div>
+  <!-- <div class="alert alert-warning"><strong>สำหรับภาพถ่ายของนักเรียน</strong> ขอให้ใช้<strong>ภาพถ่ายนักเรียน</strong>ขนาดกว้าง 180 พิกเซล สูง 240 พิกเซล <strong>ไม่มีขอบขาว ไม่ต้องลงชื่อทับ และหันด้านให้ถูกต้อง</strong> เพื่อคณะกรรมการจะได้นำไปออกบัตรประจำตัวผู้สอบได้สะดวก</div> -->
   <div class="alert alert-danger">ผู้สมัครต้องกรอกข้อมูลให้ครบทุกช่อง รวมทั้งอัพโหลดเอกสารที่เกี่ยวข้องทั้งหมด จึงจะกดปุ่มบันทึกได้</div>
-  <h2>อาจารย์ที่ปรึกษา</h2>
+  <h2>อาจารย์ที่ปรึกษา (ถ้ามี)</h2>
   <div formGroupName="teacher">
     <div class="form-group" [ngClass]="{'has-error': teamForm.get('teacher').get('title').invalid && teamForm.get('teacher').get('title').dirty}">
       <label for="teacher_title" class="col-md-3 control-label">คำนำหน้าชื่อ</label>
@@ -76,7 +76,7 @@
         </select>
       </div>
     </div>
-    <div class="form-group">
+    <!-- <div class="form-group">
       <label for="student1_picture" class="col-md-3 control-label">ภาพถ่ายนักเรียน</label>
       <div class="col-md-9">
         <input type="file" class="form-control" id="student1_picture" #student1Picture (change)="selectedFile(1, 'picture', student1Picture)" accept="image/*">
@@ -86,14 +86,14 @@
       <div class="col-md-9 col-md-offset-3">
         <div class="text-danger">ขอให้ใช้<strong>ภาพถ่ายนักเรียน</strong>ขนาดกว้าง 180 พิกเซล สูง 240 พิกเซล <strong>ไม่มีขอบขาว ไม่ต้องลงชื่อทับ และหันด้านให้ถูกต้อง</strong> เพื่อคณะกรรมการจะได้นำไปออกบัตรประจำตัวผู้สอบได้สะดวก</div>
       </div>
-    </div>
+    </div> -->
     <input type="hidden" formControlName="pictureUrl">
     <input type="hidden" formControlName="pictureGUID">
-    <div class="row">
+    <!-- <div class="row">
       <div class="col-md-9 col-md-offset-3">
         <img [src]="teamForm.get('student1').get('pictureUrl').value | pictureOrPlaceholder" class="img-responsive">
       </div>
-    </div>
+    </div> -->
     <div class="form-group">
       <label for="student1_idCard" class="col-md-3 control-label">สำเนาบัตรประจำตัวประชาชน</label>
       <div class="col-md-9">
@@ -150,7 +150,7 @@
         </select>
       </div>
     </div>
-    <div class="form-group">
+    <!-- <div class="form-group">
       <label for="student2_picture" class="col-md-3 control-label">ภาพถ่ายนักเรียน</label>
       <div class="col-md-9">
         <input type="file" class="form-control" id="student2_picture" #student2Picture (change)="selectedFile(2, 'picture', student2Picture)" accept="image/*">
@@ -160,14 +160,14 @@
       <div class="col-md-9 col-md-offset-3">
         <div class="text-danger">ขอให้ใช้<strong>ภาพถ่ายนักเรียน</strong>ขนาดกว้าง 180 พิกเซล สูง 240 พิกเซล <strong>ไม่มีขอบขาว ไม่ต้องลงชื่อทับ และหันด้านให้ถูกต้อง</strong> เพื่อคณะกรรมการจะได้นำไปออกบัตรประจำตัวผู้สอบได้สะดวก</div>
       </div>
-    </div>
+    </div> -->
     <input type="hidden" formControlName="pictureUrl">
     <input type="hidden" formControlName="pictureGUID">
-    <div class="row">
+    <!-- <div class="row">
       <div class="col-md-9 col-md-offset-3">
         <img [src]="teamForm.get('student2').get('pictureUrl').value | pictureOrPlaceholder" class="img-responsive">
       </div>
-    </div>
+    </div> -->
     <div class="form-group">
       <label for="student2_idCard" class="col-md-3 control-label">สำเนาบัตรประจำตัวประชาชน</label>
       <div class="col-md-9">

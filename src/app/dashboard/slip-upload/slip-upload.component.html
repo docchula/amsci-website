@@ -18,9 +18,9 @@
     <td>{{team.teacher | fullname}}</td>
     <td>{{team.student1 | fullname}}
       <br>{{team.student2 | fullname}}</td>
-    <td *ngIf="team.medTalkCome; else noMedTalk">500 บาท</td>
+    <td *ngIf="team.medTalkCome; else noMedTalk">600 บาท</td>
     <ng-template #noMedTalk>
-      <td>400 บาท</td>
+      <td>500บาท</td>
     </ng-template>
     <td *ngIf="(canAddTeam | async) !== false; else cannotAddTeam">
       <input type="file" class="form-control" accept="image/*" #uploadFile (change)="selectedFile(uploadFile, team.$key)">

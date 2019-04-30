@@ -71,10 +71,10 @@ export class TeamFormComponent implements OnInit, OnDestroy {
     });
     this.teamForm = new FormGroup({
       teacher: new FormGroup({
-        title: new FormControl(null, Validators.required),
-        fname: new FormControl(null, Validators.required),
-        lname: new FormControl(null, Validators.required),
-        tel: new FormControl(null, Validators.required)
+        title: new FormControl(null, Validators.nullValidator),
+        fname: new FormControl(null, Validators.nullValidator),
+        lname: new FormControl(null, Validators.nullValidator),
+        tel: new FormControl(null, Validators.nullValidator)
       }),
       student1: new FormGroup({
         title: new FormControl(null, Validators.required),
@@ -83,9 +83,9 @@ export class TeamFormComponent implements OnInit, OnDestroy {
         tel: new FormControl(null, Validators.required),
         email: new FormControl(null, [Validators.required, Validators.email]),
         grade: new FormControl(null, Validators.required),
-        pictureUrl: new FormControl(null, Validators.required),
+        pictureUrl: new FormControl(null, Validators.nullValidator),
         idCardUrl: new FormControl(null, Validators.required),
-        pictureGUID: new FormControl(null, Validators.required),
+        pictureGUID: new FormControl(null, Validators.nullValidator),
         idCardGUID: new FormControl(null, Validators.required)
       }),
       student2: new FormGroup({
@@ -95,9 +95,9 @@ export class TeamFormComponent implements OnInit, OnDestroy {
         tel: new FormControl(null, Validators.required),
         email: new FormControl(null, [Validators.required, Validators.email]),
         grade: new FormControl(null, Validators.required),
-        pictureUrl: new FormControl(null, Validators.required),
+        pictureUrl: new FormControl(null, Validators.nullValidator),
         idCardUrl: new FormControl(null, Validators.required),
-        pictureGUID: new FormControl(null, Validators.required),
+        pictureGUID: new FormControl(null, Validators.nullValidator),
         idCardGUID: new FormControl(null, Validators.required)
       }),
       slipUrl: new FormControl(),
