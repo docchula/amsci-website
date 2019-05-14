@@ -1,5 +1,13 @@
 <h1>อัพโหลดหลักฐานการโอนเงิน</h1>
-<strong>กรุณาอัพโหลดภาพหลักฐานการโอนเงินที่ชัดและสามารถอ่านได้ เพื่อให้การตรวจสอบเป็นไปอย่างราบรื่น</strong>
+<strong>กรุณาอัพโหลดภาพหลักฐานการโอนเงินที่ชัดและสามารถอ่านได้ เพื่อให้การตรวจสอบเป็นไปอย่างราบรื่น</strong><br>
+<h4>
+<strong>รายละเอียดสำหรับการโอนเงิน</strong>
+  <ul>
+    <li>ชื่อบัญชี นางสาวศุภัสรา วิเศษรินทอง</li>
+    <li>ธนาคารไทยพาณิชย์ สาขาสีลมคอมเพล็กซ์</li>
+    <li>เลขที่บัญชี 410-038523-1</li>
+  </ul>
+</h4>
 <div class="alert alert-danger" *ngIf="(canAddTeam | async) === false">
   <p>ขณะนี้ได้รับสมัครทีมครบตามจำนวนแล้ว ท่านไม่สามารอัพโหลดหลักฐานการโอนเงินได้อีก</p>
   <p>อนึ่ง ทีมที่ไม่ได้อัพโหลดหลักฐานการโอนเงิน ถือว่าไม่มีสิทธิ์ในการเข้าแข่งขัน</p>
@@ -20,7 +28,7 @@
       <br>{{team.student2 | fullname}}</td>
     <td *ngIf="team.medTalkCome; else noMedTalk">600 บาท</td>
     <ng-template #noMedTalk>
-      <td>500บาท</td>
+      <td>500 บาท</td>
     </ng-template>
     <td *ngIf="(canAddTeam | async) !== false; else cannotAddTeam">
       <input type="file" class="form-control" accept="image/*" #uploadFile (change)="selectedFile(uploadFile, team.$key)">
