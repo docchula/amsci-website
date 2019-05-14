@@ -18,12 +18,13 @@ import { StatusComponent } from 'app/dashboard/status/status.component';
 import { MedtalkComponent } from './medtalk/medtalk.component';
 import { MedtalkGuard } from './medtalk.guard';
 import { CannotAddTeamGuard } from './cannot-add-team.guard';
+import { RegistrationGuard } from './registration.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: DashboardComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RegistrationGuard],
     children: [
       {
         path: '',
