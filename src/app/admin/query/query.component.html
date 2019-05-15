@@ -23,7 +23,7 @@
       <tr *ngFor="let teamKey of user.teams | keys">
         <td>{{user.teams[teamKey].student1 | fullname}}<br>{{user.teams[teamKey].student2 | fullname}}<br><code>{{user.$key}}/{{teamKey}}</code></td>
         <td>{{user.teams[teamKey].medTalkCome}}</td>
-        <td><a [routerLink]="['/u0kM8RMyBGNKyFky8jbm', 'view_team', user.$key, teamKey]" class="btn btn-primary">ดูรายละเอียด</a></td>
+        <td><a [routerLink]="['/mdculalala', 'view_team', user.$key, teamKey]" class="btn btn-primary">ดูรายละเอียด</a></td>
         <td>{{user.teams[teamKey].done}}</td>
         <td><button class="btn btn-danger" (click)="toggleStatus(user.$key, teamKey)">เปลี่ยนสถานะ</button></td>
       </tr>
