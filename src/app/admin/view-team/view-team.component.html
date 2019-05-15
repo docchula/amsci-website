@@ -20,11 +20,11 @@
   </ng-template>
   <h2>นักเรียนคนที่ 1</h2>
   <p>{{_team.student1 | fullname}} โทรศัพท์ {{_team.student1.tel}} อีเมล {{_team.student1.email}}</p>
-  <a [href]="_team.student1.pictureUrl" class="btn btn-primary" target="_blank">ดูรูปภาพ</a>
+  <!-- <a [href]="_team.student1.pictureUrl" class="btn btn-primary" target="_blank">ดูรูปภาพ</a> -->
   <a [href]="_team.student1.idCardUrl" class="btn btn-primary" target="_blank">ดูสำเนาบัตรประจำตัวประชาชน</a>
   <h2>นักเรียนคนที่ 2</h2>
   <p>{{_team.student2 | fullname}} โทรศัพท์ {{_team.student2.tel}} อีเมล {{_team.student2.email}}</p>
-  <a [href]="_team.student2.pictureUrl" class="btn btn-primary" target="_blank">ดูรูปภาพ</a>
+  <!-- <a [href]="_team.student2.pictureUrl" class="btn btn-primary" target="_blank">ดูรูปภาพ</a> -->
   <a [href]="_team.student2.idCardUrl" class="btn btn-primary" target="_blank">ดูสำเนาบัตรประจำตัวประชาชน</a><br>
   <div class="h3">ฟัง MEDTalk: <div *ngIf="_team.medTalkConfirmed; then confirmed;else notConfirmed"></div></div>
   <ng-template #confirmed>
