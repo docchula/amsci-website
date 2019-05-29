@@ -15,17 +15,17 @@ const routes: Routes = [
       },
       {
         path: 'login',
-        loadChildren: './login/login.module#LoginModule',
+        loadChildren: () => import('./login/login.module').then(m => m.LoginModule),
         canActivate: []
       },
       {
         path: 'dashboard',
-        loadChildren: './dashboard/dashboard.module#DashboardModule',
+        loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
         canLoad: [AuthGuard]
       },
       {
         path: 'mdculalala',
-        loadChildren: './admin/admin.module#AdminModule',
+        loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
         canLoad: [AdminGuard]
       }
     ]
