@@ -22,7 +22,7 @@
     "@angular/router": "8.0.3",
     "angulartics2": "7.5.2",
     "bootstrap-sass": "3.4.1",
-    "firebase": "6.2.3",
+    "firebase": "6.2.4",
     "font-awesome": "4.7.0",
     "jquery": "3.4.1",
     "marked": "0.6.2",
