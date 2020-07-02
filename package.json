@@ -27,7 +27,7 @@
     "jquery": "3.5.1",
     "marked": "0.8.2",
     "ngx-clipboard": "13.0.1",
-    "rxjs": "6.5.5",
+    "rxjs": "6.6.0",
     "tslib": "2.0.0",
     "zone.js": "0.10.3"
   },
