@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
-import * as firebase from 'firebase/app';
+import firebase from 'firebase/app';
 import { first } from 'rxjs/operators';
 
 interface SignInFormValue {
@@ -83,7 +83,7 @@ export class LoginComponent implements OnInit {
   onSignIn() {
     const formValue: SignInFormValue = this.signInForm.value;
     if (this.signInForm.valid) {
-      this.afa.auth
+      this.afa
         .signInWithEmailAndPassword(formValue.email, formValue.password)
         .then(
           (user: firebase.auth.UserCredential) => {
@@ -97,7 +97,7 @@ export class LoginComponent implements OnInit {
   register() {
     const formValue: RegistrationFormValue = this.registrationForm.value;
     if (this.registrationForm.valid) {
-      this.afa.auth
+      this.afa
         .createUserWithEmailAndPassword(
           formValue.email,
           formValue.passwords.password
