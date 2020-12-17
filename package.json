@@ -22,7 +22,7 @@
     "@angular/router": "11.0.5",
     "angulartics2": "10.0.0",
     "bootstrap-sass": "3.4.1",
-    "firebase": "8.2.0",
+    "firebase": "8.2.1",
     "font-awesome": "4.7.0",
     "jquery": "3.5.1",
     "ngx-clipboard": "14.0.1",
