@@ -18,10 +18,6 @@
         <td>โทรศัพท์</td>
         <td>{{detail.tel}}</td>
       </tr>
-      <tr>
-        <td>โทรสาร</td>
-        <td>{{detail.fax}}</td>
-      </tr>
     </table>
     <button class="btn btn-primary btn-block" (click)="toggleEdit()">แก้ไขข้อมูล</button>
   </div>
@@ -44,12 +40,6 @@
       <label for="tel" class="control-label col-md-4">โทรศัพท์</label>
       <div class="col-md-8">
         <input type="text" id="tel" formControlName="tel" class="form-control">
-      </div>
-    </div>
-    <div class="form-group" [ngClass]="{'has-error': schoolForm.get('fax').invalid && schoolForm.get('fax').dirty}">
-      <label for="fax" class="control-label col-md-4">โทรสาร (ถ้ามี)</label>
-      <div class="col-md-8">
-        <input type="text" id="fax" formControlName="fax" class="form-control">
       </div>
     </div>
     <div class="form-group">

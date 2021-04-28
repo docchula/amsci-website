@@ -45,15 +45,13 @@ export class SchoolDetailComponent implements OnInit, OnDestroy {
     this.schoolForm = new FormGroup({
       name: new FormControl('', [Validators.required, schoolNameValidator]),
       address: new FormControl('', Validators.required),
-      tel: new FormControl('', Validators.required),
-      fax: new FormControl('')
+      tel: new FormControl('', Validators.required)
     });
     this.schoolDetailSub = this.schoolDetail.subscribe(_schoolDetail => {
       if (_schoolDetail.$exists()) {
         this.schoolForm.get('name').setValue(_schoolDetail.name);
         this.schoolForm.get('address').setValue(_schoolDetail.address);
         this.schoolForm.get('tel').setValue(_schoolDetail.tel);
-        this.schoolForm.get('fax').setValue(_schoolDetail.fax);
       }
     });
     this.editMode = false;

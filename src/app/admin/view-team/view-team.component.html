@@ -11,7 +11,6 @@
     <p>ชื่อ {{_school.name}}</p>
     <p>ที่อยู่ {{_school.address}}</p>
     <p>โทรศัพท์ {{_school.tel}}</p>
-    <p>โทรสาร {{_school.fax}}</p>
   </div>
   <h2>อาจารย์ที่ปรึกษา</h2>
   <p *ngIf="_team.teacher; else noTeacher">{{_team.teacher | fullname}} โทรศัพท์ {{_team.teacher.tel}}</p>
