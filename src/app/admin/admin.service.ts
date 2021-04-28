@@ -13,7 +13,7 @@ export class AdminService {
         return snaps.map(snap => {
           return {
             $key: snap.key,
-            ...snap.payload.val()
+            ...snap.payload.val() as {}
           }
         })
       })

@@ -42,7 +42,7 @@ export class AdminGuard implements CanLoad, CanActivate {
       map(s => {
         return {
           $value: {
-            ...s.payload.val()
+            ...s.payload.val() as {}
           },
           $exists: s.payload.exists()
         };
