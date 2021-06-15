@@ -6,6 +6,7 @@ import { Team } from 'app/dashboard/team';
 import { Observable, of } from 'rxjs';
 import { first, shareReplay } from 'rxjs/operators';
 import { UserStatusService } from '../user-status.service';
+import {People} from '../people';
 
 @Component({
   selector: 'adq-status',
@@ -14,8 +15,10 @@ import { UserStatusService } from '../user-status.service';
 })
 export class StatusComponent implements OnInit {
   teams: Observable<Team[]>;
+  individuals: Observable<People[]>;
   detail: Observable<SchoolDetail>;
   hasTeams: Observable<boolean>;
+  hasIndividuals: Observable<boolean>;
   cardUrls: Observable<string>[];
   canDownloadCard: Observable<boolean>;
   canDownloadScore: Observable<boolean>;
@@ -31,6 +34,7 @@ export class StatusComponent implements OnInit {
     this.teams = this.userStatus.teams;
     this.detail = this.userStatus.schoolDetail;
     this.hasTeams = this.userStatus.hasTeams;
+    this.hasIndividuals = this.userStatus.hasIndividuals;
     this.cardUrls = [];
     this.scoreUrls = [];
     this.teams.pipe(first()).subscribe(teams => {
@@ -51,6 +55,7 @@ export class StatusComponent implements OnInit {
         }
       });
     });
+    this.individuals = this.userStatus.individuals;
     this.canDownloadCard = this.afd
       .object<boolean>('config/canDownloadCard')
       .valueChanges().pipe(shareReplay());

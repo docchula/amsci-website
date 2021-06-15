@@ -54,6 +54,26 @@ export class ViewTeamComponent implements OnInit {
       });
   }
 
+  toggleMedTalkStatus(student) {
+    let uid, tid: string;
+    this.params
+      .pipe(
+        first(),
+        mergeMap(params => {
+          uid = params['uid'];
+          tid = params['tid'];
+          return this.afd.object(
+            `/data/${params['uid']}/teams/${params['tid']}/student${student.toString()}/medTalkCome`
+          ).valueChanges();
+        }),
+        first()
+      )
+      .subscribe((v: boolean) => {
+        this.afd.database.ref(`/data/${uid}/teams/${tid}/student${student.toString()}/medTalkCome`).set(!v);
+        this.afd.database.ref(`/data/${uid}/teams/${tid}/student${student.toString()}/medTalkConfirmed`).set(true);
+      });
+  }
+
   goBack() {
     this.location.back();
   }

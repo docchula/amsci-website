@@ -28,9 +28,8 @@
       <td>{{team.student1 | fullname}}
         <br>{{team.student2 | fullname}}</td>
       <td>
-        <a class="btn btn-warning" [routerLink]="['edit', team.$key]">แก้ไข</a>
-        <br>
-        <button class="btn btn-danger" (click)="deleteTeam(team.$key)">ลบ</button>
+        <button class="btn btn-warning" [routerLink]="['edit', team.$key]" [disabled]="!(canEditTeam | async)">แก้ไข</button>
+        <button class="btn btn-danger" (click)="deleteTeam(team.$key)" [disabled]="!(canEditTeam | async)">ลบ</button>
       </td>
     </tr>
   </table>

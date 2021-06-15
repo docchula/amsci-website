@@ -15,6 +15,7 @@ export class TeamDetailComponent implements OnInit {
   teams: Observable<Team[]>;
   step4Done: Observable<boolean>;
   canAddTeam: Observable<boolean>;
+  canEditTeam: Observable<boolean>;
 
   constructor(
     private userStatus: UserStatusService,
@@ -26,6 +27,7 @@ export class TeamDetailComponent implements OnInit {
     this.teams = this.userStatus.teams;
     this.step4Done = this.userStatus.hasTeams;
     this.canAddTeam = this.afd.object<boolean>('config/canAddTeam').valueChanges().pipe(share());
+    this.canEditTeam = this.afd.object<boolean>('config/canEditTeam').valueChanges().pipe(share());
   }
 
   deleteTeam(key: string) {

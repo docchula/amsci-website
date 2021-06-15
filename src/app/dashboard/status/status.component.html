@@ -29,7 +29,7 @@
   </tr>
   <tr *ngFor="let team of teams | async as _teams; index as i">
     <td>{{i + 1}}</td>
-    <td><strong>{{team.teacher | fullname}}</strong><br>{{team.teacher.tel}}</td>
+    <td><strong>{{ team.teacher != null  && team.teacher.fname != "" ? (team.teacher | fullname) : "-" }}</strong><br>{{team.teacher != null  && team.teacher.fname != "" ? team.teacher.tel : "-"}}</td>
     <td><strong>{{team.student1 | fullname}}</strong><br>{{team.student1.tel}}<br>{{team.student1.email}}<br>ม.{{team.student1.grade}}</td>
     <td><strong>{{team.student2 | fullname}}</strong><br>{{team.student2.tel}}<br>{{team.student2.email}}<br>ม.{{team.student2.grade}}</td>
     <td><img [src]="team.slipUrl | pictureOrPlaceholder" class="fix-size"></td>
@@ -56,4 +56,24 @@
 </table>
 <ng-template #noTeams>
   <div class="alert alert-danger">ไม่มีทีม</div>
+</ng-template>
+<h2>ข้อมูลผู้เข้าร่วมงาน MEDTalk (นอกเหนือจากคนในทีม)</h2>
+<table class="table table-responsive" *ngIf="hasIndividuals | async;else noIndividuals">
+  <tr>
+    <th>ชื่อ</th>
+    <th>หลักฐานการโอนเงิน</th>
+    <th>สถานะการสมัคร</th>
+  </tr>
+  <tr *ngFor="let person of individuals | async as _teams; index as i">
+    <td><strong>{{person | fullname}}</strong><br>{{person.tel}}</td>
+    <td><img [src]="person.slipUrl | pictureOrPlaceholder" class="fix-size"></td>
+    <td>
+      <div *ngIf="person.done; then OK; else: notOK"></div>
+      <ng-template #OK><span class="text-success">การสมัครเสร็จสมบูรณ์</span></ng-template>
+      <ng-template #notOK><span class="text-warning">รอตรวจสอบเอกสาร</span></ng-template>
+    </td>
+  </tr>
+</table>
+<ng-template #noIndividuals>
+  <div class="alert alert-danger">ไม่มีผู้เข้าร่วมเพิ่มเติม</div>
 </ng-template>

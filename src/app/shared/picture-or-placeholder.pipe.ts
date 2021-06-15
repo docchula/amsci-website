@@ -9,7 +9,7 @@ export class PictureOrPlaceholderPipe implements PipeTransform {
     if (value && value !== '') {
       return value;
     } else {
-      return 'https://placehold.it/150x200?text=No+Picture';
+      return location.protocol + '//placehold.it/150x200?text=No+Picture';
     }
   }
 

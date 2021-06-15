@@ -6,6 +6,7 @@ import { Team } from 'app/dashboard/team';
 import { Observable } from 'rxjs';
 import { first, map, share } from 'rxjs/operators';
 import { UserStatusService } from '../user-status.service';
+import {People} from '../people';
 
 @Component({
   selector: 'adq-slip-upload',
@@ -15,6 +16,9 @@ import { UserStatusService } from '../user-status.service';
 export class SlipUploadComponent implements OnInit {
   teams: Observable<Team[]>;
   canAddTeam: Observable<boolean>;
+  individuals: Observable<People[]>;
+  accountNumberDigits: number;
+  transferTime: string;
 
   constructor(
     private userStatus: UserStatusService,
@@ -26,9 +30,10 @@ export class SlipUploadComponent implements OnInit {
   ngOnInit() {
     this.teams = this.userStatus.teams;
     this.canAddTeam = this.afd.object<boolean>('config/canAddTeam').valueChanges().pipe(share());
+    this.individuals = this.userStatus.individuals;
   }
 
-  selectedFile(input: any, key: string) {
+  selectedFile(input: any, key: string, isTeam: boolean = true) {
     const maxSize = 500 * 1024;
     if (input.files && input.files[0]) {
       const file = input.files[0] as File;
@@ -44,16 +49,29 @@ export class SlipUploadComponent implements OnInit {
             ref.put(file).then(a => {
               ref.getDownloadURL().then(dl => {
                 this.afd.database
-                .ref(`data/${uid}/teams/${key}/slipUrl`)
-                .set(dl);
+                  .ref(`data/${uid}/${isTeam ? 'teams' : 'individuals'}/${key}/slipUrl`)
+                  .set(dl);
               });
               this.afd.database
-                .ref(`data/${uid}/teams/${key}/slipGUID`)
+                .ref(`data/${uid}/${isTeam ? 'teams' : 'individuals'}/${key}/slipGUID`)
                 .set(fid);
             });
           });
       }
     }
+  }
+
+  editTransferDetails(key, isTeam = true, digits, time) {
+    this.afa.authState
+      .pipe(map(user => user.uid), first())
+      .subscribe(uid => {
+        this.afd.database
+          .ref(`data/${uid}/${isTeam ? 'teams' : 'individuals'}/${key}/accountNumberDigits`)
+          .set(digits);
+        this.afd.database
+          .ref(`data/${uid}/${isTeam ? 'teams' : 'individuals'}/${key}/transferTime`)
+          .set(time);
+      });
   }
 
   private guid() {

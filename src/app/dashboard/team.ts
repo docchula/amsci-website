@@ -7,10 +7,10 @@ export interface Team {
   student2?: Student;
   slipUrl?: string;
   slipGUID?: string;
+  accountNumberDigits?: number;
+  transferTime?: string;
   $key: string;
   done?: boolean;
   cardFile?: string;
-  medTalkConfirmed?: boolean;
-  medTalkCome?: boolean;
   scoreFile?: string;
 }

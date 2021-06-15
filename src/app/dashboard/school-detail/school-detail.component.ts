@@ -48,7 +48,7 @@ export class SchoolDetailComponent implements OnInit, OnDestroy {
       tel: new FormControl('', Validators.required)
     });
     this.schoolDetailSub = this.schoolDetail.subscribe(_schoolDetail => {
-      if (_schoolDetail.$exists()) {
+      if (_schoolDetail) {
         this.schoolForm.get('name').setValue(_schoolDetail.name);
         this.schoolForm.get('address').setValue(_schoolDetail.address);
         this.schoolForm.get('tel').setValue(_schoolDetail.tel);

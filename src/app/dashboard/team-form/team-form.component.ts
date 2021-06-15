@@ -5,7 +5,7 @@ import { FirebaseApp } from '@angular/fire';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { Team } from 'app/dashboard/team';
-import { Observable, Subject, Subscription } from 'rxjs';
+import {combineLatest, Observable, Subject, Subscription} from 'rxjs';
 import { filter, first, map, mergeMap } from 'rxjs/operators';
 
 @Component({
@@ -40,13 +40,13 @@ export class TeamFormComponent implements OnInit, OnDestroy {
     );
     this.editMode.subscribe(editMode => {
       if (editMode) {
-        this.team = this.activatedRoute.params.pipe(
-          map(params => params['id']),
-          mergeMap(id => {
-            return [id, this.afa.authState];
+        this.team = combineLatest([this.activatedRoute.params, this.afa.authState]).pipe(
+          map(results => {
+            return [results[0]['id'], results[1]];
           }),
-          first(),
-          mergeMap(([id, user]) => this.afd.object<Team>(`data/${user.uid}/teams/${id}`).valueChanges()),
+          mergeMap(([id, user]) => {
+            return this.afd.object<Team>(`data/${user.uid}/teams/${id}`).valueChanges();
+          }),
           filter(v => {
             if (v) {
               return true;
@@ -65,6 +65,36 @@ export class TeamFormComponent implements OnInit, OnDestroy {
           if ((_team as Object).hasOwnProperty('cardFile')) {
             delete _team.cardFile;
           }
+
+          if (!(_team.student1 as Object).hasOwnProperty('pictureUrl')) {
+            _team.student1.pictureUrl = '';
+          }
+          if (!(_team.student2 as Object).hasOwnProperty('pictureUrl')) {
+            _team.student2.pictureUrl = '';
+          }
+          if (!(_team.student1 as Object).hasOwnProperty('pictureGUID')) {
+            _team.student1.pictureGUID = '';
+          }
+          if (!(_team.student2 as Object).hasOwnProperty('pictureGUID')) {
+            _team.student2.pictureGUID = '';
+          }
+
+          if (!(_team.student1 as Object).hasOwnProperty('medTalkCome')) {
+            _team.student1.medTalkCome = null;
+            _team.student1.medTalkConfirmed = false;
+          }
+          if (!(_team.student2 as Object).hasOwnProperty('medTalkCome')) {
+            _team.student2.medTalkCome = null;
+            _team.student2.medTalkConfirmed = false;
+          }
+
+          if (!(_team as Object).hasOwnProperty('accountNumberDigits')) {
+            _team.accountNumberDigits = null;
+          }
+          if (!(_team as Object).hasOwnProperty('transferTime')) {
+            _team.transferTime = '';
+          }
+
           this.teamForm.setValue(_team);
         });
       }
@@ -86,7 +116,9 @@ export class TeamFormComponent implements OnInit, OnDestroy {
         pictureUrl: new FormControl(null, Validators.nullValidator),
         idCardUrl: new FormControl(null, Validators.required),
         pictureGUID: new FormControl(null, Validators.nullValidator),
-        idCardGUID: new FormControl(null, Validators.required)
+        idCardGUID: new FormControl(null, Validators.required),
+        medTalkConfirmed: new FormControl(),
+        medTalkCome: new FormControl(),
       }),
       student2: new FormGroup({
         title: new FormControl(null, Validators.required),
@@ -98,11 +130,15 @@ export class TeamFormComponent implements OnInit, OnDestroy {
         pictureUrl: new FormControl(null, Validators.nullValidator),
         idCardUrl: new FormControl(null, Validators.required),
         pictureGUID: new FormControl(null, Validators.nullValidator),
-        idCardGUID: new FormControl(null, Validators.required)
+        idCardGUID: new FormControl(null, Validators.required),
+        medTalkConfirmed: new FormControl(),
+        medTalkCome: new FormControl(),
       }),
       slipUrl: new FormControl(),
       slipGUID: new FormControl(),
-      done: new FormControl()
+      done: new FormControl(),
+      accountNumberDigits: new FormControl(),
+      transferTime: new FormControl()
     });
   }
 
@@ -116,7 +152,7 @@ export class TeamFormComponent implements OnInit, OnDestroy {
     let maxSize: number;
     switch (type) {
       case 'picture':
-        maxSize = 120 * 1024;
+        maxSize = 400 * 1024;
         break;
       case 'idCard':
         maxSize = 400 * 1024;
@@ -140,28 +176,24 @@ export class TeamFormComponent implements OnInit, OnDestroy {
             const img = new Image();
             img.src = (e.target as FileReader).result as string;
             img.onload = () => {
-              if (img.naturalWidth !== 180 || img.naturalHeight !== 240) {
-                alert(`กรุณาอัพโหลดภาพถ่ายขนาดกว้าง 180 พิกเซล สูง 240 พิกเซล`);
-              } else {
-                this.afa.authState
-                  .pipe(map(user => user.uid), first())
-                  .subscribe(uid => {
-                    const fid = this.guid();
-                    const ref = this.fba.storage().ref(`data/${uid}/${fid}`);
-                    ref.put(file).then(a => {
-                      ref.getDownloadURL().then(dl => {
-                        this.teamForm
+              this.afa.authState
+                .pipe(map(user => user.uid), first())
+                .subscribe(uid => {
+                  const fid = this.guid();
+                  const ref = this.fba.storage().ref(`data/${uid}/${fid}`);
+                  ref.put(file).then(a => {
+                    ref.getDownloadURL().then(dl => {
+                      this.teamForm
                         .get(`student${student}`)
                         .get(`${type}Url`)
                         .setValue(dl);
-                      })
-                      this.teamForm
-                        .get(`student${student}`)
-                        .get(`${type}GUID`)
-                        .setValue(fid);
                     });
+                    this.teamForm
+                      .get(`student${student}`)
+                      .get(`${type}GUID`)
+                      .setValue(fid);
                   });
-              }
+                });
             };
           };
         } else {

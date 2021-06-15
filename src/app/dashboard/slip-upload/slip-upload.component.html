@@ -3,16 +3,12 @@
 <h4>
 <strong>รายละเอียดสำหรับการโอนเงิน</strong>
   <ul>
-    <li>ชื่อบัญชี นางสาวศุภัสรา วิเศษรินทอง</li>
-    <li>ธนาคารไทยพาณิชย์ สาขาสีลมคอมเพล็กซ์</li>
-    <li>เลขที่บัญชี 410-038523-1</li>
+    <li>ชื่อบัญชี น.ส. ปิยาภา ดิสนีเวทย์</li>
+    <li>ธนาคารกสิกรไทย สาขาโรงพยาบาลจุฬาลงกรณ์</li>
+    <li>เลขที่บัญชี 090-8-24311-0</li>
   </ul>
 </h4>
-<div class="alert alert-danger" *ngIf="(canAddTeam | async) === false">
-  <p>ขณะนี้ได้รับสมัครทีมครบตามจำนวนแล้ว ท่านไม่สามารอัพโหลดหลักฐานการโอนเงินได้อีก</p>
-  <p>อนึ่ง ทีมที่ไม่ได้อัพโหลดหลักฐานการโอนเงิน ถือว่าไม่มีสิทธิ์ในการเข้าแข่งขัน</p>
-</div>
-<table class="table table-responsive">
+<table mat-table class="table table-responsive">
   <tr>
     <th>ลำดับ</th>
     <th>อาจารย์ที่ปรึกษา</th>
@@ -26,18 +22,32 @@
     <td>{{team.teacher | fullname}}</td>
     <td>{{team.student1 | fullname}}
       <br>{{team.student2 | fullname}}</td>
-    <td *ngIf="team.medTalkCome; else noMedTalk">600 บาท</td>
-    <ng-template #noMedTalk>
-      <td>500 บาท</td>
-    </ng-template>
-    <td *ngIf="(canAddTeam | async) !== false; else cannotAddTeam">
-      <input type="file" class="form-control" accept="image/*" #uploadFile (change)="selectedFile(uploadFile, team.$key)">
+    <td>{{ team.student1.medTalkCome && team.student2.medTalkCome ? '600 บาท' : ((team.student1.medTalkCome ? !team.student2.medTalkCome : team.student2.medTalkCome) ? '700 บาท' : '500 บาท')}}</td>
+    <td>
+      <input type="file" class="form-control" accept="image/*" #uploadFile (change)="selectedFile(uploadFile, team.$key, true)">
+      <input type="number" placeholder="เลขบัญชี 4 ตัวสุดท้าย" [(ngModel)]="team.accountNumberDigits">
+      <input type="text" placeholder="เวลาที่โอน เช่น 17:30" [(ngModel)]="team.transferTime">
+      <br/>
+      <a class="alert-link" (click)="editTransferDetails(team.$key, true, team.accountNumberDigits, team.transferTime)">บันทึก</a>
     </td>
-    <ng-template #cannotAddTeam>
-      <td>ไม่สามารถอัพโหลดได้ เนื่องจากจำนวนทีมครบตามจำนวนรับสมัครแล้ว</td>
-    </ng-template>
     <td>
       <img [src]="team.slipUrl | pictureOrPlaceholder" class="img-responsive" class="fix-size">
+    </td>
+  </tr>
+  <tr *ngFor="let person of individuals | async as _individuals; index as i">
+    <td>*MEDTalk เท่านั้น*</td>
+    <td></td>
+    <td>{{ person | fullname }}</td>
+    <td>200 บาท</td>
+    <td>
+      <input type="file" class="form-control" accept="image/*" #uploadFile (change)="selectedFile(uploadFile, person.$key, false)">
+      <input type="number" placeholder="เลขบัญชี 4 หลักสุดท้าย" [(ngModel)]="person.accountNumberDigits">
+      <input type="text" placeholder="เวลาที่โอน เช่น 17:30" [(ngModel)]="person.transferTime">
+      <br/>
+      <a class="alert-link" (click)="editTransferDetails(person.$key, false, person.accountNumberDigits, person.transferTime)">บันทึก</a>
+    </td>
+    <td>
+      <img [src]="person.slipUrl | pictureOrPlaceholder" class="img-responsive" class="fix-size">
     </td>
   </tr>
 </table>

@@ -8,13 +8,13 @@
   <!-- <div class="alert alert-warning"><strong>สำหรับภาพถ่ายของนักเรียน</strong> ขอให้ใช้<strong>ภาพถ่ายนักเรียน</strong>ขนาดกว้าง 180 พิกเซล สูง 240 พิกเซล <strong>ไม่มีขอบขาว ไม่ต้องลงชื่อทับ และหันด้านให้ถูกต้อง</strong> เพื่อคณะกรรมการจะได้นำไปออกบัตรประจำตัวผู้สอบได้สะดวก</div> -->
   <div class="alert alert-danger">ผู้สมัครต้องกรอกข้อมูลให้ครบทุกช่อง รวมทั้งอัพโหลดเอกสารที่เกี่ยวข้องทั้งหมด จึงจะกดปุ่มบันทึกได้</div>
   <h2>อาจารย์ที่ปรึกษา (ถ้ามี)</h2>
-  <div formGroupName="teacher">
+  <div class="form-group" formGroupName="teacher">
     <div class="form-group" [ngClass]="{'has-error': teamForm.get('teacher').get('title').invalid && teamForm.get('teacher').get('title').dirty}">
-      <label for="teacher_title" class="col-md-3 control-label">คำนำหน้าชื่อ</label>
-      <div class="col-md-9">
-        <input type="text" class="form-control" id="teacher_title" formControlName="title">
-      </div>
+    <label for="teacher_title" class="col-md-3 control-label">คำนำหน้าชื่อ</label>
+    <div class="col-md-9">
+      <input type="text" class="form-control" id="teacher_title" formControlName="title">
     </div>
+  </div>
     <div class="form-group" [ngClass]="{'has-error': teamForm.get('teacher').get('fname').invalid && teamForm.get('teacher').get('fname').dirty}">
       <label for="teacher_fname" class="col-md-3 control-label">ชื่อ</label>
       <div class="col-md-9">
@@ -35,7 +35,7 @@
     </div>
   </div>
   <h2>นักเรียนคนที่ 1</h2>
-  <div formGroupName="student1">
+  <div class="form-group" formGroupName="student1">
     <div class="form-group" [ngClass]="{'has-error': teamForm.get('student1').get('title').invalid && teamForm.get('student1').get('title').dirty}">
       <label for="student1_title" class="col-md-3 control-label">คำนำหน้าชื่อ</label>
       <div class="col-md-9">
@@ -76,7 +76,7 @@
         </select>
       </div>
     </div>
-    <!-- <div class="form-group">
+    <div class="form-group">
       <label for="student1_picture" class="col-md-3 control-label">ภาพถ่ายนักเรียน</label>
       <div class="col-md-9">
         <input type="file" class="form-control" id="student1_picture" #student1Picture (change)="selectedFile(1, 'picture', student1Picture)" accept="image/*">
@@ -84,20 +84,23 @@
     </div>
     <div class="row">
       <div class="col-md-9 col-md-offset-3">
-        <div class="text-danger">ขอให้ใช้<strong>ภาพถ่ายนักเรียน</strong>ขนาดกว้าง 180 พิกเซล สูง 240 พิกเซล <strong>ไม่มีขอบขาว ไม่ต้องลงชื่อทับ และหันด้านให้ถูกต้อง</strong> เพื่อคณะกรรมการจะได้นำไปออกบัตรประจำตัวผู้สอบได้สะดวก</div>
+        <div class="text-danger">ขอให้ใช้<strong>ภาพถ่ายนักเรียน</strong> <strong>ไม่มีขอบขาว ไม่ต้องลงชื่อทับ และหันด้านให้ถูกต้อง</strong> โดยมีขนาดไฟล์ไม่เกิน 400 kB เพื่อคณะกรรมการจะได้นำไปออกบัตรประจำตัวผู้สอบได้สะดวก</div>
       </div>
-    </div> -->
+    </div>
     <input type="hidden" formControlName="pictureUrl">
     <input type="hidden" formControlName="pictureGUID">
-    <!-- <div class="row">
+    <div class="row">
       <div class="col-md-9 col-md-offset-3">
         <img [src]="teamForm.get('student1').get('pictureUrl').value | pictureOrPlaceholder" class="img-responsive">
       </div>
-    </div> -->
+    </div>
     <div class="form-group">
       <label for="student1_idCard" class="col-md-3 control-label">สำเนาบัตรประจำตัวประชาชน</label>
       <div class="col-md-9">
         <input type="file" class="form-control" id="student1_idCard" #student1IdCard (change)="selectedFile(1, 'idCard', student1IdCard)" accept="image/*">
+        <p>
+          ขอให้ใช้สำเนาบัตรประขาชนที่ถ่ายหนัาบัตรด้านเดียว เซ็นรับรองสำเนาถูกต้อง วันที่ที่ทำการสมัคร พร้อมระบุว่า "ใช้สำหรับการแข่งขัน Amsci 2021 เท่านั้น" ขนาดไฟล์ไม่เกิน 400 kB
+        </p>
       </div>
     </div>
     <input type="hidden" formControlName="idCardUrl">
@@ -109,7 +112,7 @@
     </div>
   </div>
   <h2>นักเรียนคนที่ 2</h2>
-  <div formGroupName="student2">
+  <div class="form-group" formGroupName="student2">
     <div class="form-group" [ngClass]="{'has-error': teamForm.get('student2').get('title').invalid && teamForm.get('student2').get('title').dirty}">
       <label for="student2_title" class="col-md-3 control-label">คำนำหน้าชื่อ</label>
       <div class="col-md-9">
@@ -150,7 +153,7 @@
         </select>
       </div>
     </div>
-    <!-- <div class="form-group">
+    <div class="form-group">
       <label for="student2_picture" class="col-md-3 control-label">ภาพถ่ายนักเรียน</label>
       <div class="col-md-9">
         <input type="file" class="form-control" id="student2_picture" #student2Picture (change)="selectedFile(2, 'picture', student2Picture)" accept="image/*">
@@ -158,20 +161,23 @@
     </div>
     <div class="row">
       <div class="col-md-9 col-md-offset-3">
-        <div class="text-danger">ขอให้ใช้<strong>ภาพถ่ายนักเรียน</strong>ขนาดกว้าง 180 พิกเซล สูง 240 พิกเซล <strong>ไม่มีขอบขาว ไม่ต้องลงชื่อทับ และหันด้านให้ถูกต้อง</strong> เพื่อคณะกรรมการจะได้นำไปออกบัตรประจำตัวผู้สอบได้สะดวก</div>
+        <div class="text-danger">ขอให้ใช้<strong>ภาพถ่ายนักเรียน</strong> <strong>ไม่มีขอบขาว ไม่ต้องลงชื่อทับ และหันด้านให้ถูกต้อง</strong> โดยมีขนาดไฟล์ไม่เกิน 400 kB เพื่อคณะกรรมการจะได้นำไปออกบัตรประจำตัวผู้สอบได้สะดวก</div>
       </div>
-    </div> -->
+    </div>
     <input type="hidden" formControlName="pictureUrl">
     <input type="hidden" formControlName="pictureGUID">
-    <!-- <div class="row">
+    <div class="row">
       <div class="col-md-9 col-md-offset-3">
         <img [src]="teamForm.get('student2').get('pictureUrl').value | pictureOrPlaceholder" class="img-responsive">
       </div>
-    </div> -->
+    </div>
     <div class="form-group">
       <label for="student2_idCard" class="col-md-3 control-label">สำเนาบัตรประจำตัวประชาชน</label>
       <div class="col-md-9">
         <input type="file" class="form-control" id="student2_idCard" #student2IdCard (change)="selectedFile(2, 'idCard', student2IdCard)" accept="image/*">
+        <p>
+          ขอให้ใช้สำเนาบัตรประขาชนที่ถ่ายหนัาบัตรด้านเดียว เซ็นรับรองสำเนาถูกต้อง วันที่ที่ทำการสมัคร พร้อมระบุว่า "ใช้สำหรับการแข่งขัน Amsci 2021 เท่านั้น" ขนาดไฟล์ไม่เกิน 400 kB
+        </p>
       </div>
     </div>
     <input type="hidden" formControlName="idCardUrl">

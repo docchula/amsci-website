@@ -5,29 +5,78 @@
     <h1 *ngSwitchCase="'not_checked'">ดูทีมที่ชำระเงินแล้ว แต่ยังไม่ตรวจเอกสาร</h1>
     <h1 *ngSwitchCase="'checked'">ดูทีมที่ตรวจเอกสารแล้ว</h1>
     <h1 *ngSwitchCase="'school'">ดูโรงเรียนที่ส่งทีมเข้าแข่งขัน</h1>
-    <h1 *ngSwitchCase="'medtalk'">ดูทีมที่ฟัง MEDTalk</h1>
+    <h1 *ngSwitchCase="'medtalk'">ดูคนที่ฟัง MEDTalk ทั้งหมด (คนในทีมที่อยากฟัง + คนที่มาฟังอย่างเดียว)</h1>
     <h2 *ngSwitchDefault>ไม่รู้จัก</h2>
   </div>
   <table class="table table-responsive">
     <tr>
       <th>นักเรียน</th>
-      <th>ฟัง MEDTalk</th>
       <th>ดูรายละเอียด</th>
       <th>สถานะ</th>
       <th>เปลี่ยนสถานะ</th>
     </tr>
     <ng-template ngFor let-user [ngForOf]="users | async" [ngForTrackBy]="trackByFn">
-      <tr>
-        <td colspan="5"><strong>โรงเรียน{{user.schoolDetail.name}}</strong></td>
-      </tr>
-      <tr *ngFor="let teamKey of user.teams | keys">
-        <td>{{user.teams[teamKey].student1 | fullname}}<br>{{user.teams[teamKey].student2 | fullname}}<br><code>{{user.$key}}/{{teamKey}}</code></td>
-        <td>{{user.teams[teamKey].medTalkCome}}</td>
-        <td><a [routerLink]="['/mdculalala', 'view_team', user.$key, teamKey]" class="btn btn-primary">ดูรายละเอียด</a></td>
-        <td>{{user.teams[teamKey].done}}</td>
-        <td><button class="btn btn-danger" (click)="toggleStatus(user.$key, teamKey)">เปลี่ยนสถานะ</button></td>
-      </tr>
+      <ng-container *ngIf="(method | async) != 'medtalk'">
+        <tr>
+          <td colspan="5"><strong>โรงเรียน{{user.schoolDetail.name}}</strong></td>
+        </tr>
+        <tr *ngFor="let teamKey of user.teams | keys">
+          <td>{{user.teams[teamKey].student1 | fullname}}<br>{{user.teams[teamKey].student2 | fullname}}<br><code>{{user.$key}}/{{teamKey}}</code></td>
+          <td><a [routerLink]="['/mdculalala', 'view_team', user.$key, teamKey]" class="btn btn-primary">ดูรายละเอียด</a></td>
+          <td>{{user.teams[teamKey].done}}</td>
+          <td><button class="btn btn-danger" (click)="toggleStatus(user.$key, teamKey)">เปลี่ยนสถานะ</button></td>
+        </tr>
+      </ng-container>
+      <ng-container *ngIf="(method | async) == 'medtalk'">
+        <ng-container *ngIf="user.individuals != null">
+          <ng-container *ngFor="let personKey of user.individuals | keys">
+            <tr>
+              <td colspan="5"></td>
+            </tr>
+            <tr>
+              <td>{{ user.individuals[personKey] | fullname }}</td>
+              <td>
+                <a [href]="user.individuals[personKey].slipUrl | pictureOrPlaceholder" target="_blank" *ngIf="user.individuals[personKey].slipUrl && user.individuals[personKey].slipUrl !== ''">
+                  ดูหลักฐานการโอนเงิน
+                </a>
+                <p>
+                  เลขบัญชี 4 หลักสุดท้าย : {{ user.individuals[personKey].accountNumberDigits }}<br/>
+                  เวลาที่โอน : {{ user.individuals[personKey].transferTime }}
+                </p>
+              </td>
+              <td>{{ !!user.individuals[personKey].done }}</td>
+              <td><button class="btn btn-danger" (click)="toggleStatus(user.$key, personKey, false)">เปลี่ยนสถานะ</button></td>
+            </tr>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngIf="user.teams != null">
+          <ng-container *ngFor="let teamKey of user.teams | keys">
+            <ng-container *ngIf="user.teams[teamKey].student1  != null && !!user.teams[teamKey].student1.medTalkCome">
+              <tr>
+                <td colspan="5"></td>
+              </tr>
+              <tr>
+                <td>{{ user.teams[teamKey].student1 | fullname }}</td>
+                <td>(สมัครมาแบบทีม)<br/><a [routerLink]="['/mdculalala', 'view_team', user.$key, teamKey]">ดูรายละเอียดทีม</a></td>
+                <td>{{ !!user.teams[teamKey].done }}</td>
+                <td></td>
+              </tr>
+            </ng-container>
+            <ng-container *ngIf="user.teams[teamKey].student2 != null && !!user.teams[teamKey].student2.medTalkCome">
+              <tr>
+                <td colspan="5"></td>
+              </tr>
+              <tr>
+                <td>{{ user.teams[teamKey].student2 | fullname }}</td>
+                <td>(สมัครมาแบบทีม)<br/><a [routerLink]="['/mdculalala', 'view_team', user.$key, teamKey]">ดูรายละเอียดทีม</a></td>
+                <td>{{ !!user.teams[teamKey].done }}</td>
+                <td></td>
+              </tr>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+      </ng-container>
     </ng-template>
   </table>
-  <button class="btn btn-primary" (click)="copyStudents()">Copy this page as JSON</button>
+  <button class="btn btn-primary" (click)="copyStudents()">Save this page as JSON</button>
 </div>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { Observable, of as observableOf } from 'rxjs';
+import {combineLatest, Observable, of as observableOf} from 'rxjs';
 import { first, map, take } from 'rxjs/operators';
 import { AdminService } from '../admin.service';
 import { ClipboardService } from 'ngx-clipboard';
@@ -119,21 +119,9 @@ export class QueryComponent implements OnInit {
         case 'medtalk':
           this.users = this.admin.data.pipe(
             map((users: any[]) => {
-              return users
-                .filter(user => (user as Object).hasOwnProperty('teams'))
-                .map(user => {
-                  user.teams = Object.keys(user.teams)
-                    .filter(key => {
-                      return !!user.teams[key].medTalkCome;
-                    })
-                    .reduce((prev, current, index, array) => {
-                      return Object.assign(prev, {
-                        [current]: user.teams[current]
-                      });
-                    }, {});
-                  return user;
-                })
-                .filter(user => Object.keys(user.teams).length > 0);
+              return users.filter(user =>
+                (user as Object).hasOwnProperty('teams') || (user as Object).hasOwnProperty('individuals')
+              );
             })
           );
           break;
@@ -173,20 +161,32 @@ export class QueryComponent implements OnInit {
     return item.$key;
   }
 
-  toggleStatus(uid: string, tid: string) {
+  toggleStatus(uid: string, tid: string, isTeam = true) {
     this.afd
-      .object(`/data/${uid}/teams/${tid}/done`)
+      .object(`/data/${uid}/${isTeam ? 'teams' : 'individuals'}/${tid}/done`)
       .valueChanges()
       .pipe(first())
       .subscribe((v: boolean) => {
-        this.afd.database.ref(`/data/${uid}/teams/${tid}/done`).set(!v);
+        this.afd.database.ref(`/data/${uid}/${isTeam ? 'teams' : 'individuals'}/${tid}/done`).set(!v);
       });
   }
 
   copyStudents() {
-    this.students.pipe(take(1)).subscribe(a => {
-      this.clipboard.copyFromContent(JSON.stringify(a));
-      alert('Copied');
+    this.students.pipe(take(1)).subscribe(d => {
+      const file = new window.Blob([JSON.stringify(d)], { type: 'application/json' });
+
+      const url = window.URL.createObjectURL(file);
+
+      const a = document.createElement('a');
+      document.body.appendChild(a);
+
+      a.setAttribute('style', 'display: none');
+      a.href = url;
+      a.download = 'data.json';
+      a.click();
+      window.URL.revokeObjectURL(url);
+      a.remove();
+      alert('Saved!');
     });
   }
 }

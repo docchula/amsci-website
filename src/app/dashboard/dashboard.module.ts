@@ -10,7 +10,7 @@ import { AcceptRulesComponent } from './accept-rules/accept-rules.component';
 import { UserStatusService } from './user-status.service';
 import { SchoolDetailComponent } from './school-detail/school-detail.component';
 import { AcceptGuard } from './accept.guard';
-import { ReactiveFormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { TeamDetailComponent } from './team-detail/team-detail.component';
 import { SchoolDetailGuard } from './school-detail.guard';
 import { TeamFormComponent } from './team-form/team-form.component';
@@ -23,12 +23,13 @@ import { MedtalkComponent } from './medtalk/medtalk.component';
 import { MedtalkGuard } from './medtalk.guard';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    DashboardRoutingModule,
-    ReactiveFormsModule,
-    SharedModule
-  ],
+    imports: [
+        CommonModule,
+        DashboardRoutingModule,
+        ReactiveFormsModule,
+        SharedModule,
+        FormsModule
+    ],
   declarations: [
     EmailCheckComponent,
     DashboardComponent,

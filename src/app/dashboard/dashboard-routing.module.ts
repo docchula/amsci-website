@@ -71,12 +71,12 @@ const routes: Routes = [
       },
       {
         path: 'medtalk',
-        canActivate: [EmailVerifyGuard, AcceptGuard, SchoolDetailGuard, TeamGuard],
+        canActivate: [EmailVerifyGuard],
         component: MedtalkComponent
       },
       {
         path: 'step5',
-        canActivate: [EmailVerifyGuard, AcceptGuard, SchoolDetailGuard, TeamGuard, MedtalkGuard],
+        canActivate: [EmailVerifyGuard],
         component: SlipUploadComponent
       },
       {

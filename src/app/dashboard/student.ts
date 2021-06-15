@@ -7,4 +7,7 @@ export interface Student extends People {
   idCardUrl: string;
   pictureGUID: string;
   idCardGUID: string;
+  medTalkConfirmed?: boolean;
+  medTalkCome?: boolean;
+  done?: boolean;
 }

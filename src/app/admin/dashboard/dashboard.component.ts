@@ -73,15 +73,23 @@ export class DashboardComponent implements OnInit {
       map((users: any[]) => {
         return users
           .map(user => {
-            if (user.teams) {
-              return Object.keys(user.teams)
-                .map(k => user.teams[k])
-                .filter(
-                  team => !!team.medTalkCome
-                ).length;
-            } else {
-              return 0;
+            let total = 0;
+            if (user.individuals != null) {
+              total += Object.keys(user.individuals)
+                .map(k => user.individuals[k])
+                .length;
             }
+            if (user.teams != null) {
+              Object.keys(user.teams).forEach(k => {
+                if (user.teams[k].student1.medTalkCome){
+                  total += 1;
+                }
+                if (user.teams[k].student2.medTalkCome){
+                  total += 1;
+                }
+              });
+            }
+            return total;
           })
           .reduce((prev, current, index, array) => prev + current, 0);
       })

@@ -19,22 +19,17 @@
   </ng-template>
   <h2>นักเรียนคนที่ 1</h2>
   <p>{{_team.student1 | fullname}} โทรศัพท์ {{_team.student1.tel}} อีเมล {{_team.student1.email}}</p>
-  <!-- <a [href]="_team.student1.pictureUrl" class="btn btn-primary" target="_blank">ดูรูปภาพ</a> -->
+  <a [href]="_team.student1.pictureUrl" class="btn btn-primary" target="_blank">ดูรูปภาพ</a>
   <a [href]="_team.student1.idCardUrl" class="btn btn-primary" target="_blank">ดูสำเนาบัตรประจำตัวประชาชน</a>
   <h2>นักเรียนคนที่ 2</h2>
   <p>{{_team.student2 | fullname}} โทรศัพท์ {{_team.student2.tel}} อีเมล {{_team.student2.email}}</p>
-  <!-- <a [href]="_team.student2.pictureUrl" class="btn btn-primary" target="_blank">ดูรูปภาพ</a> -->
+  <a [href]="_team.student2.pictureUrl" class="btn btn-primary" target="_blank">ดูรูปภาพ</a>
   <a [href]="_team.student2.idCardUrl" class="btn btn-primary" target="_blank">ดูสำเนาบัตรประจำตัวประชาชน</a><br>
-  <div class="h3">ฟัง MEDTalk: <div *ngIf="_team.medTalkConfirmed; then confirmed;else notConfirmed"></div></div>
-  <ng-template #confirmed>
-    <div *ngIf="_team.medTalkCome; then come; else notCome"></div>
-    <ng-template #come>
-      <span class="text-success">ฟัง</span>
-    </ng-template>
-    <ng-template #notCome>
-        <span class="text-warning">ไม่ฟัง</span>
-    </ng-template>
-  </ng-template>
+  <div class="h3">ฟัง MEDTalk</div>
+  <p>
+    นักเรียนคนที่ 1 : {{ _team.student1.medTalkConfirmed ? _team.student1.medTalkCome ? 'มา' : 'ไม่มา' : 'ยังไม่ระบุ'}} <a (click)="toggleMedTalkStatus(1)">เปลี่ยน</a><br/>
+    นักเรียนคนที่ 2 : {{ _team.student2.medTalkConfirmed ? _team.student2.medTalkCome ? 'มา' : 'ไม่มา' : 'ยังไม่ระบุ'}} <a (click)="toggleMedTalkStatus(2)">เปลี่ยน</a>
+  </p>
   <ng-template #notConfirmed>
     <span class="text-danger">ยังไม่ได้ระบุ</span>
   </ng-template>
@@ -42,6 +37,10 @@
   <ng-template #noSlip>
     <h3 class="text-danger">ยังไม่ได้โอนเงิน</h3>
   </ng-template>
+  <p>
+    เลขบัญชี 4 หลักสุดท้าย : {{ _team.accountNumberDigits }}<br/>
+    เวลาที่โอน : {{ _team.transferTime }}
+  </p>
   <div class="h3">สถานะ: <div *ngIf="_team.done; then done;else notDone"></div></div>
   <ng-template #done>
     <span class="text-success">ลงทะเบียนเสร็จสมบูรณ์</span>

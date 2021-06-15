@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFireDatabase } from '@angular/fire/database';
-import { SchoolDetail } from 'app/dashboard/school-detail';
-import { Team } from 'app/dashboard/team';
-import { Observable } from 'rxjs';
-import { first, map, mergeMap } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {AngularFireDatabase} from '@angular/fire/database';
+import {SchoolDetail} from 'app/dashboard/school-detail';
+import {Team} from 'app/dashboard/team';
+import {Observable, combineLatest } from 'rxjs';
+import {first, map, mergeMap} from 'rxjs/operators';
+import {People} from './people';
 
 @Injectable()
 export class UserStatusService {
@@ -14,8 +15,10 @@ export class UserStatusService {
   isSchoolDetailDone: Observable<boolean>;
   teams: Observable<Team[]>;
   hasTeams: Observable<boolean>;
+  hasIndividuals: Observable<boolean>;
   slipUploaded: Observable<boolean>;
   medTalk: Observable<boolean>;
+  individuals: Observable<People[]>;
 
   constructor(private afa: AngularFireAuth, private afd: AngularFireDatabase) {
     this.isEmailVerified = this.afa.authState.pipe(
@@ -67,9 +70,37 @@ export class UserStatusService {
         }
       })
     );
+    this.individuals = this.afa.authState.pipe(
+      first(),
+      mergeMap(user => this.afd.list<People>(`/data/${user.uid}/individuals`).snapshotChanges()),
+      map(v => {
+        return v.map(t => {
+          return {
+            $key: t.key,
+            ...t.payload.val()
+          };
+        });
+      }),
+      map(v => {
+        if (v) {
+          return v;
+        } else {
+          return null;
+        }
+      })
+    );
     this.hasTeams = this.teams.pipe(
       map(_teams => {
         if (_teams.length > 0) {
+          return true;
+        } else {
+          return false;
+        }
+      })
+    );
+    this.hasIndividuals = this.individuals.pipe(
+      map(people => {
+        if (people.length > 0) {
           return true;
         } else {
           return false;
@@ -82,22 +113,18 @@ export class UserStatusService {
           return false;
         } else {
           return _teams.map(team => {
-            if (team.medTalkConfirmed) {
-              return true;
-            } else {
-              return false;
-            }
+            return team.student1.medTalkConfirmed && team.student2.medTalkConfirmed;
           })
-          .reduce((prev, value, index, array) => {
-            return prev && value;
-          }, true);
+            .reduce((prev, value, index, array) => {
+              return prev && value;
+            }, true);
         }
       })
-    )
-    this.slipUploaded = this.teams.pipe(
+    );
+    this.slipUploaded = combineLatest([this.teams.pipe(
       map(_teams => {
         if (_teams.length === 0) {
-          return false;
+          return true;
         } else {
           return _teams
             .map(team => {
@@ -112,6 +139,29 @@ export class UserStatusService {
             }, true);
         }
       })
+    ), this.individuals.pipe(
+      map(people => {
+        if (people.length === 0) {
+          return true;
+        } else {
+          return people
+            .map(person => {
+              if (person.slipGUID && person.slipGUID !== '') {
+                return true;
+              } else {
+                return false;
+              }
+            })
+            .reduce((prev, value, index, array) => {
+              return prev && value;
+            }, true);
+        }
+      })
+    )]).pipe(
+      map(results => {
+          return results[0] && results[1];
+        }
+      )
     );
   }
 }

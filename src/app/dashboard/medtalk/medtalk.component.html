@@ -1,34 +1,52 @@
-<h1>แสดงความจำนงเข้าฟัง MEDTalk</h1>
-<strong>กิจกรรม MEDTalk จะจัดขึ้นในวันที่ 29 มิถุนายน 2562 เวลา 12.00 น.-14.00 น. หลังจากการสอบแข่งขันรอบ Pre-elimiation round ได้เสร็จสิ้นลงแล้ว</strong>
-<p>หากท่านต้องการเข้าร่วมกิจกรรม MEDTalk คณะกรรมการฯ ขอคิดค่าสมัครเพิ่ม 100 บาท (รวมทั้งสิ้น 600 บาท)</p>
+<script src="../team-form/team-form.component.spec.ts"></script><h1>แสดงความจำนงเข้าฟัง MEDTalk</h1>
+<strong>กิจกรรม MEDTalk จะจัดขึ้นในวันที่ 20, 26, และ 27 มิถุนายน 2564 หลังจากการสอบแข่งขันรอบ Pre-elimiation round ได้เสร็จสิ้นลงแล้ว โดยรายละเอียดสามารถติดตามได้จากเพจ</strong>
+<p>หากท่านต้องการเข้าร่วมกิจกรรม MEDTalk คณะกรรมการฯ ขอคิดค่าสมัคร 200 บาทต่อคน หากเข้าร่วมด้วยกันทั้งทีมจะคิดค่าสมัครรวมเป็น 600 บาทต่อทีม</p>
+<p *ngIf="!(medtalkOpen | async)" class="alert-danger">ปิดการรับสมัคร MEDTalk แล้ว</p>
 <table class="table table-responsive">
   <tr>
-    <th>ลำดับ</th>
-    <th>อาจารย์ที่ปรึกษา</th>
-    <th>รายชื่อนักเรียน</th>
-    <th>การเข้าร่วม</th>
+    <th>ทีม</th>
+    <th>ชื่อ-นามสกุล</th>
+    <th>เลือก</th>
     <th>สถานะ</th>
   </tr>
-  <tr *ngFor="let team of teams | async as _teams; index as i">
-    <td>{{i + 1}}</td>
-    <td>{{team.teacher | fullname}}</td>
-    <td>{{team.student1 | fullname}}
-      <br>{{team.student2 | fullname}}</td>
+  <ng-container *ngFor="let team of teams | async as _teams; index as i">
+    <tr>
+      <td>{{ i + 1 }}</td>
+      <td>{{team.student1 | fullname}}</td>
+      <td>
+        <button class="btn btn-success" (click)="confirm(team.$key, 1, true)" [disabled]="team.done || !(medtalkOpen | async)">เข้าร่วม MEDTalk</button>
+        <button class="btn btn-danger" (click)="confirm(team.$key, 1, false)" [disabled]="team.done || !(medtalkOpen | async)">ไม่เข้าร่วม MEDTalk</button>
+      </td>
+      <td>
+        <p>{{ !team.student1.medTalkConfirmed ? 'ยังไม่ได้เลือก' : (team.student1.medTalkCome ? 'เข้าร่วม MEDTalk' : 'ไม่เข้าร่วม MEDTalk') }}</p>
+      </td>
+    </tr>
+    <tr>
+      <td>{{ i + 1 }}</td>
+      <td>{{team.student2 | fullname}}</td>
+      <td>
+        <button class="btn btn-success" (click)="confirm(team.$key, 2, true)" [disabled]="team.done || !(medtalkOpen | async)">เข้าร่วม MEDTalk</button>
+        <button class="btn btn-danger" (click)="confirm(team.$key, 2, false)" [disabled]="team.done || !(medtalkOpen | async)">ไม่เข้าร่วม MEDTalk</button>
+      </td>
+      <td>
+        <p>{{ !team.student2.medTalkConfirmed ? 'ยังไม่ได้เลือก' : (team.student2.medTalkCome ? 'เข้าร่วม MEDTalk' : 'ไม่เข้าร่วม MEDTalk') }}</p>
+      </td>
+    </tr>
+  </ng-container>
+  <tr *ngFor="let person of individuals | async as _individuals; index as i">
+    <td>*MEDTalk เท่านั้น*</td>
+    <td>{{person | fullname}}</td>
     <td>
-      <button class="btn btn-success" (click)="confirm(team.$key, true)" [disabled]="team.done">เข้าร่วม MEDTalk</button>
-      <button class="btn btn-danger" (click)="confirm(team.$key, false)" [disabled]="team.done">ไม่เข้าร่วม MEDTalk</button>
+      <button class="btn btn-danger" (click)="deletePerson(person.$key)" [disabled]="person.done">ลบ</button>
     </td>
     <td>
-      <p *ngIf="!team.medTalkConfirmed; else confirmed">ยังไม่ได้เลือก</p>
-      <ng-template #confirmed>
-        <p *ngIf="team.medTalkCome; else notCome">เข้าร่วม MEDTalk</p>
-        <ng-template #notCome>
-          <p>ไม่เข้าร่วม MEDTalk</p>
-        </ng-template>
-      </ng-template>
+      เข้าร่วม MEDTalk
     </td>
   </tr>
 </table>
+
+<br/>
+
 <div class="alert alert-success" *ngIf="medtalkDone | async">
   <p>
     <i class="fa fa-check-square-o" aria-hidden="true"></i> ยินดีด้วย คุณได้แสดงความจำนงเข้าฟัง MEDTalk แล้ว</p>
@@ -42,3 +60,37 @@
     <i class="fa fa-arrow-right" aria-hidden="true"></i>
   </a>
 </div>
+
+<br/>
+
+<form class="form-horizontal" [formGroup]="addPersonForm" (ngSubmit)="addPerson()" novalidate>
+  <h3>เพิ่มผู้เข้าร่วมงาน MEDTalk</h3>
+  <p>ผู้ที่เข้าแข่งขันตอบปัญหาและมีทีมอยู่แล้วและต้องการเข้าร่วม MEDTalk แต่กดเข้าร่วมไม่ได้เพราะถูกล็อคไว้เพราะผ่านขั้นตอนการตรวจเอกสารแล้ว ไม่ต้องกรอกชื่อบริเวณนี้และติดต่อเพจ Facebook เพื่อดำเนินการต่อไป</p>
+  <div class="form-group" [ngClass]="{'has-error': addPersonForm.get('title').invalid && addPersonForm.get('title').dirty}">
+    <label for="title" class="col-md-2 control-label">คำนำหน้าชื่อ</label>
+    <div class="col-md-10">
+      <input type="text" class="form-control" id="title" formControlName="title"/>
+    </div>
+  </div>
+  <div class="form-group" [ngClass]="{'has-error': addPersonForm.get('fname').invalid && addPersonForm.get('fname').dirty}">
+    <label for="fname" class="col-md-2 control-label">ชื่อ</label>
+    <div class="col-md-10">
+      <input type="text" class="form-control" id="fname" formControlName="fname"/>
+    </div>
+  </div>
+  <div class="form-group" [ngClass]="{'has-error': addPersonForm.get('lname').invalid && addPersonForm.get('lname').dirty}">
+    <label for="lname" class="col-md-2 control-label">นามสกุล</label>
+    <div class="col-md-10">
+      <input type="text" class="form-control" id="lname" formControlName="lname"/>
+    </div>
+  </div>
+  <div class="form-group" [ngClass]="{'has-error': addPersonForm.get('tel').invalid && addPersonForm.get('tel').dirty}">
+    <label for="tel" class="col-md-2 control-label">โทรศัพท์</label>
+    <div class="col-md-10">
+      <input type="text" class="form-control" id="tel" formControlName="tel"/>
+    </div>
+  </div>
+  <div class="form-group">
+    <input type="submit" class="form-control btn btn-primary" [disabled]="addPersonForm.invalid || !(medtalkOpen | async)" value="เพิ่ม"/>
+  </div>
+</form>
