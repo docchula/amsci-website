@@ -58,20 +58,24 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ]
-            }
+            },
+            "development": {}
           },
-          "defaultConfiguration": ""
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "anandayquiz:build"
           },
           "configurations": {
             "production": {
               "browserTarget": "anandayquiz:build:production"
+            },
+            "development": {
+              "browserTarget": "anandayquiz:build:development"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -121,7 +125,8 @@
           "options": {
             "protractorConfig": "./protractor.conf.js",
             "devServerTarget": "anandayquiz:serve"
-          }
+          },
+          "configurations": {}
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
