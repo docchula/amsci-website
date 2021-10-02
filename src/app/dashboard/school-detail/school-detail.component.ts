@@ -6,8 +6,8 @@ import {
   ValidatorFn,
   Validators
 } from '@angular/forms';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFireDatabase } from '@angular/fire/database';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { SchoolDetail } from 'app/dashboard/school-detail';
 import { Observable, Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
