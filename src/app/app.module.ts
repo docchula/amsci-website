@@ -6,7 +6,6 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { Angulartics2Module } from 'angulartics2';
-import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 import { AdminGuard } from 'app/admin.guard';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
