@@ -19,6 +19,7 @@
       </td>
       <td>
         <p>{{ !team.student1.medTalkConfirmed ? 'ยังไม่ได้เลือก' : (team.student1.medTalkCome ? 'เข้าร่วม MEDTalk' : 'ไม่เข้าร่วม MEDTalk') }}</p>
+        <a *ngIf="(allowCertDownload | async) && (team.student1.medTalkCome || team.student2.medTalkCome) && team.done" [href]="teamCerts[i][0] | async" class="btn btn-primary">เกียรติบัตรเข้าร่วม</a>
       </td>
     </tr>
     <tr>
@@ -30,6 +31,7 @@
       </td>
       <td>
         <p>{{ !team.student2.medTalkConfirmed ? 'ยังไม่ได้เลือก' : (team.student2.medTalkCome ? 'เข้าร่วม MEDTalk' : 'ไม่เข้าร่วม MEDTalk') }}</p>
+        <a *ngIf="(allowCertDownload | async) && (team.student1.medTalkCome || team.student2.medTalkCome) && team.done" [href]="teamCerts[i][1] | async" class="btn btn-primary">เกียรติบัตรเข้าร่วม</a>
       </td>
     </tr>
   </ng-container>
@@ -41,6 +43,7 @@
     </td>
     <td>
       เข้าร่วม MEDTalk
+      <a *ngIf="(allowCertDownload | async) && person.done" [href]="individualCerts[i] | async" class="btn btn-primary">เกียรติบัตรเข้าร่วม</a>
     </td>
   </tr>
 </table>

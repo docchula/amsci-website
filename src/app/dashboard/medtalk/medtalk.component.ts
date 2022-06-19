@@ -7,6 +7,7 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import {map, first, shareReplay} from 'rxjs/operators';
 import {People} from '../people';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {AngularFireStorage} from '@angular/fire/storage';
 
 @Component({
   selector: 'adq-medtalk',
@@ -18,12 +19,16 @@ export class MedtalkComponent implements OnInit {
   individuals: Observable<People[]>;
   medtalkDone: Observable<boolean>;
   medtalkOpen: Observable<boolean>;
+  allowCertDownload: Observable<boolean>;
   addPersonForm: FormGroup;
+  individualCerts: Observable<string>[];
+  teamCerts: any[];
 
   constructor(
     private userStatus: UserStatusService,
     private afa: AngularFireAuth,
-    private afd: AngularFireDatabase
+    private afd: AngularFireDatabase,
+    private afs: AngularFireStorage
   ) {}
 
   ngOnInit() {
@@ -39,6 +44,28 @@ export class MedtalkComponent implements OnInit {
     this.medtalkOpen = this.afd
       .object<boolean>('config/medTalkOpen')
       .valueChanges().pipe(shareReplay());
+    this.allowCertDownload = this.afd
+      .object<boolean>('config/allowCertDownload')
+      .valueChanges().pipe(shareReplay());
+    this.teamCerts = [];
+    this.individualCerts = [];
+    this.teams.pipe(first()).subscribe(teams => {
+      teams.forEach(team => {
+        this.teamCerts.push(
+          [
+            this.afs.ref(`/medtalkCerts/${team.$key}.1.pdf`).getDownloadURL(),
+            this.afs.ref(`/medtalkCerts/${team.$key}.2.pdf`).getDownloadURL()
+          ]
+        );
+      });
+    });
+    this.individuals.pipe(first()).subscribe(individuals => {
+      individuals.forEach(individual => {
+        this.individualCerts.push(
+          this.afs.ref(`/medtalkCerts/${individual.$key}.pdf`).getDownloadURL()
+        );
+      });
+    });
   }
 
   confirm(teamKey: string, student: number, come: boolean) {

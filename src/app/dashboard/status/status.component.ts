@@ -3,7 +3,7 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { SchoolDetail } from 'app/dashboard/school-detail';
 import { Team } from 'app/dashboard/team';
-import { Observable, of } from 'rxjs';
+import {forkJoin, Observable, of} from 'rxjs';
 import { first, shareReplay } from 'rxjs/operators';
 import { UserStatusService } from '../user-status.service';
 import {People} from '../people';
@@ -22,7 +22,7 @@ export class StatusComponent implements OnInit {
   cardUrls: Observable<string>[];
   canDownloadCard: Observable<boolean>;
   canDownloadScore: Observable<boolean>;
-  scoreUrls: Observable<string>[];
+  scoreUrls: any[];
 
   constructor(
     private userStatus: UserStatusService,
@@ -39,20 +39,15 @@ export class StatusComponent implements OnInit {
     this.scoreUrls = [];
     this.teams.pipe(first()).subscribe(teams => {
       teams.forEach(team => {
-        if (team.cardFile && team.cardFile !== '') {
-          this.cardUrls.push(
-            this.afs.ref(`/cards/${team.cardFile}`).getDownloadURL()
-          );
-        } else {
-          this.cardUrls.push(of(''));
-        }
-        if (team.scoreFile && team.scoreFile !== '') {
-          this.scoreUrls.push(
-            this.afs.ref(`/scores/${team.scoreFile}`).getDownloadURL()
-          );
-        } else {
-          this.scoreUrls.push(of(''));
-        }
+        this.cardUrls.push(
+          this.afs.ref(`/cards/${team.$key}.pdf`).getDownloadURL()
+        );
+        this.scoreUrls.push(
+          [
+            this.afs.ref(`/scores/${team.$key}.1.pdf`).getDownloadURL(),
+            this.afs.ref(`/scores/${team.$key}.2.pdf`).getDownloadURL()
+          ]
+        );
       });
     });
     this.individuals = this.userStatus.individuals;

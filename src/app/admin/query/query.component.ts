@@ -172,21 +172,87 @@ export class QueryComponent implements OnInit {
   }
 
   copyStudents() {
-    this.students.pipe(take(1)).subscribe(d => {
-      const file = new window.Blob([JSON.stringify(d)], { type: 'application/json' });
+    this.method.subscribe(m => {
+      if (m === 'medtalk') {
+        this.users.pipe(map(us => {
+          return us.map(u => {
+            const ss: any[] = [];
+            const teamKeys = Object.keys(u.teams ?? []);
+            const individualKeys = Object.keys(u.individuals ?? []);
+            teamKeys.forEach(tk => {
+              const team = u.teams[tk];
+              if (team.student1.medTalkCome === true) {
+                ss.push({
+                  userId: u.$key,
+                  teamId: tk,
+                  individualId: '',
+                  student: team.student1,
+                  teacher: team.teacher,
+                  schoolDetail: u.schoolDetail,
+                  done: team.done
+                });
+              }
+              if (team.student2.medTalkCome === true) {
+                ss.push({
+                  userId: u.$key,
+                  teamId: tk,
+                  individualId: '',
+                  student: team.student2,
+                  teacher: team.teacher,
+                  schoolDetail: u.schoolDetail,
+                  done: team.done
+                });
+              }
+            });
+            individualKeys.forEach(ik => {
+              const individual = u.individuals[ik];
+              ss.push({
+                userId: u.$key,
+                teamId: '',
+                individualId: ik,
+                student: individual,
+                teacher: '',
+                schoolDetail: '',
+                done: individual.done
+              });
+            });
+            return ss;
+          }).reduce((prev, curr, index, arr) => {
+            return prev.concat(curr);
+          }, [] as any[])})).subscribe(d => {
+          const file = new window.Blob([JSON.stringify(d)], { type: 'application/json' });
 
-      const url = window.URL.createObjectURL(file);
+          const url = window.URL.createObjectURL(file);
 
-      const a = document.createElement('a');
-      document.body.appendChild(a);
+          const a = document.createElement('a');
+          document.body.appendChild(a);
 
-      a.setAttribute('style', 'display: none');
-      a.href = url;
-      a.download = 'data.json';
-      a.click();
-      window.URL.revokeObjectURL(url);
-      a.remove();
-      alert('Saved!');
+          a.setAttribute('style', 'display: none');
+          a.href = url;
+          a.download = 'data.json';
+          a.click();
+          window.URL.revokeObjectURL(url);
+          a.remove();
+          alert('Saved!');
+        });
+      } else {
+        this.students.pipe(take(1)).subscribe(d => {
+          const file = new window.Blob([JSON.stringify(d)], { type: 'application/json' });
+
+          const url = window.URL.createObjectURL(file);
+
+          const a = document.createElement('a');
+          document.body.appendChild(a);
+
+          a.setAttribute('style', 'display: none');
+          a.href = url;
+          a.download = 'data.json';
+          a.click();
+          window.URL.revokeObjectURL(url);
+          a.remove();
+          alert('Saved!');
+        });
+      }
     });
   }
 }

@@ -39,16 +39,18 @@
       <ng-template #notOK><span class="text-warning">รอตรวจสอบเอกสาร</span></ng-template>
     </td>
     <td *ngIf="canDownloadCard | async">
-      <div *ngIf="team.cardFile; then hasCard; else noCard"></div>
+      <div *ngIf="team.done; then hasCard; else noCard"></div>
       <ng-template #hasCard>
         <a [href]="cardUrls[i] | async" class="btn btn-primary">Download</a>
       </ng-template>
       <ng-template #noCard>ไม่มีบัตร</ng-template>
     </td>
     <td *ngIf="canDownloadScore | async">
-      <div *ngIf="team.scoreFile; then hasScore; else noScore"></div>
+      <div *ngIf="team.done; then hasScore; else noScore"></div>
       <ng-template #hasScore>
-        <a [href]="scoreUrls[i] | async" class="btn btn-primary">Download</a>
+        <a [href]="scoreUrls[i][0] | async" class="btn btn-primary">Download Report For Student 1</a>
+        <a [href]="scoreUrls[i][1] | async" class="btn btn-primary">Download Report For Student 2</a>
+        <a href="/assets/AMSci-2021-preliminary-MCQs.pdf" class="btn btn-primary">Download Exam</a>
       </ng-template>
       <ng-template #noScore>ไม่มีคะแนน</ng-template>
     </td>
