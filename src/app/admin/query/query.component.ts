@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AngularFireDatabase } from '@angular/fire/database';
+import { AngularFireDatabase } from '@angular/fire/compat/database';
 import {combineLatest, Observable, of as observableOf} from 'rxjs';
 import { first, map, take } from 'rxjs/operators';
 import { AdminService } from '../admin.service';

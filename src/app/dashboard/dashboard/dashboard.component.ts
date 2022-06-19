@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import {forkJoin, Observable, combineLatest} from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UserStatusService } from '../user-status.service';
