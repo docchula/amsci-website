@@ -121,7 +121,6 @@
       }
     }
   },
-  "defaultProject": "anandayquiz",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "adq",

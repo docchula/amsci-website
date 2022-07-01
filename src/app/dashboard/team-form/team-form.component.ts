@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FirebaseApp } from '@angular/fire/compat';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
@@ -16,7 +16,7 @@ import { filter, first, map, mergeMap } from 'rxjs/operators';
 export class TeamFormComponent implements OnInit, OnDestroy {
   editMode: Observable<boolean>;
   team: Observable<Team>;
-  teamForm: FormGroup;
+  teamForm: UntypedFormGroup;
   teamSub: Subscription;
 
   constructor(
@@ -99,46 +99,46 @@ export class TeamFormComponent implements OnInit, OnDestroy {
         });
       }
     });
-    this.teamForm = new FormGroup({
-      teacher: new FormGroup({
-        title: new FormControl(null, Validators.nullValidator),
-        fname: new FormControl(null, Validators.nullValidator),
-        lname: new FormControl(null, Validators.nullValidator),
-        tel: new FormControl(null, Validators.nullValidator)
+    this.teamForm = new UntypedFormGroup({
+      teacher: new UntypedFormGroup({
+        title: new UntypedFormControl(null, Validators.nullValidator),
+        fname: new UntypedFormControl(null, Validators.nullValidator),
+        lname: new UntypedFormControl(null, Validators.nullValidator),
+        tel: new UntypedFormControl(null, Validators.nullValidator)
       }),
-      student1: new FormGroup({
-        title: new FormControl(null, Validators.required),
-        fname: new FormControl(null, Validators.required),
-        lname: new FormControl(null, Validators.required),
-        tel: new FormControl(null, Validators.required),
-        email: new FormControl(null, [Validators.required, Validators.email]),
-        grade: new FormControl(null, Validators.required),
-        pictureUrl: new FormControl(null, Validators.nullValidator),
-        idCardUrl: new FormControl(null, Validators.required),
-        pictureGUID: new FormControl(null, Validators.nullValidator),
-        idCardGUID: new FormControl(null, Validators.required),
-        medTalkConfirmed: new FormControl(),
-        medTalkCome: new FormControl(),
+      student1: new UntypedFormGroup({
+        title: new UntypedFormControl(null, Validators.required),
+        fname: new UntypedFormControl(null, Validators.required),
+        lname: new UntypedFormControl(null, Validators.required),
+        tel: new UntypedFormControl(null, Validators.required),
+        email: new UntypedFormControl(null, [Validators.required, Validators.email]),
+        grade: new UntypedFormControl(null, Validators.required),
+        pictureUrl: new UntypedFormControl(null, Validators.nullValidator),
+        idCardUrl: new UntypedFormControl(null, Validators.required),
+        pictureGUID: new UntypedFormControl(null, Validators.nullValidator),
+        idCardGUID: new UntypedFormControl(null, Validators.required),
+        medTalkConfirmed: new UntypedFormControl(),
+        medTalkCome: new UntypedFormControl(),
       }),
-      student2: new FormGroup({
-        title: new FormControl(null, Validators.required),
-        fname: new FormControl(null, Validators.required),
-        lname: new FormControl(null, Validators.required),
-        tel: new FormControl(null, Validators.required),
-        email: new FormControl(null, [Validators.required, Validators.email]),
-        grade: new FormControl(null, Validators.required),
-        pictureUrl: new FormControl(null, Validators.nullValidator),
-        idCardUrl: new FormControl(null, Validators.required),
-        pictureGUID: new FormControl(null, Validators.nullValidator),
-        idCardGUID: new FormControl(null, Validators.required),
-        medTalkConfirmed: new FormControl(),
-        medTalkCome: new FormControl(),
+      student2: new UntypedFormGroup({
+        title: new UntypedFormControl(null, Validators.required),
+        fname: new UntypedFormControl(null, Validators.required),
+        lname: new UntypedFormControl(null, Validators.required),
+        tel: new UntypedFormControl(null, Validators.required),
+        email: new UntypedFormControl(null, [Validators.required, Validators.email]),
+        grade: new UntypedFormControl(null, Validators.required),
+        pictureUrl: new UntypedFormControl(null, Validators.nullValidator),
+        idCardUrl: new UntypedFormControl(null, Validators.required),
+        pictureGUID: new UntypedFormControl(null, Validators.nullValidator),
+        idCardGUID: new UntypedFormControl(null, Validators.required),
+        medTalkConfirmed: new UntypedFormControl(),
+        medTalkCome: new UntypedFormControl(),
       }),
-      slipUrl: new FormControl(),
-      slipGUID: new FormControl(),
-      done: new FormControl(),
-      accountNumberDigits: new FormControl(),
-      transferTime: new FormControl()
+      slipUrl: new UntypedFormControl(),
+      slipGUID: new UntypedFormControl(),
+      done: new UntypedFormControl(),
+      accountNumberDigits: new UntypedFormControl(),
+      transferTime: new UntypedFormControl()
     });
   }
 

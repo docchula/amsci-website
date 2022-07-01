@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  FormControl,
-  FormGroup,
+  UntypedFormControl,
+  UntypedFormGroup,
   ValidatorFn,
   Validators
 } from '@angular/forms';
@@ -27,7 +27,7 @@ function confirmationValidator(
   passName: string,
   confirmName: string
 ): ValidatorFn {
-  return (form: FormGroup): { [key: string]: any } => {
+  return (form: UntypedFormGroup): { [key: string]: any } => {
     const pass = form.get(passName),
       confirm = form.get(confirmName);
     if (pass.value !== confirm.value) {
@@ -44,8 +44,8 @@ function confirmationValidator(
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  signInForm: FormGroup;
-  registrationForm: FormGroup;
+  signInForm: UntypedFormGroup;
+  registrationForm: UntypedFormGroup;
   alertMessage: string;
   alertClass: string;
   alertShow: boolean;
@@ -53,19 +53,19 @@ export class LoginComponent implements OnInit {
   constructor(public afa: AngularFireAuth, private router: Router) {}
 
   ngOnInit() {
-    this.signInForm = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', Validators.required)
+    this.signInForm = new UntypedFormGroup({
+      email: new UntypedFormControl('', [Validators.required, Validators.email]),
+      password: new UntypedFormControl('', Validators.required)
     });
-    this.registrationForm = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.email]),
-      passwords: new FormGroup(
+    this.registrationForm = new UntypedFormGroup({
+      email: new UntypedFormControl('', [Validators.required, Validators.email]),
+      passwords: new UntypedFormGroup(
         {
-          password: new FormControl('', [
+          password: new UntypedFormControl('', [
             Validators.required,
             Validators.minLength(8)
           ]),
-          passwordConfirmation: new FormControl('')
+          passwordConfirmation: new UntypedFormControl('')
         },
         confirmationValidator('password', 'passwordConfirmation')
       )

@@ -6,7 +6,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import {map, first, shareReplay} from 'rxjs/operators';
 import {People} from '../people';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {AngularFireStorage} from '@angular/fire/storage';
 
 @Component({
@@ -20,7 +20,7 @@ export class MedtalkComponent implements OnInit {
   medtalkDone: Observable<boolean>;
   medtalkOpen: Observable<boolean>;
   allowCertDownload: Observable<boolean>;
-  addPersonForm: FormGroup;
+  addPersonForm: UntypedFormGroup;
   individualCerts: Observable<string>[];
   teamCerts: any[];
 
@@ -35,11 +35,11 @@ export class MedtalkComponent implements OnInit {
     this.teams = this.userStatus.teams;
     this.medtalkDone = this.userStatus.medTalk;
     this.individuals = this.userStatus.individuals;
-    this.addPersonForm = new FormGroup({
-      title: new FormControl('', [Validators.required]),
-      fname: new FormControl('', [Validators.required]),
-      lname: new FormControl('', [Validators.required]),
-      tel: new FormControl('', Validators.required)
+    this.addPersonForm = new UntypedFormGroup({
+      title: new UntypedFormControl('', [Validators.required]),
+      fname: new UntypedFormControl('', [Validators.required]),
+      lname: new UntypedFormControl('', [Validators.required]),
+      tel: new UntypedFormControl('', Validators.required)
     });
     this.medtalkOpen = this.afd
       .object<boolean>('config/medTalkOpen')

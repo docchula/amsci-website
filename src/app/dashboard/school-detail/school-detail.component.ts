@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   AbstractControl,
-  FormControl,
-  FormGroup,
+  UntypedFormControl,
+  UntypedFormGroup,
   ValidatorFn,
   Validators
 } from '@angular/forms';
@@ -29,7 +29,7 @@ const schoolNameValidator: ValidatorFn = (c: AbstractControl) => {
 export class SchoolDetailComponent implements OnInit, OnDestroy {
   step3Done: Observable<boolean>;
   schoolDetail: Observable<SchoolDetail>;
-  schoolForm: FormGroup;
+  schoolForm: UntypedFormGroup;
   editMode: boolean;
   schoolDetailSub: Subscription;
 
@@ -42,10 +42,10 @@ export class SchoolDetailComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.step3Done = this.userStatus.isSchoolDetailDone;
     this.schoolDetail = this.userStatus.schoolDetail;
-    this.schoolForm = new FormGroup({
-      name: new FormControl('', [Validators.required, schoolNameValidator]),
-      address: new FormControl('', Validators.required),
-      tel: new FormControl('', Validators.required)
+    this.schoolForm = new UntypedFormGroup({
+      name: new UntypedFormControl('', [Validators.required, schoolNameValidator]),
+      address: new UntypedFormControl('', Validators.required),
+      tel: new UntypedFormControl('', Validators.required)
     });
     this.schoolDetailSub = this.schoolDetail.subscribe(_schoolDetail => {
       if (_schoolDetail) {
