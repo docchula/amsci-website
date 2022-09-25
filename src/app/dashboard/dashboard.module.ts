@@ -40,7 +40,7 @@ import { MedtalkGuard } from './medtalk.guard';
     TeamFormComponent,
     SlipUploadComponent,
     StatusComponent,
-    MedtalkComponent
+    //MedtalkComponent
   ],
   providers: [EmailVerifyGuard, UserStatusService, AcceptGuard, SchoolDetailGuard, TeamGuard, MedtalkGuard]
 })

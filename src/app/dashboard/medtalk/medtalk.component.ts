@@ -7,7 +7,7 @@ import { AngularFireDatabase } from '@angular/fire/compat/database';
 import {map, first, shareReplay} from 'rxjs/operators';
 import {People} from '../people';
 import {UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
-import {AngularFireStorage} from '@angular/fire/storage';
+import {AngularFireStorage} from '@angular/fire/compat/storage';
 
 @Component({
   selector: 'adq-medtalk',
