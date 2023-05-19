@@ -5,7 +5,6 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
-import { Angulartics2Module } from 'angulartics2';
 import { AdminGuard } from 'app/admin.guard';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -28,8 +27,7 @@ import { HomeComponent } from './home/home.component';
     }),
     AngularFireAuthModule,
     AngularFireDatabaseModule,
-    AngularFireStorageModule,
-    Angulartics2Module.forRoot()
+    AngularFireStorageModule
   ],
   providers: [AuthGuard, AdminGuard],
   bootstrap: [AppComponent]

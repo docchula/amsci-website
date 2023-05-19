@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { Angulartics2GoogleAnalytics } from 'angulartics2';
 import firebase from 'firebase/compat/app';
 import { Observable } from 'rxjs';
 
@@ -14,12 +13,10 @@ export class AppComponent implements OnInit {
   authState: Observable<firebase.User>;
   constructor(
     private afa: AngularFireAuth,
-    private router: Router,
-    private analytics: Angulartics2GoogleAnalytics
+    private router: Router
   ) {}
 
   ngOnInit() {
-    this.analytics.startTracking();
     this.authState = this.afa.authState;
   }
 
