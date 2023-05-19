@@ -1,6 +1,6 @@
 import { NotAllowedGuard } from '../not-allowed.guard';
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule, CanActivate } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 import { EmailCheckComponent } from 'app/dashboard/email-check/email-check.component';
 import { DashboardComponent } from 'app/dashboard/dashboard/dashboard.component';
 import { InformationComponent } from 'app/dashboard/information/information.component';

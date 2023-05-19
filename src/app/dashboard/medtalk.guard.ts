@@ -1,16 +1,11 @@
 import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  RouterStateSnapshot
-} from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import { UserStatusService } from 'app/dashboard/user-status.service';
 import { Observable } from 'rxjs';
 import { first, tap } from 'rxjs/operators';
 
 @Injectable()
-export class MedtalkGuard implements CanActivate {
+export class MedtalkGuard  {
   constructor(private userStatus: UserStatusService, private router: Router) {}
   canActivate(
     next: ActivatedRouteSnapshot,

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
@@ -7,7 +7,7 @@ import { AngularFireDatabase } from '@angular/fire/compat/database';
 @Injectable({
   providedIn: 'root'
 })
-export class RegistrationGuard implements CanActivate {
+export class RegistrationGuard  {
   constructor(private afd: AngularFireDatabase) {}
 
   canActivate(

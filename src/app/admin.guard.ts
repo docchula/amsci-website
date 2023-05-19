@@ -1,19 +1,12 @@
 import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  CanLoad,
-  Route,
-  Router,
-  RouterStateSnapshot
-} from '@angular/router';
+import { ActivatedRouteSnapshot, Route, Router, RouterStateSnapshot } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { Observable } from 'rxjs';
 import { first, map, mergeMap, tap } from 'rxjs/operators';
 
 @Injectable()
-export class AdminGuard implements CanLoad, CanActivate {
+export class AdminGuard  {
   constructor(
     private afd: AngularFireDatabase,
     private afa: AngularFireAuth,
